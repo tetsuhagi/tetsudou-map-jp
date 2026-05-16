@@ -59,7 +59,7 @@ function updateTrains(data) {
 
   let runningCount = 0;
   for (const train of Object.values(data.trains)) {
-    const pos = computeTrainPosition(train, data.stations, nowMin);
+    const pos = computeTrainPosition(train, data.stations, data.routes, nowMin);
     const marker = trainMarkers[train.id];
 
     if (!pos || pos.status === 'waiting' || pos.status === 'finished') {
@@ -81,7 +81,7 @@ function updateTrains(data) {
         className: `train-marker ${train.direction}`,
         html: train.name,
         iconSize: null,
-        iconAnchor: [30, 10],
+        iconAnchor: [0, 0],
       });
       trainMarkers[train.id] = L.marker(latlng, { icon }).addTo(map)
         .bindTooltip(tooltip, { direction: 'top', offset: [0, -10] });
