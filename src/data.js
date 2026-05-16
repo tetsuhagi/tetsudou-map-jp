@@ -1,5 +1,6 @@
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
+  if (lines.length === 0) return [];
   const header = lines[0].split(',');
   return lines.slice(1).map(line => {
     const cells = line.split(',');
@@ -15,6 +16,16 @@ async function fetchCSV(path) {
   return parseCSV(await res.text());
 }
 
+async function fetchCSVOptional(path) {
+  try {
+    const res = await fetch(path);
+    if (!res.ok) return null;
+    return parseCSV(await res.text());
+  } catch {
+    return null;
+  }
+}
+
 async function fetchJSONOptional(path) {
   try {
     const res = await fetch(path);
@@ -25,12 +36,36 @@ async function fetchJSONOptional(path) {
   }
 }
 
-export async function loadAllData() {
-  const [stationsRaw, routesRaw, trainsRaw, scheduleRaw] = await Promise.all([
+// 'weekday' or 'holiday' based on the given date (defaults to now).
+// Saturday/Sunday → holiday; weekday otherwise. Japanese public holidays are not
+// automatically detected — override `dayType` in loadAllData() if needed.
+export function getDayType(date = new Date()) {
+  const d = date.getDay();
+  return (d === 0 || d === 6) ? 'holiday' : 'weekday';
+}
+
+async function loadTimetableForRoute(routeId, dayType) {
+  const baseDir = `data/timetables/${routeId}`;
+  const trainsRaw = await fetchCSVOptional(`${baseDir}/trains.csv`);
+  if (!trainsRaw || trainsRaw.length === 0) return { trains: [], schedule: [] };
+
+  // Prefer day-type-specific schedule; fall back to weekday.csv
+  let schedule = null;
+  if (dayType === 'holiday') {
+    schedule = await fetchCSVOptional(`${baseDir}/holiday.csv`);
+  }
+  if (!schedule) {
+    schedule = await fetchCSVOptional(`${baseDir}/weekday.csv`);
+  }
+  return { trains: trainsRaw, schedule: schedule || [] };
+}
+
+export async function loadAllData({ dayType } = {}) {
+  if (!dayType) dayType = getDayType();
+
+  const [stationsRaw, routesRaw] = await Promise.all([
     fetchCSV('data/stations.csv'),
     fetchCSV('data/routes.csv'),
-    fetchCSV('data/trains.csv'),
-    fetchCSV('data/schedule.csv'),
   ]);
 
   const stations = {};
@@ -57,33 +92,8 @@ export async function loadAllData() {
   }
 
   const trains = {};
-  for (const t of trainsRaw) {
-    trains[t.train_id] = {
-      id: t.train_id,
-      name: t.name,
-      route_id: t.route_id,
-      direction: t.direction,
-      stops: [],
-    };
-  }
-
-  for (const row of scheduleRaw) {
-    const t = trains[row.train_id];
-    if (!t) continue;
-    t.stops.push({
-      order: parseInt(row.stop_order, 10),
-      station_id: row.station_id,
-      arrival: row.arrival || null,
-      departure: row.departure || null,
-    });
-  }
-  for (const t of Object.values(trains)) {
-    t.stops.sort((a, b) => a.order - b.order);
-  }
-
-  // Load high-resolution geometry per route. Fall back to station-coord polyline
-  // when no geometry file exists.
   await Promise.all(Object.values(routes).map(async route => {
+    // Geometry
     const geo = await fetchJSONOptional(`data/geometry/${route.id}.json`);
     if (geo && Array.isArray(geo.polyline) && geo.station_positions) {
       route.polyline = geo.polyline;
@@ -101,7 +111,33 @@ export async function loadAllData() {
         }
       }
     }
+
+    // Trains + schedule for this route
+    const { trains: trainsRaw, schedule } = await loadTimetableForRoute(route.id, dayType);
+    for (const t of trainsRaw) {
+      trains[t.train_id] = {
+        id: t.train_id,
+        name: t.name,
+        route_id: route.id,
+        direction: t.direction,
+        stops: [],
+      };
+    }
+    for (const row of schedule) {
+      const t = trains[row.train_id];
+      if (!t) continue;
+      t.stops.push({
+        order: parseInt(row.stop_order, 10),
+        station_id: row.station_id,
+        arrival: row.arrival || null,
+        departure: row.departure || null,
+      });
+    }
   }));
 
-  return { stations, routes, trains };
+  for (const t of Object.values(trains)) {
+    t.stops.sort((a, b) => a.order - b.order);
+  }
+
+  return { stations, routes, trains, dayType };
 }

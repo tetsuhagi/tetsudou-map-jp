@@ -115,7 +115,8 @@ function updateTrains(data) {
     }
     setMarkerOpacity(m, opacity);
   }
-  statusEl.textContent = `運行中: ${runningCount}本`;
+  const dayLabel = data.dayType === 'holiday' ? '土日祝' : '平日';
+  statusEl.textContent = `運行中: ${runningCount}本 / ダイヤ: ${dayLabel}`;
 }
 
 function setMarkerOpacity(marker, opacity) {
