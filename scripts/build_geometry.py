@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 """
-Fetch railway geometry from OpenStreetMap (Overpass API) and convert it into
-a route polyline that the app can use for high-precision rendering and
-position interpolation.
+Build a high-precision route geometry from MLIT (国土数値情報) railway data.
 
-Output: data/geometry/<route_id>.json
-  {
-    "polyline": [[lat, lon], ...],         # ordered points along the track
-    "station_positions": { station_id: idx } # nearest polyline index per station
-  }
+MLIT provides government-surveyed railway data with much better tunnel-section
+geometry than OSM. The script:
+  1. Downloads the latest N02 (railways) GeoJSON if not cached
+  2. Filters features by line name (N02_003)
+  3. Builds a graph and runs Dijkstra from the start station to the end station
+  4. Saves the resulting polyline + station_positions mapping to
+     data/geometry/<route_id>.json
+
+License: MLIT 国土数値情報 (free for any use including commercial, with attribution)
 
 Usage:
-  python3 scripts/build_geometry.py <route_id> <osm_name> <start_station_id> <end_station_id>
+  python3 scripts/build_geometry.py <route_id> <mlit_line_name> <start_station_id> <end_station_id>
 
 Example:
   python3 scripts/build_geometry.py TOKAIDO_SHINKANSEN 東海道新幹線 TOKYO SHIN_OSAKA
@@ -21,12 +23,34 @@ import heapq
 import json
 import os
 import sys
-import urllib.parse
 import urllib.request
+import zipfile
 from collections import defaultdict
 from math import cos, radians, sqrt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CACHE_DIR = os.path.join(ROOT, '.cache')
+MLIT_URL = 'https://nlftp.mlit.go.jp/ksj/gml/data/N02/N02-23/N02-23_GML.zip'
+MLIT_ZIP = os.path.join(CACHE_DIR, 'N02-23_GML.zip')
+MLIT_GEOJSON = os.path.join(CACHE_DIR, 'N02-23_RailroadSection.geojson')
+
+
+def ensure_mlit_data():
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    if os.path.exists(MLIT_GEOJSON):
+        return
+    if not os.path.exists(MLIT_ZIP):
+        print(f'downloading MLIT N02 (railways)... ', end='', flush=True)
+        urllib.request.urlretrieve(MLIT_URL, MLIT_ZIP)
+        print(f'{os.path.getsize(MLIT_ZIP) // 1024 // 1024}MB')
+    print('extracting GeoJSON...')
+    with zipfile.ZipFile(MLIT_ZIP) as z:
+        for name in z.namelist():
+            if name.endswith('UTF-8/N02-23_RailroadSection.geojson'):
+                with z.open(name) as src, open(MLIT_GEOJSON, 'wb') as dst:
+                    dst.write(src.read())
+                return
+    raise RuntimeError('Could not find RailroadSection.geojson in MLIT archive')
 
 
 def load_stations():
@@ -39,18 +63,6 @@ def load_stations():
     return stations
 
 
-def fetch_ways(osm_name):
-    query = f'[out:json][timeout:180];(way["name"="{osm_name}"]["railway"="rail"];);out geom;'
-    req = urllib.request.Request(
-        'https://overpass-api.de/api/interpreter',
-        data=query.encode('utf-8'),
-        headers={'User-Agent': 'tetsudou-now/1.0', 'Accept': 'application/json'},
-    )
-    print(f'fetching geometry for "{osm_name}"...')
-    with urllib.request.urlopen(req, timeout=240) as resp:
-        return json.loads(resp.read())
-
-
 def planar_dist(a, b):
     lat_mean = (a[0] + b[0]) / 2
     k = cos(radians(lat_mean))
@@ -59,26 +71,21 @@ def planar_dist(a, b):
     return sqrt(dx * dx + dy * dy)
 
 
-def build_graph(data):
-    def node_id(lat, lon):
-        return (round(lat, 6), round(lon, 6))
+def node_id(lat, lon):
+    return (round(lat, 6), round(lon, 6))
 
+
+def build_graph(features):
     adj = defaultdict(set)
-    for el in data['elements']:
-        if el['type'] != 'way' or 'geometry' not in el:
-            continue
-        geom = el['geometry']
-        for i in range(len(geom) - 1):
-            a = node_id(geom[i]['lat'], geom[i]['lon'])
-            b = node_id(geom[i + 1]['lat'], geom[i + 1]['lon'])
+    for f in features:
+        coords = f['geometry']['coordinates']
+        for i in range(len(coords) - 1):
+            a = node_id(coords[i][1], coords[i][0])
+            b = node_id(coords[i + 1][1], coords[i + 1][0])
             if a != b:
                 adj[a].add(b)
                 adj[b].add(a)
     return adj
-
-
-def nearest_node(nodes, target):
-    return min(nodes, key=lambda n: planar_dist(n, target))
 
 
 def dijkstra(adj, start, end):
@@ -107,8 +114,6 @@ def dijkstra(adj, start, end):
 
 
 def find_station_indices(polyline, stations, station_ids_on_route):
-    """For each station, find the nearest index on the polyline.
-    Returns dict: station_id -> index."""
     result = {}
     for sid in station_ids_on_route:
         if sid not in stations:
@@ -129,7 +134,7 @@ def main():
     if len(sys.argv) < 5:
         print(__doc__)
         sys.exit(1)
-    route_id, osm_name, start_sid, end_sid = sys.argv[1:5]
+    route_id, mlit_name, start_sid, end_sid = sys.argv[1:5]
 
     stations = load_stations()
     if start_sid not in stations or end_sid not in stations:
@@ -147,16 +152,24 @@ def main():
         print(f'ERROR: route {route_id} not found in routes.csv')
         sys.exit(1)
 
-    data = fetch_ways(osm_name)
-    ways = [e for e in data['elements'] if e['type'] == 'way' and 'geometry' in e]
-    print(f'  ways={len(ways)}')
+    ensure_mlit_data()
+    print(f'loading MLIT data...')
+    with open(MLIT_GEOJSON, encoding='utf-8') as f:
+        data = json.load(f)
+    features = [x for x in data['features'] if x['properties'].get('N02_003') == mlit_name]
+    if not features:
+        print(f'ERROR: no features matching N02_003={mlit_name!r}')
+        sys.exit(1)
+    print(f'  features={len(features)} for line "{mlit_name}"')
 
-    adj = build_graph(data)
+    adj = build_graph(features)
     print(f'  graph nodes={len(adj)}')
 
     nodes = list(adj.keys())
-    start_node = nearest_node(nodes, stations[start_sid])
-    end_node = nearest_node(nodes, stations[end_sid])
+    start_node = min(nodes, key=lambda n: planar_dist(n, stations[start_sid]))
+    end_node = min(nodes, key=lambda n: planar_dist(n, stations[end_sid]))
+    print(f'  start: {planar_dist(start_node, stations[start_sid])*111000:.0f}m from {start_sid}')
+    print(f'  end:   {planar_dist(end_node, stations[end_sid])*111000:.0f}m from {end_sid}')
 
     print('running dijkstra...')
     path = dijkstra(adj, start_node, end_node)
@@ -166,7 +179,9 @@ def main():
 
     polyline = [[lat, lon] for (lat, lon) in path]
     total = sum(planar_dist(path[i], path[i + 1]) for i in range(len(path) - 1))
+    seg_lens = [planar_dist(path[i], path[i + 1]) * 111000 for i in range(len(path) - 1)]
     print(f'  polyline points={len(polyline)}, total length={total * 111000 / 1000:.1f}km')
+    print(f'  max segment={max(seg_lens):.0f}m, segments>500m={sum(1 for s in seg_lens if s>500)}')
 
     print('mapping stations to polyline indices...')
     station_positions = find_station_indices(path, stations, station_ids)
