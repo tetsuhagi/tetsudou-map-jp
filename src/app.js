@@ -2,11 +2,11 @@ import { loadAllData } from './data.js';
 import { computeTrainPosition, currentTimeMinutes } from './train.js';
 
 const TICK_MS = 1000;
+const ICON_SIZE = 24;
 
 const clockEl = document.getElementById('clock');
 const statusEl = document.getElementById('status');
 
-// Center on Japan, zoom out enough to see the whole archipelago
 const map = L.map('map', {
   center: [36.5, 137.5],
   zoom: 6,
@@ -33,7 +33,6 @@ function drawRoutes(data) {
       opacity: 0.7,
     }).addTo(map);
 
-    // Station dots
     for (const sid of route.stations) {
       const s = data.stations[sid];
       L.circleMarker([s.lat, s.lon], {
@@ -50,6 +49,37 @@ function drawRoutes(data) {
 function formatClock(date) {
   const pad = n => String(n).padStart(2, '0');
   return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+}
+
+// Preload route icon images; if a file is missing, mark it as unavailable so we
+// can fall back to a colored circle marker.
+function preloadIcons(routes) {
+  return Promise.all(Object.values(routes).map(route => new Promise(resolve => {
+    if (!route.icon) { route._iconLoaded = false; return resolve(); }
+    const img = new Image();
+    img.onload = () => { route._iconLoaded = true; resolve(); };
+    img.onerror = () => { route._iconLoaded = false; resolve(); };
+    img.src = route.icon;
+  })));
+}
+
+function createMarkerForTrain(train, route, latlng) {
+  if (route && route._iconLoaded) {
+    const icon = L.icon({
+      iconUrl: route.icon,
+      iconSize: [ICON_SIZE, ICON_SIZE],
+      iconAnchor: [ICON_SIZE / 2, ICON_SIZE / 2],
+    });
+    return L.marker(latlng, { icon });
+  }
+  // Fallback: circle marker in route color
+  return L.circleMarker(latlng, {
+    radius: 6,
+    color: '#fff',
+    fillColor: route?.color || '#888',
+    fillOpacity: 1,
+    weight: 2,
+  });
 }
 
 function updateTrains(data) {
@@ -72,22 +102,15 @@ function updateTrains(data) {
     runningCount++;
 
     const latlng = [pos.lat, pos.lon];
-    const tooltip = pos.status === 'stopped'
-      ? `${train.name}（${pos.atStation}停車中）`
-      : `${train.name}（${pos.fromStation}→${pos.toStation}）`;
+    const route = data.routes[train.route_id];
+    const tooltipText = route?.display_id || '?';
 
     if (!marker) {
-      const icon = L.divIcon({
-        className: `train-marker ${train.direction}`,
-        html: train.name,
-        iconSize: null,
-        iconAnchor: [0, 0],
-      });
-      trainMarkers[train.id] = L.marker(latlng, { icon }).addTo(map)
-        .bindTooltip(tooltip, { direction: 'top', offset: [0, -10] });
+      trainMarkers[train.id] = createMarkerForTrain(train, route, latlng)
+        .addTo(map)
+        .bindTooltip(tooltipText, { direction: 'top', offset: [0, -ICON_SIZE / 2] });
     } else {
       marker.setLatLng(latlng);
-      marker.setTooltipContent(tooltip);
     }
   }
   statusEl.textContent = `運行中: ${runningCount}本`;
@@ -96,6 +119,7 @@ function updateTrains(data) {
 (async () => {
   try {
     const data = await loadAllData();
+    await preloadIcons(data.routes);
     drawRoutes(data);
     updateTrains(data);
     setInterval(() => updateTrains(data), TICK_MS);

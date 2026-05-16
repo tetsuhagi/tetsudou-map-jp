@@ -40,6 +40,8 @@ export async function loadAllData() {
       id: r.route_id,
       name: r.name,
       color: r.color,
+      display_id: r.display_id || '',
+      icon: r.icon || '',
       stations: r.stations.split('|'),
     };
   }
