@@ -34,6 +34,7 @@ function drawRoutes(data) {
     }).addTo(map);
 
     for (const sid of route.stations) {
+      if (sid.startsWith('WP_')) continue;
       const s = data.stations[sid];
       L.circleMarker([s.lat, s.lon], {
         radius: 3,
