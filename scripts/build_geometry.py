@@ -13,10 +13,15 @@ geometry than OSM. The script:
 License: MLIT 国土数値情報 (free for any use including commercial, with attribution)
 
 Usage:
-  python3 scripts/build_geometry.py <route_id> <mlit_line_name> <start_station_id> <end_station_id>
+  python3 scripts/build_geometry.py <route_id> <mlit_line_names> <start_station_id> <end_station_id>
+
+  <mlit_line_names> is one or more MLIT line names (N02_003), comma-separated.
+  For routes that traverse multiple lines (e.g., 在来線特急), pass all the
+  underlying lines so the graph spans the full journey.
 
 Example:
   python3 scripts/build_geometry.py TOKAIDO_SHINKANSEN 東海道新幹線 TOKYO SHIN_OSAKA
+  python3 scripts/build_geometry.py THUNDERBIRD "東海道本線,湖西線,北陸本線" OSAKA TSURUGA
 """
 import csv
 import heapq
@@ -145,7 +150,8 @@ def main():
     if len(sys.argv) < 5:
         print(__doc__)
         sys.exit(1)
-    route_id, mlit_name, start_sid, end_sid = sys.argv[1:5]
+    route_id, mlit_names_arg, start_sid, end_sid = sys.argv[1:5]
+    mlit_names = [n.strip() for n in mlit_names_arg.split(',') if n.strip()]
 
     stations = load_stations()
     if start_sid not in stations or end_sid not in stations:
@@ -167,11 +173,14 @@ def main():
     print(f'loading MLIT data...')
     with open(MLIT_GEOJSON, encoding='utf-8') as f:
         data = json.load(f)
-    features = [x for x in data['features'] if x['properties'].get('N02_003') == mlit_name]
+    name_set = set(mlit_names)
+    features = [x for x in data['features'] if x['properties'].get('N02_003') in name_set]
     if not features:
-        print(f'ERROR: no features matching N02_003={mlit_name!r}')
+        print(f'ERROR: no features matching any of {mlit_names!r}')
         sys.exit(1)
-    print(f'  features={len(features)} for line "{mlit_name}"')
+    counts = {n: sum(1 for x in features if x['properties'].get('N02_003') == n) for n in mlit_names}
+    for n in mlit_names:
+        print(f'  features={counts[n]} for "{n}"')
 
     adj = build_graph(features)
     print(f'  graph nodes={len(adj)}')
