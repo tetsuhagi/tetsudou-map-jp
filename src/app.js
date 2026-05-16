@@ -102,16 +102,28 @@ function updateTrains(data) {
     const latlng = [pos.lat, pos.lon];
     const route = data.routes[train.route_id];
     const tooltipText = route?.display_id || '?';
+    const opacity = pos.opacity ?? 1;
 
-    if (!marker) {
-      trainMarkers[train.id] = createMarkerForTrain(train, route, latlng)
+    let m = marker;
+    if (!m) {
+      m = createMarkerForTrain(train, route, latlng)
         .addTo(map)
         .bindTooltip(tooltipText, { direction: 'top', offset: [0, -ICON_SIZE / 2] });
+      trainMarkers[train.id] = m;
     } else {
-      marker.setLatLng(latlng);
+      m.setLatLng(latlng);
     }
+    setMarkerOpacity(m, opacity);
   }
   statusEl.textContent = `運行中: ${runningCount}本`;
+}
+
+function setMarkerOpacity(marker, opacity) {
+  if (typeof marker.setOpacity === 'function') {
+    marker.setOpacity(opacity);
+  } else if (typeof marker.setStyle === 'function') {
+    marker.setStyle({ opacity, fillOpacity: opacity });
+  }
 }
 
 (async () => {
