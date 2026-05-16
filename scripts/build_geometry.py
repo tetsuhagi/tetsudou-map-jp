@@ -30,9 +30,10 @@ from math import cos, radians, sqrt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE_DIR = os.path.join(ROOT, '.cache')
-MLIT_URL = 'https://nlftp.mlit.go.jp/ksj/gml/data/N02/N02-23/N02-23_GML.zip'
-MLIT_ZIP = os.path.join(CACHE_DIR, 'N02-23_GML.zip')
-MLIT_GEOJSON = os.path.join(CACHE_DIR, 'N02-23_RailroadSection.geojson')
+MLIT_VERSION = 'N02-24'  # bump when MLIT releases a newer fiscal-year dataset
+MLIT_URL = f'https://nlftp.mlit.go.jp/ksj/gml/data/N02/{MLIT_VERSION}/{MLIT_VERSION}_GML.zip'
+MLIT_ZIP = os.path.join(CACHE_DIR, f'{MLIT_VERSION}_GML.zip')
+MLIT_GEOJSON = os.path.join(CACHE_DIR, f'{MLIT_VERSION}_RailroadSection.geojson')
 
 
 def ensure_mlit_data():
@@ -44,13 +45,23 @@ def ensure_mlit_data():
         urllib.request.urlretrieve(MLIT_URL, MLIT_ZIP)
         print(f'{os.path.getsize(MLIT_ZIP) // 1024 // 1024}MB')
     print('extracting GeoJSON...')
+    target_section = f'UTF-8/{MLIT_VERSION}_RailroadSection.geojson'
+    target_station = f'UTF-8/{MLIT_VERSION}_Station.geojson'
+    station_geojson = os.path.join(CACHE_DIR, f'{MLIT_VERSION}_Station.geojson')
     with zipfile.ZipFile(MLIT_ZIP) as z:
+        section_found = False
+        station_found = False
         for name in z.namelist():
-            if name.endswith('UTF-8/N02-23_RailroadSection.geojson'):
+            if name.endswith(target_section):
                 with z.open(name) as src, open(MLIT_GEOJSON, 'wb') as dst:
                     dst.write(src.read())
-                return
-    raise RuntimeError('Could not find RailroadSection.geojson in MLIT archive')
+                section_found = True
+            elif name.endswith(target_station):
+                with z.open(name) as src, open(station_geojson, 'wb') as dst:
+                    dst.write(src.read())
+                station_found = True
+        if not section_found:
+            raise RuntimeError(f'Could not find {target_section} in MLIT archive')
 
 
 def load_stations():
