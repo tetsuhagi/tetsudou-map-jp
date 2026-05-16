@@ -7,7 +7,7 @@
 
 - 日本全国を俯瞰できるズームレベル（minZoom: 4）
 - Leaflet + OpenStreetMap タイル（無料・APIキー不要）
-- 駅間は直線で補間
+- OpenStreetMapから取得した実線路ジオメトリで描画・補間（精度 ~75m）
 - 時刻表データはCSVで手動管理（スクレイピング無し）
 
 ## 起動方法
@@ -23,30 +23,28 @@ python3 -m http.server 8000
 
 ## データ構造
 
-すべて `data/` 配下のCSV。
-
-### `stations.csv`
+### `data/stations.csv`
 駅の座標。
 ```
 station_id,name,lat,lon
 TOKYO,東京,35.681236,139.767125
 ```
 
-### `routes.csv`
-路線の駅順序。`stations` 列はパイプ区切り。
+### `data/routes.csv`
+路線のメタ情報と駅順序。
 ```
-route_id,name,color,stations
-TOKAIDO_SHINKANSEN,東海道新幹線,#0066cc,TOKYO|SHINAGAWA|...
+route_id,name,color,display_id,icon,stations
+TOKAIDO_SHINKANSEN,東海道新幹線,#0066cc,N,assets/icons/nozomi.png,TOKYO|SHINAGAWA|...
 ```
 
-### `trains.csv`
-列車のメタ情報。`direction` は表示色分けに使用（`down` = 赤、`up` = 青）。
+### `data/trains.csv`
+列車のメタ情報。
 ```
 train_id,name,route_id,direction
 NOZOMI_1,のぞみ1号,TOKAIDO_SHINKANSEN,down
 ```
 
-### `schedule.csv`
+### `data/schedule.csv`
 列車ごとの停車駅と時刻。始発駅は `arrival` を空、終着駅は `departure` を空に。
 ```
 train_id,stop_order,station_id,arrival,departure
@@ -54,12 +52,30 @@ NOZOMI_1,1,TOKYO,,06:00
 NOZOMI_1,2,SHINAGAWA,06:07,06:08
 ```
 
-## 列車を追加する手順
+### `data/geometry/<route_id>.json`
+OSMから取得した路線ジオメトリ（実線路の高精度ポリライン）。
+```json
+{
+  "polyline": [[35.68, 139.76], ...],
+  "station_positions": {"TOKYO": 0, "SHINAGAWA": 159, ...}
+}
+```
+存在しない場合は駅座標を直線で繋いだ簡易版が自動的に使用されます。
 
-1. 新しい駅があれば `stations.csv` に追記
-2. 新しい路線なら `routes.csv` に1行追加（駅IDをパイプで繋ぐ）
-3. 列車を `trains.csv` に追加
-4. その列車の時刻表を `schedule.csv` に追記
+## 新しい路線を追加する手順
+
+1. 必要な駅を `stations.csv` に追加
+2. `routes.csv` に新しい路線を追加（OSMでの路線名を控えておく）
+3. 高精度ジオメトリを生成:
+   ```bash
+   python3 scripts/build_geometry.py <route_id> <OSM上の路線名> <始発駅ID> <終着駅ID>
+   ```
+   例:
+   ```bash
+   python3 scripts/build_geometry.py TOKAIDO_SHINKANSEN 東海道新幹線 TOKYO SHIN_OSAKA
+   ```
+4. 列車を `trains.csv` に追加
+5. 時刻表を `schedule.csv` に追加
 
 ブラウザを再読み込みすれば反映されます。
 
@@ -68,4 +84,3 @@ NOZOMI_1,2,SHINAGAWA,06:07,06:08
 - サンダーバード、スーパーはくと等の在来線特急を追加
 - 列車クリックで詳細時刻表をポップアップ
 - 速度や遅延情報を持たせる
-- 駅間を実線路polylineで描画（直線ではなく）

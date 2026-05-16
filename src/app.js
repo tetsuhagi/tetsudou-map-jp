@@ -23,11 +23,7 @@ const trainMarkers = {};
 
 function drawRoutes(data) {
   for (const route of Object.values(data.routes)) {
-    const latlngs = route.stations.map(sid => {
-      const s = data.stations[sid];
-      return [s.lat, s.lon];
-    });
-    L.polyline(latlngs, {
+    L.polyline(route.polyline, {
       color: route.color || '#888',
       weight: 3,
       opacity: 0.7,
@@ -36,6 +32,7 @@ function drawRoutes(data) {
     for (const sid of route.stations) {
       if (sid.startsWith('WP_')) continue;
       const s = data.stations[sid];
+      if (!s) continue;
       L.circleMarker([s.lat, s.lon], {
         radius: 3,
         color: '#333',

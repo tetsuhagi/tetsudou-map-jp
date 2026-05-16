@@ -1,4 +1,3 @@
-// Simple CSV parser (assumes no quoted commas in our data)
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   const header = lines[0].split(',');
@@ -16,6 +15,16 @@ async function fetchCSV(path) {
   return parseCSV(await res.text());
 }
 
+async function fetchJSONOptional(path) {
+  try {
+    const res = await fetch(path);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
 export async function loadAllData() {
   const [stationsRaw, routesRaw, trainsRaw, scheduleRaw] = await Promise.all([
     fetchCSV('data/stations.csv'),
@@ -26,6 +35,7 @@ export async function loadAllData() {
 
   const stations = {};
   for (const s of stationsRaw) {
+    if (!s.station_id) continue;
     stations[s.station_id] = {
       id: s.station_id,
       name: s.name,
@@ -70,6 +80,28 @@ export async function loadAllData() {
   for (const t of Object.values(trains)) {
     t.stops.sort((a, b) => a.order - b.order);
   }
+
+  // Load high-resolution geometry per route. Fall back to station-coord polyline
+  // when no geometry file exists.
+  await Promise.all(Object.values(routes).map(async route => {
+    const geo = await fetchJSONOptional(`data/geometry/${route.id}.json`);
+    if (geo && Array.isArray(geo.polyline) && geo.station_positions) {
+      route.polyline = geo.polyline;
+      route.stationPositions = geo.station_positions;
+    } else {
+      route.polyline = route.stations
+        .filter(sid => stations[sid])
+        .map(sid => [stations[sid].lat, stations[sid].lon]);
+      route.stationPositions = {};
+      let idx = 0;
+      for (const sid of route.stations) {
+        if (stations[sid]) {
+          route.stationPositions[sid] = idx;
+          idx++;
+        }
+      }
+    }
+  }));
 
   return { stations, routes, trains };
 }
