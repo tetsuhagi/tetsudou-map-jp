@@ -1,3 +1,5 @@
+const V = '?v=39';
+
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   if (lines.length === 0) return [];
@@ -11,14 +13,14 @@ function parseCSV(text) {
 }
 
 async function fetchCSV(path) {
-  const res = await fetch(path);
+  const res = await fetch(path + V);
   if (!res.ok) throw new Error(`failed to load ${path}: ${res.status}`);
   return parseCSV(await res.text());
 }
 
 async function fetchCSVOptional(path) {
   try {
-    const res = await fetch(path);
+    const res = await fetch(path + V);
     if (!res.ok) return null;
     return parseCSV(await res.text());
   } catch {
@@ -28,7 +30,7 @@ async function fetchCSVOptional(path) {
 
 async function fetchJSONOptional(path) {
   try {
-    const res = await fetch(path);
+    const res = await fetch(path + V);
     if (!res.ok) return null;
     return await res.json();
   } catch {
@@ -86,7 +88,7 @@ export async function loadAllData({ dayType } = {}) {
       name: r.name,
       color: r.color,
       display_id: r.display_id || '',
-      icon: r.icon || '',
+      icon: r.icon ? r.icon + V : '',
       stations: r.stations.split('|'),
     };
   }
