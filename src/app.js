@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=40';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=40';
+import { loadAllData } from './data.js?v=42';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=42';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
@@ -134,14 +134,20 @@ function applyStationZoomStyle() {
   }
 }
 
+const routePolylines = {};
+
 function drawRoutes(data) {
   const drawnStations = new Set();
   for (const route of Object.values(data.routes)) {
-    L.polyline(route.polyline, {
+    const polyline = L.polyline(route.polyline, {
       color: route.color || '#888',
       weight: 3,
       opacity: 0.7,
-    }).addTo(map);
+    });
+    // hide_when_idle routes (e.g., overnight sleepers) start hidden;
+    // they're attached/removed each tick based on whether any train is running.
+    if (!route.hide_when_idle) polyline.addTo(map);
+    routePolylines[route.id] = polyline;
 
     for (const sid of route.stations) {
       if (sid.startsWith('WP_')) continue;
@@ -203,6 +209,7 @@ function updateTrains(data) {
   const nowMin = currentTimeMinutes(now);
 
   let runningCount = 0;
+  const runningPerRoute = {};
   for (const train of Object.values(data.trains)) {
     const pos = computeTrainPosition(train, data.stations, data.routes, nowMin);
     const marker = trainMarkers[train.id];
@@ -215,6 +222,7 @@ function updateTrains(data) {
       continue;
     }
     runningCount++;
+    runningPerRoute[train.route_id] = (runningPerRoute[train.route_id] || 0) + 1;
 
     const latlng = [pos.lat, pos.lon];
     const route = data.routes[train.route_id];
@@ -232,6 +240,17 @@ function updateTrains(data) {
     }
     setMarkerOpacity(m, opacity);
   }
+
+  // hide_when_idle routes: attach polyline only while a train is running on it.
+  for (const route of Object.values(data.routes)) {
+    if (!route.hide_when_idle) continue;
+    const pl = routePolylines[route.id];
+    if (!pl) continue;
+    const shouldShow = (runningPerRoute[route.id] || 0) > 0;
+    if (shouldShow && !map.hasLayer(pl)) pl.addTo(map);
+    else if (!shouldShow && map.hasLayer(pl)) map.removeLayer(pl);
+  }
+
   const dayLabel = data.dayType === 'holiday' ? '土日祝' : '平日';
   const phaseSuffix = nightModeOn ? ` / ${phaseLabel(now)}` : '';
   statusEl.textContent = `運行中: ${runningCount}本 / ダイヤ: ${dayLabel}${phaseSuffix}`;

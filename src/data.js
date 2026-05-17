@@ -1,4 +1,4 @@
-const V = '?v=40';
+const V = '?v=42';
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
@@ -90,6 +90,7 @@ export async function loadAllData({ dayType } = {}) {
       display_id: r.display_id || '',
       icon: r.icon ? r.icon + V : '',
       stations: r.stations.split('|'),
+      hide_when_idle: r.hide_when_idle === 'true' || r.hide_when_idle === '1',
     };
   }
 

@@ -68,6 +68,13 @@ export function computeTrainPosition(train, stations, routes, nowMin) {
   const lastArr = toMinutes(stops[stops.length - 1].arrival);
   if (firstDep == null || lastArr == null) return null;
 
+  // Overnight schedules use extended hours (e.g., 25:11 = 1:11 next day).
+  // If `nowMin` (0..1440) falls before firstDep but adding a day puts it
+  // inside the schedule window, treat it as the next-day portion of the trip.
+  if (lastArr > 1440 && nowMin + 1440 >= firstDep && nowMin + 1440 < lastArr + DWELL_AFTER_MIN) {
+    nowMin += 1440;
+  }
+
   if (nowMin < firstDep - DWELL_BEFORE_MIN) return { status: 'waiting' };
   if (nowMin >= lastArr + DWELL_AFTER_MIN) return { status: 'finished' };
 
