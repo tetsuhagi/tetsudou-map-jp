@@ -16,7 +16,7 @@
 ES Modulesと`fetch`を使うため、ローカルサーバーが必要です。
 
 ```bash
-cd ~/Documents/tetsudou-now
+cd ~/Documents/tetsudou-map-jp
 python3 -m http.server 8000
 ```
 

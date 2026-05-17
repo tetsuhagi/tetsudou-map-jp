@@ -1,0 +1,11 @@
+train_id,name,direction
+OD_1,踊り子1,down
+OD_3,踊り子3,down
+OD_5,踊り子5,down
+OD_7,踊り子7,down
+OD_9,踊り子9,down
+OD_2,踊り子2,up
+OD_4,踊り子4,up
+OD_6,踊り子6,up
+OD_8,踊り子8,up
+OD_10,踊り子10,up

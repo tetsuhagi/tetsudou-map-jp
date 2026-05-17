@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>鉄道Now（簡易版）</title>
+  <title>鉄道マップ 全国版</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
@@ -13,21 +13,50 @@
       background: rgba(255,255,255,0.92); padding: 8px 14px;
       border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       font-size: 16px; font-weight: 600;
+      transition: background-color 4s linear, color 4s linear;
     }
     #status {
       position: absolute; bottom: 10px; left: 10px; z-index: 1000;
       background: rgba(255,255,255,0.92); padding: 6px 12px;
       border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       font-size: 13px;
+      transition: background-color 4s linear, color 4s linear;
+    }
+    body.theme-dark #clock,
+    body.theme-dark #status {
+      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    #night-toggle {
+      position: absolute; bottom: 10px; right: 10px; z-index: 1000;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.92); padding: 6px 12px;
+      border: none; border-radius: 999px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s linear, color 0.2s linear;
+    }
+    #night-toggle .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #cbd5e1; transition: background-color 0.2s linear;
+    }
+    #night-toggle.on .dot { background: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
+    body.theme-dark #night-toggle {
+      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
   </style>
 </head>
 <body>
   <div id="map"></div>
+  <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
+    <span class="dot"></span><span class="label">🌙 ナイトモード</span>
+  </button>
   <div id="clock">--:--:--</div>
   <div id="status">読み込み中…</div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="src/app.js?v=6"></script>
+  <script type="module" src="src/app.js?v=38"></script>
 </body>
 </html>

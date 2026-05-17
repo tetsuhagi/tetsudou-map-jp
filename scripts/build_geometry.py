@@ -91,7 +91,13 @@ def node_id(lat, lon):
     return (round(lat, 6), round(lon, 6))
 
 
-def build_graph(features):
+def build_graph(features, snap_meters=0):
+    """Build adjacency graph from MLIT line features.
+
+    `snap_meters`: if > 0, connect pairs of nodes within this distance with a
+    zero-cost edge. Useful at junction stations where MLIT encodes adjacent
+    lines as separate vertices a few meters apart (e.g. 大阪環状線/阪和線 at 天王寺).
+    """
     adj = defaultdict(set)
     for f in features:
         coords = f['geometry']['coordinates']
@@ -101,6 +107,27 @@ def build_graph(features):
             if a != b:
                 adj[a].add(b)
                 adj[b].add(a)
+
+    if snap_meters > 0:
+        snap_deg = snap_meters / 111000.0
+        nodes = list(adj.keys())
+        # Bucket nodes into a coarse grid for O(n) neighbor lookup.
+        buckets = defaultdict(list)
+        for n in nodes:
+            buckets[(int(n[0] / snap_deg), int(n[1] / snap_deg))].append(n)
+        added = 0
+        for n in nodes:
+            bx, by = int(n[0] / snap_deg), int(n[1] / snap_deg)
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    for m in buckets.get((bx + dx, by + dy), ()):
+                        if m == n or m in adj[n]:
+                            continue
+                        if planar_dist(n, m) <= snap_deg:
+                            adj[n].add(m)
+                            adj[m].add(n)
+                            added += 1
+        print(f'  snap edges added: {added // 2} (threshold={snap_meters}m)')
     return adj
 
 
@@ -151,6 +178,7 @@ def main():
         print(__doc__)
         sys.exit(1)
     route_id, mlit_names_arg, start_sid, end_sid = sys.argv[1:5]
+    snap_meters = float(sys.argv[5]) if len(sys.argv) > 5 else 0
     mlit_names = [n.strip() for n in mlit_names_arg.split(',') if n.strip()]
 
     stations = load_stations()
@@ -182,20 +210,43 @@ def main():
     for n in mlit_names:
         print(f'  features={counts[n]} for "{n}"')
 
-    adj = build_graph(features)
+    adj = build_graph(features, snap_meters=snap_meters)
     print(f'  graph nodes={len(adj)}')
 
     nodes = list(adj.keys())
-    start_node = min(nodes, key=lambda n: planar_dist(n, stations[start_sid]))
-    end_node = min(nodes, key=lambda n: planar_dist(n, stations[end_sid]))
-    print(f'  start: {planar_dist(start_node, stations[start_sid])*111000:.0f}m from {start_sid}')
-    print(f'  end:   {planar_dist(end_node, stations[end_sid])*111000:.0f}m from {end_sid}')
+    # Build the full path by running Dijkstra between every consecutive pair of
+    # route stations. This prevents the algorithm from short-circuiting through
+    # an unrelated parallel line (e.g. ひたち taking 東北線 instead of 常磐線).
+    if start_sid not in station_ids or end_sid not in station_ids:
+        print(f'WARN: start/end station not in routes.csv station list — falling back to single Dijkstra')
+        waypoints = [start_sid, end_sid]
+    else:
+        s_idx = station_ids.index(start_sid)
+        e_idx = station_ids.index(end_sid)
+        if s_idx < e_idx:
+            waypoints = station_ids[s_idx:e_idx + 1]
+        else:
+            waypoints = station_ids[e_idx:s_idx + 1][::-1]
+    print(f'  waypoints: {" → ".join(waypoints)}')
 
-    print('running dijkstra...')
-    path = dijkstra(adj, start_node, end_node)
-    if not path:
-        print('ERROR: no path found')
-        sys.exit(1)
+    waypoint_nodes = []
+    for sid in waypoints:
+        n = min(nodes, key=lambda x: planar_dist(x, stations[sid]))
+        d = planar_dist(n, stations[sid]) * 111000
+        print(f'    {sid:>20}: {d:.0f}m from station')
+        waypoint_nodes.append(n)
+
+    print('running dijkstra segment-by-segment...')
+    path = []
+    for i in range(len(waypoint_nodes) - 1):
+        seg = dijkstra(adj, waypoint_nodes[i], waypoint_nodes[i + 1])
+        if not seg:
+            print(f'ERROR: no path found {waypoints[i]} → {waypoints[i+1]}')
+            sys.exit(1)
+        if i == 0:
+            path.extend(seg)
+        else:
+            path.extend(seg[1:])  # avoid duplicating join node
 
     polyline = [[lat, lon] for (lat, lon) in path]
     total = sum(planar_dist(path[i], path[i + 1]) for i in range(len(path) - 1))
