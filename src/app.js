@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=84';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=84';
+import { loadAllData } from './data.js?v=85';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=85';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
@@ -103,6 +103,23 @@ function setNightMode(on) {
 }
 nightToggleEl.addEventListener('click', () => setNightMode(!nightModeOn));
 setNightMode(nightModeOn);
+
+// About / disclaimer modal. Lightweight — no focus trap because the page has
+// few interactive elements behind it, and Esc/backdrop/close are wired.
+const infoToggleEl = document.getElementById('info-toggle');
+const infoModalEl = document.getElementById('info-modal');
+const infoCloseEl = infoModalEl.querySelector('.info-close');
+const infoBackdropEl = infoModalEl.querySelector('.info-backdrop');
+
+function openInfo() { infoModalEl.classList.remove('hidden'); }
+function closeInfo() { infoModalEl.classList.add('hidden'); }
+
+infoToggleEl.addEventListener('click', openInfo);
+infoCloseEl.addEventListener('click', closeInfo);
+infoBackdropEl.addEventListener('click', closeInfo);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !infoModalEl.classList.contains('hidden')) closeInfo();
+});
 
 function updateTint(now) {
   const c = getTintColor(now);
