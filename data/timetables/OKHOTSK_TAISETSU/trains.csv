@@ -1,9 +1,9 @@
 train_id,name,direction
-OK_1,オホーツク1,down
-OK_3,オホーツク3,down
-TS_5,大雪5,down
-TS_7,大雪7,down
-OK_2,オホーツク2,up
-OK_4,オホーツク4,up
-TS_6,大雪6,up
-TS_8,大雪8,up
+OKHOTSK_1,オホーツク1,down
+OKHOTSK_3,オホーツク3,down
+OKHOTSK_2,オホーツク2,up
+OKHOTSK_4,オホーツク4,up
+TAISETSU_1,大雪1,down
+TAISETSU_3,大雪3,down
+TAISETSU_2,大雪2,up
+TAISETSU_4,大雪4,up
