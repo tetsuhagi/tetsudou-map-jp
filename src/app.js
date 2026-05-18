@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=86';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=86';
+import { loadAllData } from './data.js?v=87';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=87';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
@@ -15,6 +15,7 @@ const TILE_MAX_ZOOM = 19;
 
 const clockEl = document.getElementById('clock');
 const statusEl = document.getElementById('status');
+const statusTextEl = document.getElementById('status-text');
 
 const map = L.map('map', {
   center: [36.5, 137.5],
@@ -113,9 +114,11 @@ function setNightMode(on) {
 nightToggleEl.addEventListener('click', () => setNightMode(!nightModeOn));
 setNightMode(nightModeOn);
 
-// About / disclaimer modal. Lightweight — no focus trap because the page has
-// few interactive elements behind it, and Esc/backdrop/close are wired.
-const infoToggleEl = document.getElementById('info-toggle');
+// About / disclaimer modal. Opened by clicking the status bar (which doubles
+// as the trigger — co-locating the disclaimer with the official-sounding
+// "走行表示中" text reduces misinterpretation as real-time operation data).
+// Lightweight: no focus trap because the page has few interactive elements
+// behind it, and Esc/backdrop/close are wired.
 const infoModalEl = document.getElementById('info-modal');
 const infoCloseEl = infoModalEl.querySelector('.info-close');
 const infoBackdropEl = infoModalEl.querySelector('.info-backdrop');
@@ -123,7 +126,7 @@ const infoBackdropEl = infoModalEl.querySelector('.info-backdrop');
 function openInfo() { infoModalEl.classList.remove('hidden'); }
 function closeInfo() { infoModalEl.classList.add('hidden'); }
 
-infoToggleEl.addEventListener('click', openInfo);
+statusEl.addEventListener('click', openInfo);
 infoCloseEl.addEventListener('click', closeInfo);
 infoBackdropEl.addEventListener('click', closeInfo);
 document.addEventListener('keydown', e => {
@@ -290,7 +293,9 @@ function updateTrains(data) {
 
   const dayLabel = data.dayType === 'holiday' ? '土日祝' : '平日';
   const phaseSuffix = nightModeOn ? ` / ${phaseLabel(now)}` : '';
-  statusEl.textContent = `運行中: ${runningCount}本 / ダイヤ: ${dayLabel}${phaseSuffix}`;
+  // "走行表示中" instead of "運行中" — makes clear this is a simulation
+  // display, not real-time operation data.
+  statusTextEl.textContent = `走行表示中: ${runningCount}本 / ${dayLabel}ダイヤ${phaseSuffix}`;
 }
 
 function setMarkerOpacity(marker, opacity) {
@@ -310,6 +315,6 @@ function setMarkerOpacity(marker, opacity) {
     setInterval(() => updateTrains(data), TICK_MS);
   } catch (err) {
     console.error(err);
-    statusEl.textContent = `エラー: ${err.message}`;
+    statusTextEl.textContent = `エラー: ${err.message}`;
   }
 })();

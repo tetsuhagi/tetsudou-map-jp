@@ -29,6 +29,10 @@
       font-size: 16px; font-weight: 600;
       transition: background-color 4s linear, color 4s linear;
     }
+    /* Status bar doubles as the "About / disclaimer" trigger. Wording is
+       softened (走行表示中 / イメージ) and the inline ℹ️ icon makes the
+       disclaimer entry obvious — co-locating it with the status reduces
+       the chance users mistake the display for official operation info. */
     #status {
       position: absolute;
       bottom: calc(10px + env(safe-area-inset-bottom, 0px));
@@ -36,10 +40,19 @@
       z-index: 1000;
       max-width: calc(100vw - 20px); box-sizing: border-box;
       background: rgba(255,255,255,0.92); padding: 6px 12px;
+      border: none;
       border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       font-size: 13px;
+      font-family: inherit;
+      color: inherit;
+      display: inline-flex; align-items: center; gap: 8px;
+      cursor: pointer;
+      text-align: left;
       transition: background-color 4s linear, color 4s linear;
     }
+    #status:hover .status-info-icon,
+    #status:focus-visible .status-info-icon { opacity: 1; }
+    .status-info-icon { font-size: 14px; opacity: 0.55; line-height: 1; }
     body.theme-dark #clock,
     body.theme-dark #status {
       background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
@@ -64,24 +77,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
-    /* Compact circular ℹ️ button — sits below clock/night-toggle in the stack.
-       Smaller than the other panels because it's accessed rarely. */
-    #info-toggle {
-      width: 32px; height: 32px; padding: 0;
-      display: inline-flex; align-items: center; justify-content: center;
-      background: rgba(255,255,255,0.92);
-      border: none; border-radius: 50%;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      font-size: 16px; cursor: pointer; line-height: 1;
-      transition: background-color 0.2s linear;
-    }
-    body.theme-dark #info-toggle {
-      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
-
     /* About / disclaimer modal. Backdrop + centered panel. Hidden by default;
-       opened from #info-toggle. Closes on ×, backdrop click, or Escape. */
+       opened by clicking the status bar. Closes on ×, backdrop click, or Escape. */
     #info-modal {
       position: fixed; inset: 0; z-index: 2000;
       display: flex; align-items: center; justify-content: center;
@@ -131,13 +128,13 @@
       #clock { font-size: 13px; padding: 6px 10px; }
       #night-toggle { font-size: 12px; padding: 6px 10px; }
       #night-toggle .label-text { display: none; }
-      #info-toggle { width: 28px; height: 28px; font-size: 14px; }
       .info-panel { font-size: 13px; padding: 20px 20px; }
       .info-panel h2 { font-size: 16px; }
       #status {
         font-size: 11px; padding: 5px 9px;
         bottom: calc(28px + env(safe-area-inset-bottom, 0px));  /* clear attribution */
       }
+      .status-info-icon { font-size: 12px; }
     }
   </style>
 </head>
@@ -148,9 +145,11 @@
     <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
       <span class="dot"></span><span class="label">🌙<span class="label-text"> ナイトモード</span></span>
     </button>
-    <button id="info-toggle" type="button" title="本サイトについて" aria-label="本サイトについて">ℹ️</button>
   </div>
-  <div id="status">読み込み中…</div>
+  <button id="status" type="button" title="本サイトについて（クリックで詳細）">
+    <span id="status-text">読み込み中…</span>
+    <span class="status-info-icon" aria-hidden="true">ℹ️</span>
+  </button>
 
   <div id="info-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="info-title">
     <div class="info-backdrop"></div>
@@ -192,6 +191,6 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="src/app.js?v=86"></script>
+  <script type="module" src="src/app.js?v=87"></script>
 </body>
 </html>
