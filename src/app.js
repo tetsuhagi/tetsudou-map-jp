@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=80';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=80';
+import { loadAllData } from './data.js?v=82';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=82';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
@@ -105,12 +105,18 @@ nightToggleEl.addEventListener('click', () => setNightMode(!nightModeOn));
 setNightMode(nightModeOn);
 
 function updateTint(now) {
+  const c = getTintColor(now);
+  // Hide the toggle during the daytime window (8–15時) where tint alpha ≈ 0:
+  // pressing it would do nothing visible, so the button just confuses users.
+  // Always shown when nightMode is ON so users can disable it.
+  const wouldShowEffect = c.a > 0.05;
+  nightToggleEl.style.display = (wouldShowEffect || nightModeOn) ? '' : 'none';
+
   if (!nightModeOn) {
     tintRect.setStyle({ fillOpacity: 0 });
     document.body.classList.remove('theme-dark');
     return;
   }
-  const c = getTintColor(now);
   tintRect.setStyle({
     fillColor: `rgb(${c.r}, ${c.g}, ${c.b})`,
     fillOpacity: c.a,

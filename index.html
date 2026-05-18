@@ -7,16 +7,34 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
-    #map { width: 100%; height: 100vh; }
+    /* 100dvh: avoids iOS Safari bottom bar overlap; falls back to 100vh on older browsers */
+    #map { width: 100%; height: 100vh; height: 100dvh; }
+
+    /* Top-right corner stack: clock on top, night-toggle below it.
+       Using a wrapper avoids fragile pixel offsets and keeps spacing consistent
+       across font sizes / themes. Safe-area padding handles iPhone notch. */
+    #top-right {
+      position: absolute;
+      top: calc(10px + env(safe-area-inset-top, 0px));
+      right: calc(10px + env(safe-area-inset-right, 0px));
+      z-index: 1000;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+      pointer-events: none;  /* let map receive events; children re-enable */
+    }
+    #top-right > * { pointer-events: auto; }
+
     #clock {
-      position: absolute; top: 10px; right: 10px; z-index: 1000;
       background: rgba(255,255,255,0.92); padding: 8px 14px;
       border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       font-size: 16px; font-weight: 600;
       transition: background-color 4s linear, color 4s linear;
     }
     #status {
-      position: absolute; bottom: 10px; left: 10px; z-index: 1000;
+      position: absolute;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      left: calc(10px + env(safe-area-inset-left, 0px));
+      z-index: 1000;
+      max-width: calc(100vw - 20px); box-sizing: border-box;
       background: rgba(255,255,255,0.92); padding: 6px 12px;
       border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
       font-size: 13px;
@@ -28,7 +46,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
     #night-toggle {
-      position: absolute; bottom: 10px; right: 10px; z-index: 1000;
       display: inline-flex; align-items: center; gap: 6px;
       background: rgba(255,255,255,0.92); padding: 6px 12px;
       border: none; border-radius: 999px;
@@ -46,17 +63,31 @@
       background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
+
+    /* Phones & narrow tablets: condense panel sizes, hide toggle text label
+       (icon + dot stay), and keep status above Leaflet's attribution line. */
+    @media (max-width: 600px) {
+      #clock { font-size: 13px; padding: 6px 10px; }
+      #night-toggle { font-size: 12px; padding: 6px 10px; }
+      #night-toggle .label-text { display: none; }
+      #status {
+        font-size: 11px; padding: 5px 9px;
+        bottom: calc(28px + env(safe-area-inset-bottom, 0px));  /* clear attribution */
+      }
+    }
   </style>
 </head>
 <body>
   <div id="map"></div>
-  <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
-    <span class="dot"></span><span class="label">🌙 ナイトモード</span>
-  </button>
-  <div id="clock">--:--:--</div>
+  <div id="top-right">
+    <div id="clock">--:--:--</div>
+    <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
+      <span class="dot"></span><span class="label">🌙<span class="label-text"> ナイトモード</span></span>
+    </button>
+  </div>
   <div id="status">読み込み中…</div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="src/app.js?v=80"></script>
+  <script type="module" src="src/app.js?v=82"></script>
 </body>
 </html>
