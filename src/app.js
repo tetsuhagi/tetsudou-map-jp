@@ -1,8 +1,17 @@
-import { loadAllData } from './data.js?v=85';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=85';
+import { loadAllData } from './data.js?v=86';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=86';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
+
+// Tile provider config. Currently using the OSM volunteer-run tile server,
+// which is tolerated for low-traffic sites. If traffic grows or we see 429
+// rate-limit responses, swap to a commercial provider (e.g. Stadia Maps):
+//   TILE_URL = 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png?api_key=YOUR_KEY'
+//   TILE_ATTRIBUTION = '© Stadia Maps © OpenMapTiles © OpenStreetMap contributors'
+const TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const TILE_ATTRIBUTION = '© OpenStreetMap contributors';
+const TILE_MAX_ZOOM = 19;
 
 const clockEl = document.getElementById('clock');
 const statusEl = document.getElementById('status');
@@ -19,9 +28,9 @@ const map = L.map('map', {
   preferCanvas: true,
 });
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors',
-  maxZoom: 19,
+L.tileLayer(TILE_URL, {
+  attribution: TILE_ATTRIBUTION,
+  maxZoom: TILE_MAX_ZOOM,
 }).addTo(map);
 
 const trainMarkers = {};
