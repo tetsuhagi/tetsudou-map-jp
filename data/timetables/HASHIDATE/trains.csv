@@ -1,9 +1,9 @@
 train_id,name,direction
-HD_1,はしだて1,down
-HD_3,はしだて3,down
-HD_5,はしだて5,down
-HD_7,はしだて7,down
-HD_2,はしだて2,up
-HD_4,はしだて4,up
-HD_6,はしだて6,up
-HD_8,はしだて8,up
+HASHIDATE_1,はしだて1,down
+HASHIDATE_3,はしだて3,down
+HASHIDATE_5,はしだて5,down
+HASHIDATE_7,はしだて7,down
+HASHIDATE_2,はしだて2,up
+HASHIDATE_4,はしだて4,up
+HASHIDATE_6,はしだて6,up
+HASHIDATE_8,はしだて8,up
