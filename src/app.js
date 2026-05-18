@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=57';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=57';
+import { loadAllData } from './data.js?v=58';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=58';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
