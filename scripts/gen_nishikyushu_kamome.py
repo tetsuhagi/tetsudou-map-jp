@@ -1,93 +1,112 @@
 #!/usr/bin/env python3
 """
-Generate 北陸新幹線 かがやき timetable.
+Generate 西九州新幹線 かもめ timetable.
 
-Real 2024 dia (敦賀延伸後):
-- かがやき (最速種別): 約10-12本/方向/日
-- 全かがやき停車駅 (最速パターン): 高崎・長野・富山・金沢・福井・敦賀
-  (はくたか等の他種別は本実装では割愛)
+Real 2024 dia:
+- かもめ: 約22往復/方向/日 (約30min, 武雄温泉〜長崎)
+- 全かもめ停車駅: 武雄温泉・嬉野温泉・新大村・諫早・長崎
 
-Stop intervals from 高崎:
-  TAKASAKI  +0:00 dep
-  NAGANO    +0:47 arr / +0:49 dep
-  TOYAMA    +1:46 arr / +1:48 dep
-  KANAZAWA  +2:11 arr / +2:13 dep
-  FUKUI     +2:58 arr / +3:00 dep
-  TSURUGA   +3:20 arr
+Stop intervals from 武雄温泉:
+  TAKEO_ONSEN     +0:00 dep
+  URESHINO_ONSEN  +0:07 arr / +0:08 dep
+  SHIN_OMURA      +0:18 arr / +0:19 dep
+  ISAHAYA         +0:23 arr / +0:24 dep
+  NAGASAKI        +0:30 arr
 """
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'HOKURIKU_SHINKANSEN')
+OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'NISHI_KYUSHU_SHINKANSEN')
 
 STOPS_DOWN = [
-    ('TAKASAKI', None,  0),
-    ('NAGANO',   47,    49),
-    ('TOYAMA',   106,   108),
-    ('KANAZAWA', 131,   133),
-    ('FUKUI',    178,   180),
-    ('TSURUGA',  200,   None),
+    ('TAKEO_ONSEN',    None,  0),
+    ('URESHINO_ONSEN', 7,     8),
+    ('SHIN_OMURA',     18,    19),
+    ('ISAHAYA',        23,    24),
+    ('NAGASAKI',       30,    None),
 ]
 
 STOPS_UP = [
-    ('TSURUGA',  None,  0),
-    ('FUKUI',    20,    22),
-    ('KANAZAWA', 67,    69),
-    ('TOYAMA',   92,    94),
-    ('NAGANO',   151,   153),
-    ('TAKASAKI', 200,   None),
+    ('NAGASAKI',       None,  0),
+    ('ISAHAYA',        7,     8),
+    ('SHIN_OMURA',     12,    13),
+    ('URESHINO_ONSEN', 22,    23),
+    ('TAKEO_ONSEN',    30,    None),
 ]
 
-# 高崎発下り かがやき (平日)
 WEEKDAY_DOWN_DEPS = [
-    '07:06',
-    '07:46',
-    '08:14',
-    '10:14',
-    '15:14',
-    '17:14',
-    '19:14',
-    '20:14',
-    '20:54',
-    '21:54',
+    '06:00', '06:23', '06:45',
+    '07:08', '07:23', '07:38', '07:54',
+    '08:10', '08:25', '08:40', '08:55',
+    '09:10', '09:25', '09:40', '09:55',
+    '10:25', '10:55',
+    '11:25', '11:55',
+    '12:25', '12:55',
+    '13:25', '13:55',
+    '14:25', '14:55',
+    '15:25', '15:55',
+    '16:10', '16:25', '16:55',
+    '17:10', '17:25', '17:55',
+    '18:10', '18:25', '18:55',
+    '19:25', '19:55',
+    '20:25', '20:55',
+    '21:25', '21:55',
 ]
 
-# 敦賀発上り かがやき (平日)
 WEEKDAY_UP_DEPS = [
-    '06:11',
-    '07:00',
-    '08:00',
-    '10:00',
-    '12:25',
-    '14:25',
-    '16:25',
-    '18:25',
-    '19:00',
-    '20:11',
+    '06:00', '06:30', '06:45',
+    '07:00', '07:15', '07:30', '07:45',
+    '08:00', '08:15', '08:30', '08:45',
+    '09:00', '09:15', '09:30',
+    '10:00', '10:30',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:15', '16:30',
+    '17:00', '17:15', '17:30',
+    '18:00', '18:15', '18:30',
+    '19:00', '19:30',
+    '20:00', '20:30',
+    '21:00', '21:30',
 ]
 
 HOLIDAY_DOWN_DEPS = [
-    '07:06',
-    '07:46',
-    '08:14',
-    '10:14',
-    '15:14',
-    '17:14',
-    '19:14',
-    '20:14',
-    '20:54',
+    '06:23',
+    '07:25', '07:55',
+    '08:25', '08:55',
+    '09:25', '09:55',
+    '10:25', '10:55',
+    '11:25', '11:55',
+    '12:25', '12:55',
+    '13:25', '13:55',
+    '14:25', '14:55',
+    '15:25', '15:55',
+    '16:25', '16:55',
+    '17:25', '17:55',
+    '18:25', '18:55',
+    '19:25', '19:55',
+    '20:25',
+    '21:25',
 ]
 
 HOLIDAY_UP_DEPS = [
-    '06:11',
+    '06:00',
     '07:00',
-    '08:00',
-    '10:00',
-    '14:25',
-    '16:25',
-    '18:25',
-    '19:00',
-    '20:11',
+    '08:00', '08:30',
+    '09:00', '09:30',
+    '10:00', '10:30',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:30',
+    '17:00', '17:30',
+    '18:00', '18:30',
+    '19:00', '19:30',
+    '20:00',
 ]
 
 
@@ -116,29 +135,29 @@ def main():
 
     n = 1
     for dep in WEEKDAY_DOWN_DEPS:
-        tid = f'KAGAYAKI_{n}'
-        trains.append((tid, f'かがやき{n}', 'down'))
+        tid = f'KAMOME_{n}'
+        trains.append((tid, f'かもめ{n}', 'down'))
         for order, (sid, arr, dp) in enumerate(build_stops(parse_hhmm(dep), STOPS_DOWN), 1):
             schedule_weekday.append((tid, order, sid, arr, dp))
         n += 2
 
     n = 2
     for dep in WEEKDAY_UP_DEPS:
-        tid = f'KAGAYAKI_{n}'
-        trains.append((tid, f'かがやき{n}', 'up'))
+        tid = f'KAMOME_{n}'
+        trains.append((tid, f'かもめ{n}', 'up'))
         for order, (sid, arr, dp) in enumerate(build_stops(parse_hhmm(dep), STOPS_UP), 1):
             schedule_weekday.append((tid, order, sid, arr, dp))
         n += 2
 
     n = 1
     for dep in HOLIDAY_DOWN_DEPS:
-        tid = f'KAGAYAKI_{n}'
+        tid = f'KAMOME_{n}'
         for order, (sid, arr, dp) in enumerate(build_stops(parse_hhmm(dep), STOPS_DOWN), 1):
             schedule_holiday.append((tid, order, sid, arr, dp))
         n += 2
     n = 2
     for dep in HOLIDAY_UP_DEPS:
-        tid = f'KAGAYAKI_{n}'
+        tid = f'KAMOME_{n}'
         for order, (sid, arr, dp) in enumerate(build_stops(parse_hhmm(dep), STOPS_UP), 1):
             schedule_holiday.append((tid, order, sid, arr, dp))
         n += 2
