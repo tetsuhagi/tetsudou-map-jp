@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=42';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=42';
+import { loadAllData } from './data.js?v=43';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=43';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
@@ -12,6 +12,11 @@ const map = L.map('map', {
   zoom: 6,
   minZoom: 4,
   maxZoom: 12,
+  // Canvas renderer makes polylines and circleMarkers draw to a single <canvas>
+  // instead of one <svg> element per shape — critical for the 47 routes + ~300
+  // station markers we draw simultaneously. Train icons (L.marker with image)
+  // are unaffected and remain as DOM elements.
+  preferCanvas: true,
 });
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
