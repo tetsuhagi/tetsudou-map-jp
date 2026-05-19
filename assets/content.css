@@ -189,6 +189,31 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 .disclaimer strong { color: #92400e; }
 
 /* ─────────────────────────────────────────────────────────────
+   お問い合わせフォーム (Google Forms iframe ラッパー)
+   ───────────────────────────────────────────────────────────── */
+.contact-form {
+  margin: 20px 0;
+}
+.contact-form iframe {
+  width: 100%;
+  min-height: 820px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  display: block;
+}
+.contact-form__fallback {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* ─────────────────────────────────────────────────────────────
    関連リンクセクション (記事末に配置)
    ───────────────────────────────────────────────────────────── */
 .related {
