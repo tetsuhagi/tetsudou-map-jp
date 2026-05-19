@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>よくある質問（FAQ） | 鉄道マップ全国版</title>
+  <meta name="description" content="鉄道マップ全国版のよくある質問。表示される列車位置の正確性、対応路線、利用方法、データの出所、運営方針などについてお答えします。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tetsudou-map-jp.pages.dev/faq">
+  <link rel="stylesheet" href="/assets/content.css?v=93">
+  <link rel="icon" type="image/png" href="/assets/icons/train_cream.png">
+
+  <!-- OGP / Twitter Card -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="よくある質問（FAQ） | 鉄道マップ全国版">
+  <meta property="og:description" content="鉄道マップ全国版についてよく寄せられるご質問にお答えします。">
+  <meta property="og:url" content="https://tetsudou-map-jp.pages.dev/faq">
+  <meta property="og:site_name" content="鉄道マップ全国版">
+  <meta name="twitter:card" content="summary">
+
+  <!-- 構造化データ: FAQPage (リッチリザルト対応) + WebSite + BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://tetsudou-map-jp.pages.dev/#website",
+        "url": "https://tetsudou-map-jp.pages.dev/",
+        "name": "鉄道マップ全国版",
+        "inLanguage": "ja"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "トップ", "item": "https://tetsudou-map-jp.pages.dev/" },
+          { "@type": "ListItem", "position": 2, "name": "よくある質問", "item": "https://tetsudou-map-jp.pages.dev/faq" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "このサイトは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "日本国内の主要な特急・新幹線・寝台特急について、おおよその運行スケジュールを参考に、現在時刻における列車の走行位置を地図上にシミュレーション表示する個人運営のWebサイトです。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "鉄道会社の公式サイトですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。本サイトは個人が趣味として運営する非公式サイトであり、いかなる鉄道事業者・公的機関とも関係ありません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "利用は無料ですか？会員登録は必要ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "本サイトは完全無料でご利用いただけます。会員登録・ログインは一切必要ありません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "表示されている列車位置は実際の運行情報ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。表示位置は独自の概略ダイヤを基にしたシミュレーションであり、実際の運行状況とは異なります。実運行情報のAPI接続は行っていません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "遅延・運休・臨時列車は反映されますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "反映されません。本サイトはあらかじめ用意した概略ダイヤをもとに表示しているため、リアルタイムの運行変動は一切反映できません。実際の運行情報は各鉄道事業者の公式サイト等でご確認ください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "全ての列車・路線が表示されますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。本サイトは主要な特急・新幹線・寝台特急の一部を対象としており、全列車を網羅したものではありません。普通列車・快速列車・私鉄各社の列車などは現在対応していません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "平日と土日でダイヤは違いますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "本サイトでは曜日に応じて平日ダイヤ／土日祝ダイヤを自動で切り替えて表示しています。なお、年末年始・お盆等の臨時ダイヤには対応していません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "「ナイトモード」とは何ですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "時間帯（朝・昼・夕方・夜）に応じて地図の色味を変化させる表示モードです。画面右上のトグルから有効化できます。深夜の寝台特急の雰囲気を楽しむのに便利です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "寝台特急の路線が突然出たり消えたりするのはなぜですか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "寝台特急サンライズ瀬戸／出雲は運行時間帯（夕方〜翌朝）のみ路線をハイライト表示する設計のため、運行していない日中は線が非表示になります。これは意図した仕様です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "列車アイコンは実際の車両と一致しますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "いいえ。アイコンは路線・列車種別ごとの代表的なイメージとして用意したもので、実在の特定の車両を正確に表現したものではありません。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "スマートフォンで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "はい。iPhone・Androidなどのスマートフォン、タブレット、PCのいずれにも対応しています。モダンなブラウザ（Chrome / Safari / Firefox / Edge 等）であれば動作します。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "オフラインで使えますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "オフライン利用には対応していません。地図タイルや列車データの読み込みにインターネット接続が必要です。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "地図は何を使っていますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "地図ライブラリは Leaflet、地図タイルは OpenStreetMap、路線形状データは国土交通省「国土数値情報（鉄道データ）」を加工して使用しています。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ダイヤが古い・間違っています。修正してほしい。",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "お問い合わせフォームよりご連絡ください。優先度・確認可否を判断のうえ、可能な範囲で対応いたします。なお、個人運営のため即時の修正をお約束できない点はご了承ください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "本サイトに広告は表示されますか？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Google AdSense等の第三者配信事業者による広告を表示する場合があります。広告の取扱い・パーソナライズ広告のオプトアウト方法については、プライバシーポリシーをご確認ください。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "運営者に連絡したい場合は？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "サイト内のお問い合わせフォームよりご連絡ください。フォームは Google フォームを使用しています。"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-logo" href="/">🚉 鉄道マップ全国版</a>
+    <nav class="site-nav" aria-label="サイトメイン">
+      <a href="/">マップ</a>
+      <a href="/about">About</a>
+      <a href="/contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくず">
+  <a href="/">トップ</a><span class="breadcrumb__separator">›</span>よくある質問
+</nav>
+
+<main class="article">
+  <h1>よくある質問（FAQ）</h1>
+  <p class="page-meta">最終更新: 2026年5月</p>
+
+  <p>
+    「鉄道マップ全国版」についてよく寄せられるご質問にお答えします。
+    ここに記載のないご質問は、<a href="/contact">お問い合わせフォーム</a> よりお寄せください。
+  </p>
+
+  <h2>このサイトについて</h2>
+
+  <h3>Q. このサイトは何ですか？</h3>
+  <p>
+    日本国内の主要な特急・新幹線・寝台特急について、おおよその運行スケジュールを参考に、
+    現在時刻における列車の走行位置を地図上にシミュレーション表示する個人運営のWebサイトです。
+    詳しくは <a href="/about">本サイトについて</a> をご覧ください。
+  </p>
+
+  <h3>Q. 鉄道会社の公式サイトですか？</h3>
+  <p>
+    いいえ。本サイトは個人が趣味として運営する非公式サイトであり、
+    いかなる鉄道事業者・公的機関とも関係ありません。
+  </p>
+
+  <h3>Q. 利用は無料ですか？会員登録は必要ですか？</h3>
+  <p>
+    本サイトは完全無料でご利用いただけます。会員登録・ログインは一切必要ありません。
+  </p>
+
+  <h2>表示について</h2>
+
+  <h3>Q. 表示されている列車位置は実際の運行情報ですか？</h3>
+  <p>
+    <strong>いいえ。</strong> 表示位置は独自の概略ダイヤを基にしたシミュレーションであり、
+    実際の運行状況とは異なります。実運行情報のAPI接続は行っていません。
+  </p>
+
+  <h3>Q. 遅延・運休・臨時列車は反映されますか？</h3>
+  <div class="disclaimer">
+    <strong>反映されません。</strong>
+    本サイトはあらかじめ用意した概略ダイヤをもとに表示しているため、
+    リアルタイムの運行変動は一切反映できません。
+    実際の運行情報は各鉄道事業者の公式サイト等でご確認ください。
+  </div>
+
+  <h3>Q. 全ての列車・路線が表示されますか？</h3>
+  <p>
+    いいえ。本サイトは主要な特急・新幹線・寝台特急の一部を対象としており、
+    全列車を網羅したものではありません。
+    普通列車・快速列車・私鉄各社の列車などは現在対応していません。
+  </p>
+
+  <h3>Q. 平日と土日でダイヤは違いますか？</h3>
+  <p>
+    本サイトでは曜日に応じて平日ダイヤ／土日祝ダイヤを自動で切り替えて表示しています。
+    画面下部の「平日ダイヤ／土日祝ダイヤ」の表示で現在の表示モードを確認できます。
+    なお、年末年始・お盆等の臨時ダイヤには対応していません。
+  </p>
+
+  <h3>Q. 列車アイコンは実際の車両と一致しますか？</h3>
+  <p>
+    いいえ。アイコンは路線・列車種別ごとの代表的なイメージとして用意したもので、
+    実在の特定の車両を正確に表現したものではありません。
+  </p>
+
+  <h2>機能について</h2>
+
+  <h3>Q. 「ナイトモード」とは何ですか？</h3>
+  <p>
+    時間帯（朝・昼・夕方・夜）に応じて地図の色味を変化させる表示モードです。
+    画面右上のトグルから有効化できます。
+    深夜の寝台特急の雰囲気を楽しむのに便利です。
+    日中の時間帯では効果が薄いため、トグルボタン自体が非表示になります。
+  </p>
+
+  <h3>Q. 寝台特急の路線が突然出たり消えたりするのはなぜですか？</h3>
+  <p>
+    サンライズ瀬戸／出雲（JR西日本・JR東海運行の寝台特急）は、
+    運行時間帯（夕方〜翌朝）のみ路線をハイライト表示する設計です。
+    運行していない日中の時間帯は、地図をすっきり見せるため線が非表示になります。
+    これは意図した仕様です。
+  </p>
+
+  <h3>Q. スマートフォンで使えますか？</h3>
+  <p>
+    はい。iPhone・Androidなどのスマートフォン、タブレット、PCのいずれにも対応しています。
+    モダンなブラウザ（Chrome / Safari / Firefox / Edge 等）であれば動作します。
+  </p>
+
+  <h3>Q. オフラインで使えますか？</h3>
+  <p>
+    オフライン利用には対応していません。
+    地図タイルや列車データの読み込みにインターネット接続が必要です。
+  </p>
+
+  <h2>データ・技術について</h2>
+
+  <h3>Q. 地図はどのサービスを使っていますか？</h3>
+  <p>
+    地図ライブラリは <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>、
+    地図タイルは <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a>、
+    路線形状データは国土交通省「国土数値情報（鉄道データ）」を加工して使用しています。
+  </p>
+
+  <h3>Q. ダイヤや停車駅情報が古い・間違っています。修正してほしい。</h3>
+  <p>
+    <a href="/contact">お問い合わせフォーム</a> よりご連絡ください。
+    優先度・確認可否を判断のうえ、可能な範囲で対応いたします。
+    なお、個人運営のため即時の修正をお約束できない点はご了承ください。
+  </p>
+
+  <h2>運営について</h2>
+
+  <h3>Q. 本サイトに広告は表示されますか？</h3>
+  <p>
+    Google AdSense 等の第三者配信事業者による広告を表示する場合があります。
+    広告の取扱い・パーソナライズ広告のオプトアウト方法については、
+    <a href="/privacy">プライバシーポリシー</a> をご確認ください。
+  </p>
+
+  <h3>Q. 運営者に連絡したい場合は？</h3>
+  <p>
+    サイト内の <a href="/contact">お問い合わせフォーム</a> よりご連絡ください。
+    本サイトは個人運営のため、すべてのお問い合わせに必ず返信できるとは限らない点をご了承ください。
+  </p>
+
+  <div class="map-cta">
+    <p class="map-cta__title">マップを見てみる</p>
+    <p class="map-cta__desc">百聞は一見にしかず。実際の動きを地図上でご覧ください。</p>
+    <a class="map-cta__button" href="/">マップを開く →</a>
+  </div>
+
+  <div class="related">
+    <h2>関連ページ</h2>
+    <ul>
+      <li>
+        <a href="/about">本サイトについて</a>
+        <div class="related__desc">サイトの概要・仕組み・運営方針</div>
+      </li>
+      <li>
+        <a href="/privacy">プライバシーポリシー</a>
+        <div class="related__desc">Cookie・広告・お問い合わせの取扱い</div>
+      </li>
+      <li>
+        <a href="/terms">利用規約</a>
+        <div class="related__desc">本サイトをご利用いただく際のルール</div>
+      </li>
+      <li>
+        <a href="/contact">お問い合わせ</a>
+        <div class="related__desc">ご質問・ご要望はこちらから</div>
+      </li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div>
+        <h4>サイトマップ</h4>
+        <ul>
+          <li><a href="/">マップ（トップ）</a></li>
+          <li><a href="/about">本サイトについて</a></li>
+          <li><a href="/faq">よくある質問</a></li>
+          <li><a href="/contact">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>規約・ポリシー</h4>
+        <ul>
+          <li><a href="/terms">利用規約</a></li>
+          <li><a href="/privacy">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-footer__notice">
+      本サイトは個人運営の非公式サイトであり、いかなる鉄道事業者・公的機関とも関係ありません。
+      表示される列車位置は概略データに基づくシミュレーションです。
+    </p>
+    <p class="site-footer__notice">
+      本サイト上に表示される列車名・路線名は、各鉄道事業者の登録商標または商号です。
+      本サイトでは事実の参照として表示しているものであり、各事業者との提携・関連はありません。
+    </p>
+    <p class="site-footer__copyright">
+      © 2026 鉄道マップ全国版
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
