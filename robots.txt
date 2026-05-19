@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# AI クローラーは個別に制御 (許可するかは運営方針次第)
+# 本サイトは原則すべて許可しています
+
+Sitemap: https://tetsudou-map-jp.pages.dev/sitemap.xml
