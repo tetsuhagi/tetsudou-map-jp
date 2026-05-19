@@ -1,10 +1,14 @@
 # Cloudflare Pages redirects
 # Docs: https://developers.cloudflare.com/pages/configuration/redirects/
-#
-# .html 付きの URL は、拡張子なしの正規 URL に 301 で寄せる。
-# Cloudflare Pages は /about 等のクリーンURLを自動で about.html へマップ
-# するが、/about.html を直接叩いた場合に重複コンテンツになるのを防ぐ。
 
+# Domain consolidation: tetsudou-map-jp.pages.dev のすべてのアクセスを
+# 正規ドメイン tetsudou-map.com へ 301 リダイレクト。
+# SEO評価を正規ドメインに集約するための重要なルール。
+# Cloudflare Pages の _redirects は HOST 付きフルURLマッチをサポートする。
+https://tetsudou-map-jp.pages.dev/* https://tetsudou-map.com/:splat 301!
+
+# .html 付きの URL は、拡張子なしの正規 URL に 301 で寄せる。
+# /about.html を直接叩いた場合に重複コンテンツになるのを防ぐ。
 /index.html       /            301
 /about.html       /about       301
 /privacy.html     /privacy     301
