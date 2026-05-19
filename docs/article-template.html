@@ -1,0 +1,373 @@
+<!--
+  ============================================================
+  鉄道マップ全国版 — 路線詳細記事テンプレート
+  ============================================================
+
+  使い方:
+    1. このファイルを routes/{slug}.html にコピー
+       例: cp docs/article-template.html routes/sunrise-izumo.html
+    2. {{...}} のプレースホルダを全て置換
+    3. <!-- TODO: ... --> コメントの指示に従って本文を執筆
+    4. 不要なセクション (h2 ブロック) は丸ごと削除してOK
+    5. speech--draft は本文執筆者は触らない（運営者が後でコメント入れる）
+
+  プレースホルダ一覧:
+    {{SLUG}}                URL スラッグ（例: sunrise-izumo）
+    {{TITLE}}               記事タイトル（h1 と同じ）
+    {{TITLE_SHORT}}         OGP 用の短縮タイトル（30字以内）
+    {{DESCRIPTION}}         meta description（120〜160字）
+    {{DESCRIPTION_SHORT}}   OGP 用の短縮 description（〜90字）
+    {{BREADCRUMB_NAME}}     パンくず最下層の表示名
+    {{TRAIN_NAME}}          列車名（記事中の主語）
+    {{ROUTE}}               運行区間（例: 東京〜出雲市）
+    {{OPERATOR}}            運行会社
+    {{ROLLING_STOCK}}       使用車両
+    {{CATEGORY}}            カテゴリ表示用（例: 路線詳細 / 寝台特急）
+    {{PUBLISH_DATE}}        公開日 (YYYY-MM-DD)
+    {{LAST_MODIFIED}}       最終更新日 (YYYY-MM-DD)
+    {{LAST_MODIFIED_LABEL}} 表示用最終更新（例: 2026年5月）
+    {{KEYWORDS}}            JSON-LD 用キーワード（カンマ区切り）
+    {{CSS_VERSION}}         content.css のバージョン（現在の最新を確認）
+
+  voice-guide.md を読んでから書くこと！
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}} | 鉄道マップ全国版</title>
+  <meta name="description" content="{{DESCRIPTION}}">
+  <meta name="robots" content="index, follow">
+  <meta name="google-site-verification" content="q0Z-sk7dPIYdA-0p-wYO0FfKGlb3UvMn4LGPZi_ik8Q">
+  <link rel="canonical" href="https://tetsudou-map.com/routes/{{SLUG}}">
+  <link rel="stylesheet" href="/assets/content.css?v={{CSS_VERSION}}">
+  <link rel="icon" type="image/png" href="/assets/icons/train_cream.png">
+
+  <!-- OGP / Twitter Card -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{TITLE_SHORT}}">
+  <meta property="og:description" content="{{DESCRIPTION_SHORT}}">
+  <meta property="og:url" content="https://tetsudou-map.com/routes/{{SLUG}}">
+  <meta property="og:site_name" content="鉄道マップ全国版">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{TITLE_SHORT}}">
+  <meta name="twitter:description" content="{{DESCRIPTION_SHORT}}">
+
+  <!-- 構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://tetsudou-map.com/#website",
+        "url": "https://tetsudou-map.com/",
+        "name": "鉄道マップ全国版",
+        "inLanguage": "ja"
+      },
+      {
+        "@type": "Article",
+        "headline": "{{TITLE}}",
+        "description": "{{DESCRIPTION_SHORT}}",
+        "inLanguage": "ja",
+        "datePublished": "{{PUBLISH_DATE}}",
+        "dateModified": "{{LAST_MODIFIED}}",
+        "isPartOf": { "@id": "https://tetsudou-map.com/#website" },
+        "mainEntityOfPage": "https://tetsudou-map.com/routes/{{SLUG}}",
+        "keywords": "{{KEYWORDS}}"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "トップ", "item": "https://tetsudou-map.com/" },
+          { "@type": "ListItem", "position": 2, "name": "路線一覧", "item": "https://tetsudou-map.com/routes/" },
+          { "@type": "ListItem", "position": 3, "name": "{{BREADCRUMB_NAME}}", "item": "https://tetsudou-map.com/routes/{{SLUG}}" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-logo" href="/">🚉 鉄道マップ全国版</a>
+    <nav class="site-nav" aria-label="サイトメイン">
+      <a href="/">マップ</a>
+      <a href="/routes/">路線</a>
+      <a href="/about">About</a>
+      <a href="/contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくず">
+  <a href="/">トップ</a><span class="breadcrumb__separator">›</span>
+  <a href="/routes/">路線一覧</a><span class="breadcrumb__separator">›</span>{{BREADCRUMB_NAME}}
+</nav>
+
+<main class="article">
+  <h1>{{TITLE}}</h1>
+  <p class="page-meta">最終更新: {{LAST_MODIFIED_LABEL}} / カテゴリ: {{CATEGORY}}</p>
+
+  <!-- TODO: 導入文（200〜300字）
+       - {{TRAIN_NAME}} が何か、どこを走るか、なぜ人気か
+       - この記事で何がわかるか
+       - 丁寧語、AI臭くならないように -->
+  <p>
+    <strong>{{TRAIN_NAME}}</strong>は、…
+  </p>
+
+  <div class="disclaimer">
+    <strong>ご注意:</strong>
+    本記事の情報は{{LAST_MODIFIED_LABEL}}時点のおおよその目安です。
+    実際の運行時刻・運行状況は <a href="" target="_blank" rel="noopener">{{OPERATOR}}</a>
+    等の公式情報でご確認ください。
+  </div>
+
+  <!-- ✋ Bubble 1: 記事冒頭、「この列車を初めて知った」「噂は聞いてた」系
+       speech--draft クラスは執筆者は触らない。運営者があとで実コメントを入れる。 -->
+  <div class="speech speech--draft">
+    <span class="speech__avatar">🙋‍♂️</span>
+    <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <h2>{{TRAIN_NAME}}とは</h2>
+  <!-- TODO: 列車の概要（300〜500字）
+       - いつから運行、何を担う列車か
+       - 歴史的背景（前身列車・電車化の経緯など）
+       - 走行ルートの特徴 -->
+  <p>…</p>
+  <p>…</p>
+
+  <!-- ✋ Bubble 2: 概要を読んだ後の素朴な感想（「面白そう」「知らなかった」系） -->
+  <div class="speech speech--draft">
+    <span class="speech__avatar">🙋‍♂️</span>
+    <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <h2>運行会社と運行区間</h2>
+  <ul>
+    <li><strong>運行会社</strong>: {{OPERATOR}}</li>
+    <li><strong>運行区間</strong>: {{ROUTE}}</li>
+    <li><strong>使用車両</strong>: {{ROLLING_STOCK}}</li>
+    <li><strong>運行頻度</strong>: <!-- TODO --></li>
+    <li><strong>所要時間</strong>: <!-- TODO --></li>
+  </ul>
+
+  <h2>停車駅と運行時間帯（参考）</h2>
+  <p>
+    {{TRAIN_NAME}}の停車駅と、おおよその運行時間帯は以下のとおりです。
+    時刻は{{LAST_MODIFIED_LABEL}}時点の通常ダイヤを参考にしたものですが、
+    季節・年度によって変動するため、実際の乗車時は必ず公式の時刻表でご確認ください。
+  </p>
+
+  <h3>下り（{{ROUTE}}）</h3>
+  <table>
+    <thead>
+      <tr><th>駅名</th><th>到着</th><th>発車</th></tr>
+    </thead>
+    <tbody>
+      <!-- TODO: 主要駅のみ抜粋。全駅ではない。
+           時刻は「21:26 頃」のように "頃" を付けて目安であることを明示。 -->
+      <tr><td>○○</td><td>—</td><td>00:00 頃</td></tr>
+    </tbody>
+  </table>
+
+  <h3>上り（{{ROUTE}}の逆）</h3>
+  <table>
+    <thead>
+      <tr><th>駅名</th><th>到着</th><th>発車</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>○○</td><td>—</td><td>00:00 頃</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ✋ Bubble 3: ダイヤを見たあとの感想（時間帯・経路への反応） -->
+  <div class="speech speech--draft">
+    <span class="speech__avatar">🙋‍♂️</span>
+    <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <div class="map-cta">
+    <p class="map-cta__title">{{TRAIN_NAME}}の走行を地図で見る</p>
+    <p class="map-cta__desc">今、{{TRAIN_NAME}}がどのあたりを走っているか、地図上のシミュレーション表示で確認できます。</p>
+    <a class="map-cta__button" href="/">マップを開く →</a>
+  </div>
+
+  <h2>車両と座席タイプ</h2>
+  <!-- TODO: 車両概要（200〜400字）+ 座席タイプ一覧
+       - 寝台列車なら個室タイプ table
+       - 新幹線・特急なら普通車/グリーン/個室の構成
+       - 車両世代の補足 -->
+  <p>…</p>
+
+  <h3>座席タイプ一覧</h3>
+  <table>
+    <thead>
+      <tr><th>タイプ</th><th>特徴</th><th>区分</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>○○</td><td>○○</td><td>○○</td></tr>
+    </tbody>
+  </table>
+
+  <h3>料金の目安</h3>
+  <!-- TODO: 大まかな価格帯。具体的金額は「時期により変動」と注釈 -->
+  <p>…</p>
+
+  <!-- ✋ Bubble 4: 車両・座席・料金についての反応（コスパ・憧れ系） -->
+  <div class="speech speech--draft">
+    <span class="speech__avatar">🙋‍♂️</span>
+    <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <h2>{{TRAIN_NAME}}が愛される理由（特徴）</h2>
+  <!-- TODO: 3つくらいに絞って h3 で展開。
+       例: 絶景区間・歴史的意義・利便性・速達性・展望席など。
+       列車によって書くポイントは違う。 -->
+
+  <h3>1. ○○</h3>
+  <p>…</p>
+
+  <h3>2. ○○</h3>
+  <p>…</p>
+
+  <h3>3. ○○</h3>
+  <p>…</p>
+
+  <!-- ▼ オプションセクション: 関連列車（併結・姉妹列車など）がある場合のみ残す -->
+  <h2>関連列車との違い・関係</h2>
+  <!-- TODO: 併結相手・後継・前身列車などとの関係を解説。
+       なければ h2 ブロックごと削除。 -->
+  <p>…</p>
+
+  <h2>到着後の旅行プラン例</h2>
+  <!-- TODO: 終着駅エリアの観光スポット 4〜6個を箇条書き。
+       食・観光・絶景・体験のバランスを意識。 -->
+  <ul>
+    <li><strong>○○</strong>: 説明</li>
+  </ul>
+
+  <!-- ✋ Bubble 5: 観光プランへの反応（「行きたい」「食べたい」系） -->
+  <div class="speech speech--draft">
+    <span class="speech__avatar">🙋‍♂️</span>
+    <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <div class="map-cta">
+    <p class="map-cta__title"><!-- TODO: その路線のハイライト区間をタイトルに --></p>
+    <p class="map-cta__desc">マップ上で、{{TRAIN_NAME}}の走行をシミュレーションでご覧いただけます。</p>
+    <a class="map-cta__button" href="/">マップで走行を見る →</a>
+  </div>
+
+  <h2>予約・チケット入手のコツ</h2>
+  <!-- TODO: 発売開始時期、予約手段、取りやすい時期・取りにくい時期、
+       キャンセル拾いのコツなど。
+       人気列車は「激戦」、地味な列車は「比較的余裕」と素直に書く。 -->
+  <h3>発売開始時刻と予約方法</h3>
+  <ul>
+    <li><strong>発売開始</strong>: 乗車日の1ヶ月前 午前10時</li>
+    <li><strong>主な予約手段</strong>:
+      <ul>
+        <li>JR各社のオンライン予約サイト</li>
+        <li>JR各駅の「みどりの窓口」</li>
+        <li>主要旅行代理店</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>取りやすさのコツ</h3>
+  <ul>
+    <li><!-- TODO --></li>
+  </ul>
+
+  <!-- ✋ Bubble 6: 予約・人気についての反応。記事のオチっぽく「一度は乗ってみたい」系 -->
+  <div class="speech speech--draft">
+    <span class="speech__avatar">🙋‍♂️</span>
+    <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <h2>よくある質問</h2>
+
+  <h3>Q. ○○は使えますか？</h3>
+  <p>…</p>
+
+  <h3>Q. ○○はどんな感じ？</h3>
+  <p>…</p>
+
+  <h3>Q. WiFi・コンセントはありますか？</h3>
+  <p>…</p>
+
+  <h2>関連情報</h2>
+  <p>
+    本ガイドは{{LAST_MODIFIED_LABEL}}時点の情報をもとに作成しています。
+    ダイヤ改正・車両運用変更・運休等の最新情報は、運行会社の公式サイトをご確認ください。
+  </p>
+  <ul>
+    <li>運行会社公式: <a href="" target="_blank" rel="noopener">{{OPERATOR}}</a></li>
+  </ul>
+
+  <div class="related">
+    <h2>関連ページ</h2>
+    <ul>
+      <li>
+        <a href="/routes/">路線一覧</a>
+        <div class="related__desc">本サイトで紹介している全路線・列車の一覧</div>
+      </li>
+      <li>
+        <a href="/about">本サイトについて</a>
+        <div class="related__desc">サイトの概要・運営方針</div>
+      </li>
+      <li>
+        <a href="/faq">よくある質問</a>
+        <div class="related__desc">マップの仕様・データの正確性などについて</div>
+      </li>
+      <li>
+        <a href="/">マップを開く</a>
+        <div class="related__desc">列車の走行イメージを地図上で確認</div>
+      </li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div>
+        <h4>サイトマップ</h4>
+        <ul>
+          <li><a href="/">マップ（トップ）</a></li>
+          <li><a href="/routes/">路線一覧</a></li>
+          <li><a href="/about">本サイトについて</a></li>
+          <li><a href="/faq">よくある質問</a></li>
+          <li><a href="/contact">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>規約・ポリシー</h4>
+        <ul>
+          <li><a href="/terms">利用規約</a></li>
+          <li><a href="/privacy">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-footer__notice">
+      本サイトは個人運営の非公式サイトであり、いかなる鉄道事業者・公的機関とも関係ありません。
+      表示される列車位置は概略データに基づくシミュレーションです。
+    </p>
+    <p class="site-footer__notice">
+      本サイト上に表示される列車名・路線名は、各鉄道事業者の登録商標または商号です。
+      本サイトでは事実の参照として表示しているものであり、各事業者との提携・関連はありません。
+    </p>
+    <p class="site-footer__copyright">
+      © 2026 鉄道マップ全国版
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
