@@ -255,12 +255,83 @@ ID にプレフィックスは必須。
 
 ---
 
-## 7. このガイドの更新タイミング
+## 7. 駅座標は **MLIT N02 Station GeoJSON** を優先採用
+
+### 7-1. なぜ MLIT を優先するか
+
+`data/stations.csv` の lat/lon は、**Wikipedia ではなく MLIT N02
+Station GeoJSON の座標を優先して採用** する。
+
+理由：
+
+- `data/geometry/*.json` のポリラインは MLIT N02 RailroadSection から
+  `build_geometry.py` で生成している
+- **MLIT の駅座標と路線データは同一データソース** なので、駅座標を
+  MLIT に揃えれば `station_positions` が**0m 整列**する
+- Wikipedia 座標は駅入口・建屋中心・代表点など定義が不統一で、
+  MLIT ポリラインと最悪 **1.3km 乖離** する（実例: ラピート堺駅）
+
+### 7-2. 取得方法
+
+MLIT データは初回ビルド時に `.cache/N02-XX_Station.geojson` として
+自動展開されている。下記スニペットで座標を抽出できる：
+
+```python
+import json
+with open('.cache/N02-24_Station.geojson', encoding='utf-8') as f:
+    data = json.load(f)
+target = {'駅名1', '駅名2'}  # 取得したい正式駅名
+for f in data['features']:
+    p = f['properties']
+    if p.get('N02_005') in target:
+        op = p.get('N02_004', '')       # 運営会社
+        line = p.get('N02_003', '')     # 路線名
+        geom = f['geometry']
+        if geom['type'] == 'Point':
+            lon, lat = geom['coordinates']
+        else:
+            coords = geom['coordinates']
+            mid = coords[len(coords) // 2]
+            lon, lat = mid[0], mid[1]
+        print(f'{p["N02_005"]:<10} {op:<14} {line:<14} {lat:.5f} {lon:.5f}')
+```
+
+### 7-3. 共用駅の MLIT 座標が運営者ごとに違う場合
+
+同じ駅で複数の運営者がエントリされている場合、**ジオメトリを生成する
+路線の運営者** の座標を優先：
+
+例: `KANAYAMA` 金山駅は JR東海・名鉄・地下鉄が乗り入れ。MLIT には
+3社それぞれのエントリがあり、座標が数十m単位で異なる。
+
+- ミュースカイ（名鉄）のジオメトリ生成時は、名古屋鉄道の座標を採用
+  したい
+- ただし JR新幹線等も同じ駅を使う場合があり、駅単独 ID は 1つしか
+  使えない
+- 結論: ベース路線（最初に登録した路線）の運営者座標を採用、または
+  ジオメトリ生成時に再ビルドして station_positions を最適化する
+
+### 7-4. MLIT 座標でも残るオフセット
+
+MLIT N02 Station と N02 RailroadSection は同一データソースだが、
+微妙なズレが残る駅も存在する。例:
+
+| 駅 | 路線 | MLIT 座標適用後のオフセット |
+|---|---|---|
+| AIRPORT_TERMINAL_2 | SKYLINER | 152m |
+| NARITA_AIRPORT | SKYLINER | 152m |
+
+これは MLIT データ自身の整合性の限界。許容してよい範囲。
+
+---
+
+## 8. このガイドの更新タイミング
 
 - 新しい大手私鉄プレフィックスを追加したとき → セクション 1-3 / 1-4 を更新
 - 共用駅・非共用駅の判定で迷ったケースが出たら → セクション 6 に追記
 - 商標関係で新しい運用判断が必要になったら → セクション 5 を更新
+- MLIT 座標とポリラインで新しい乖離パターンが見つかったら → セクション 7-4 に追記
 
 ---
 
-最終更新: 2026-05-19（私鉄ミュースカイ・ラピート・スカイライナー追加時）
+最終更新: 2026-05-19（MLIT 駅座標優先採用方針を追記）
