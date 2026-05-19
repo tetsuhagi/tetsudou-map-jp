@@ -189,6 +189,77 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 .disclaimer strong { color: #92400e; }
 
 /* ─────────────────────────────────────────────────────────────
+   スピーチバルーン (記事中に挟む読者代弁コメント)
+   ・サイト運営者の素朴な反応を見出しの前後に挟むことで、
+     淡々と続く解説文の "AIっぽさ" を破り E-E-A-T を強化する。
+   ・記事執筆時は .speech--draft を付けたプレースホルダを置く。
+     コメント入力後に --draft を外して本番表示に。
+   ───────────────────────────────────────────────────────────── */
+.speech {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 22px 0;
+  max-width: 92%;
+}
+.speech__avatar {
+  width: 40px; height: 40px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  background: #fef3c7;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.speech__bubble {
+  position: relative;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 14px;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #44403c;
+}
+/* 吹き出しの三角しっぽ (アバター側) */
+.speech__bubble::before,
+.speech__bubble::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  width: 0; height: 0;
+  border-style: solid;
+}
+.speech__bubble::before {
+  left: -8px;
+  border-width: 6px 8px 6px 0;
+  border-color: transparent #fed7aa transparent transparent;
+}
+.speech__bubble::after {
+  left: -7px;
+  border-width: 6px 8px 6px 0;
+  border-color: transparent #fff7ed transparent transparent;
+}
+
+/* DRAFT 状態: 未編集が一目で分かる派手なスタイル。
+   コメント入力後は HTML から speech--draft クラスを外す。 */
+.speech--draft .speech__bubble {
+  background: #fef9c3;
+  border: 2px dashed #eab308;
+  color: #854d0e;
+  font-style: italic;
+}
+.speech--draft .speech__bubble::before {
+  border-color: transparent #eab308 transparent transparent;
+}
+.speech--draft .speech__bubble::after { display: none; }
+
+@media (max-width: 600px) {
+  .speech { gap: 8px; margin: 18px 0; }
+  .speech__avatar { width: 34px; height: 34px; font-size: 19px; }
+  .speech__bubble { font-size: 13px; padding: 8px 12px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
    お問い合わせフォーム (Google Forms iframe ラッパー)
    ───────────────────────────────────────────────────────────── */
 .contact-form {

@@ -1,4 +1,4 @@
-const V = '?v=95';
+const V = '?v=96';
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
