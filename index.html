@@ -106,6 +106,80 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
+    /* Top-right hamburger menu (anchored dropdown).
+       Sits at the top of the #top-right stack; panel pops down on click
+       and overlays the clock/night-toggle (intentional — when users are
+       navigating they don't need the clock visible). Closes on outside
+       click or Escape (see inline script at end of body). */
+    .menu-wrap { position: relative; }
+    #menu-toggle {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 36px;
+      background: rgba(255,255,255,0.92);
+      border: none; border-radius: 999px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      font-size: 18px; line-height: 1; cursor: pointer;
+      transition: background-color 0.2s linear, color 0.2s linear;
+    }
+    #menu-toggle:hover { background: rgba(255,255,255,1); }
+    body.theme-dark #menu-toggle {
+      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+    body.theme-dark #menu-toggle:hover { background: rgba(20, 30, 65, 1); }
+
+    #menu-panel {
+      position: absolute;
+      top: calc(100% + 8px); right: 0;
+      min-width: 220px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      padding: 6px 0;
+      transform-origin: top right;
+      animation: menu-pop 0.15s ease-out;
+      z-index: 1500;  /* above clock/night-toggle in the same stack */
+    }
+    #menu-panel.hidden { display: none; }
+    @keyframes menu-pop {
+      from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    #menu-panel a {
+      display: block;
+      padding: 10px 18px;
+      color: #1a202c;
+      text-decoration: none;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    #menu-panel a:hover,
+    #menu-panel a:focus-visible {
+      background: rgba(37, 99, 235, 0.08);
+      color: #2563eb;
+      outline: none;
+    }
+    #menu-panel a[aria-current="page"] {
+      color: #2563eb; font-weight: 600;
+    }
+    .menu-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+      margin: 6px 12px;
+    }
+    body.theme-dark #menu-panel {
+      background: rgba(20, 30, 65, 0.96); color: #e2e8f0;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    }
+    body.theme-dark #menu-panel a { color: #e2e8f0; }
+    body.theme-dark #menu-panel a:hover,
+    body.theme-dark #menu-panel a:focus-visible {
+      background: rgba(96, 165, 250, 0.15);
+      color: #60a5fa;
+    }
+    body.theme-dark #menu-panel a[aria-current="page"] { color: #60a5fa; }
+    body.theme-dark .menu-divider { background: rgba(255,255,255,0.1); }
+
     /* About / disclaimer modal. Backdrop + centered panel. Hidden by default;
        opened by clicking the status bar. Closes on ×, backdrop click, or Escape. */
     #info-modal {
@@ -170,6 +244,9 @@
       #clock { font-size: 13px; padding: 6px 10px; }
       #night-toggle { font-size: 12px; padding: 6px 10px; }
       #night-toggle .label-text { display: none; }
+      #menu-toggle { width: 36px; height: 32px; font-size: 16px; }
+      #menu-panel { min-width: 200px; }
+      #menu-panel a { font-size: 13px; padding: 10px 16px; }
       .info-scroll { font-size: 13px; padding: 32px 20px 20px; }
       .info-panel h2 { font-size: 16px; }
       #status {
@@ -183,6 +260,19 @@
 <body>
   <div id="map"></div>
   <div id="top-right">
+    <div class="menu-wrap">
+      <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-panel" aria-label="メニュー" title="メニュー">☰</button>
+      <nav id="menu-panel" class="hidden" aria-label="サイトメニュー">
+        <a href="/" aria-current="page">マップ</a>
+        <a href="/routes/">路線一覧</a>
+        <a href="/about">本サイトについて</a>
+        <a href="/faq">よくある質問</a>
+        <a href="/contact">お問い合わせ</a>
+        <div class="menu-divider" role="separator" aria-hidden="true"></div>
+        <a href="/terms">利用規約</a>
+        <a href="/privacy">プライバシーポリシー</a>
+      </nav>
+    </div>
     <div id="clock">--:--:--</div>
     <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
       <span class="dot"></span><span class="label">🌙<span class="label-text"> ナイトモード</span></span>
@@ -236,5 +326,36 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script type="module" src="src/app.js?v=96"></script>
+  <script>
+    /* Hamburger menu controller: open/close panel, close on outside click
+       or Escape. Self-contained — no dependency on app.js. Lives inline
+       because it's purely UI and the DOM nodes are above this script. */
+    (function() {
+      const toggle = document.getElementById('menu-toggle');
+      const panel  = document.getElementById('menu-panel');
+      if (!toggle || !panel) return;
+
+      const isOpen = () => !panel.classList.contains('hidden');
+      const open   = () => { panel.classList.remove('hidden'); toggle.setAttribute('aria-expanded', 'true'); };
+      const close  = () => { panel.classList.add('hidden');    toggle.setAttribute('aria-expanded', 'false'); };
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();  /* don't bubble to document outside-click handler */
+        isOpen() ? close() : open();
+      });
+
+      /* Click anywhere outside the panel (or toggle) closes it. */
+      document.addEventListener('click', (e) => {
+        if (!isOpen()) return;
+        if (panel.contains(e.target) || toggle.contains(e.target)) return;
+        close();
+      });
+
+      /* Escape closes & returns focus to the toggle button (a11y). */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen()) { close(); toggle.focus(); }
+      });
+    })();
+  </script>
 </body>
 </html>
