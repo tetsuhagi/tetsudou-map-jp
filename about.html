@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>本サイトについて | 鉄道マップ全国版</title>
+  <meta name="description" content="鉄道マップ全国版は、日本国内の主要な特急・新幹線・寝台特急の運行スケジュールを参考に、現在時刻の走行位置をシミュレーション表示する個人運営のWebサイトです。仕組み・使い方・運営方針を紹介します。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tetsudou-map-jp.pages.dev/about">
+  <link rel="stylesheet" href="/assets/content.css?v=90">
+  <link rel="icon" type="image/png" href="/assets/icons/train_cream.png">
+
+  <!-- OGP / Twitter Card -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="本サイトについて | 鉄道マップ全国版">
+  <meta property="og:description" content="日本国内の特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示する個人運営サイトの紹介ページです。">
+  <meta property="og:url" content="https://tetsudou-map-jp.pages.dev/about">
+  <meta property="og:site_name" content="鉄道マップ全国版">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="本サイトについて | 鉄道マップ全国版">
+  <meta name="twitter:description" content="日本国内の特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示する個人運営サイトの紹介ページです。">
+
+  <!-- 構造化データ: 記事 + パンくず -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://tetsudou-map-jp.pages.dev/#website",
+        "url": "https://tetsudou-map-jp.pages.dev/",
+        "name": "鉄道マップ全国版",
+        "inLanguage": "ja"
+      },
+      {
+        "@type": "Article",
+        "headline": "本サイトについて",
+        "description": "鉄道マップ全国版の概要・仕組み・運営方針の紹介。",
+        "inLanguage": "ja",
+        "datePublished": "2026-05-19",
+        "dateModified": "2026-05-19",
+        "isPartOf": { "@id": "https://tetsudou-map-jp.pages.dev/#website" },
+        "mainEntityOfPage": "https://tetsudou-map-jp.pages.dev/about"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "トップ", "item": "https://tetsudou-map-jp.pages.dev/" },
+          { "@type": "ListItem", "position": 2, "name": "本サイトについて", "item": "https://tetsudou-map-jp.pages.dev/about" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-logo" href="/">🚉 鉄道マップ全国版</a>
+    <nav class="site-nav" aria-label="サイトメイン">
+      <a href="/">マップ</a>
+      <a href="/about" aria-current="page">About</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb" aria-label="パンくず">
+  <a href="/">トップ</a><span class="breadcrumb__separator">›</span>本サイトについて
+</nav>
+
+<main class="article">
+  <h1>本サイトについて</h1>
+  <p class="page-meta">最終更新: 2026年5月</p>
+
+  <p>
+    「鉄道マップ全国版」は、日本国内の主要な特急・新幹線・寝台特急の運行スケジュールを参考に、
+    現在時刻における列車のおおよその走行位置を地図上にシミュレーション表示する Web サイトです。
+    完全静的なフロントエンドのみで動作し、サーバー側で運行情報を取得しているわけではありません。
+  </p>
+
+  <h2>何ができるサイトか</h2>
+  <ul>
+    <li>全国の主要な特急・新幹線・寝台特急（合計47路線）の走行イメージを地図上で確認できます</li>
+    <li>平日／土日祝のダイヤを曜日に応じて自動切替します</li>
+    <li>「ナイトモード」を有効化すると、時間帯（朝・昼・夕・夜）に応じて地図の色味が変化します</li>
+    <li>スマートフォン・タブレット・PC のいずれにも対応しています</li>
+  </ul>
+
+  <div class="map-cta">
+    <p class="map-cta__title">列車の動きを地図で見る</p>
+    <p class="map-cta__desc">日本全国の特急・新幹線・寝台特急が、今どのあたりを走っているかをイメージで確認できます。</p>
+    <a class="map-cta__button" href="/">マップを開く →</a>
+  </div>
+
+  <h2>仕組み</h2>
+  <p>
+    各列車について、おおよその発着時刻と停車駅をまとめた独自の概略データを用意しています。
+    ブラウザ上のJavaScriptが現在時刻を参照し、その時点で列車がどの区間を走っているかを線形補間で算出して、
+    地図上のアイコンとして表示する仕組みです。
+  </p>
+  <p>
+    地図は <a href="https://www.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap</a> のタイルを、
+    路線形状は国土交通省「国土数値情報（鉄道データ）」を加工して使用しています。
+    リアルタイム運行情報のAPI接続は一切行っていないため、
+    遅延・運休・臨時列車・運転変更などは反映されません。
+  </p>
+
+  <h2>想定する楽しみ方</h2>
+  <ul>
+    <li>寝台特急サンライズ瀬戸／出雲が深夜に瀬戸内・山陰を渡っていく様子を眺める</li>
+    <li>旅行前に「新幹線でどの時間にどこまで行けそうか」を視覚的にイメージする</li>
+    <li>鉄道好きの方の地図上シミュレーションとして気軽に楽しむ</li>
+  </ul>
+
+  <h2>運営について</h2>
+  <p>
+    本サイトは個人が趣味として運営する非公式サイトです。
+    いかなる鉄道事業者・公的機関とも関係ありません。
+    運営者は鉄道会社の関係者ではなく、表示している情報も鉄道会社から提供されたものではありません。
+  </p>
+
+  <div class="disclaimer">
+    <strong>ご注意:</strong>
+    本サイトの表示は実際の運行情報ではなく、概略データに基づくシミュレーションです。
+    実際の運行情報・最新の時刻表は、各鉄道事業者の公式サイトをご確認ください。
+  </div>
+
+  <h2>使用技術</h2>
+  <ul>
+    <li>HTML / CSS / JavaScript（ES Modules）の完全静的サイト</li>
+    <li>地図ライブラリ: <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a></li>
+    <li>地図タイル: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</li>
+    <li>路線形状データ: 国土交通省「国土数値情報（鉄道データ）」を加工して作成</li>
+    <li>ホスティング: Cloudflare Pages</li>
+  </ul>
+
+  <div class="related">
+    <h2>関連ページ</h2>
+    <ul>
+      <li>
+        <a href="/privacy">プライバシーポリシー</a>
+        <div class="related__desc">Cookie・アクセス解析・広告配信に関する説明</div>
+      </li>
+      <li>
+        <a href="/terms">利用規約</a>
+        <div class="related__desc">本サイトをご利用いただく際のルール</div>
+      </li>
+      <li>
+        <a href="/faq">よくある質問</a>
+        <div class="related__desc">使い方・データの正確性などについて</div>
+      </li>
+    </ul>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div>
+        <h4>サイトマップ</h4>
+        <ul>
+          <li><a href="/">マップ（トップ）</a></li>
+          <li><a href="/about">本サイトについて</a></li>
+          <li><a href="/faq">よくある質問</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>規約・ポリシー</h4>
+        <ul>
+          <li><a href="/terms">利用規約</a></li>
+          <li><a href="/privacy">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="site-footer__notice">
+      本サイトは個人運営の非公式サイトであり、いかなる鉄道事業者・公的機関とも関係ありません。
+      表示される列車位置は概略データに基づくシミュレーションです。
+    </p>
+    <p class="site-footer__copyright">
+      © 2026 鉄道マップ全国版
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
