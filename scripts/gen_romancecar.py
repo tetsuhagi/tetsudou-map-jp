@@ -1,39 +1,47 @@
 #!/usr/bin/env python3
 """
-Generate 小田急ロマンスカー timetable (はこね系統: 新宿 ⇔ 箱根湯本).
+Generate 小田急ロマンスカー はこね timetable (新宿 ⇔ 箱根湯本) — 実ダイヤ準拠版.
 
-小田急ロマンスカーは多系統あるが、ここでは代表系統「はこね」のみを
-収録する。他系統（ふじさん／えのしま／メトロはこね 等）は将来別の
-route_id で追加する設計：
-  - ROMANCECAR_FUJISAN: 新宿 ⇔ 御殿場 (JR御殿場線直通、MSE使用)
-  - ROMANCECAR_ENOSHIMA: 新宿 ⇔ 片瀬江ノ島 (江ノ島線)
+小田急電鉄の特急ロマンスカー「はこね」系統の現行ダイヤを正確に反映。
+2025年3月17日改正の公式時刻表 (箱根ナビ掲載PDF) を元に再構築。
 
-2026年5月時点で運用中の主な車両:
-  - GSE (70000形): 現フラッグシップ、赤＋白
-  - MSE (60000形): 千代田線・御殿場線直通可、青
-  - EXE / EXEα (30000形): リニューアル車、シャインオレンジ
-  - VSE (50000形) は 2023年12月で運用終了
+経由路線:
+  - 小田急電鉄 小田原線 (新宿〜小田原)
+  - 小田急箱根 鉄道線 (小田原〜箱根湯本)
 
-代表ダイヤ (はこね):
-  - 30分間隔 (毎時 :00 / :30)
-  - 始発: 新宿 7:00 / 箱根湯本 8:30
-  - 終発: 新宿 21:30 / 箱根湯本 23:00
-  - 所要時間 85分 (はこね代表値、スーパーはこねは75分ほど)
-  - 1日 60本 (各方向 30本)
+主な系統 (本テンプレートでは 新宿⇔箱根湯本 のみ扱う):
+  - はこね: メイン、新宿⇔箱根湯本
+  - スーパーはこね: 速達 (土休日のみ運行、停車駅少)
+  - ホームウェイ: 夕方〜夜の通勤特急
+  - メトロはこね (北千住始発・行): 千代田線直通、本マップでは対象外
 
-実ダイヤでは:
-  - 時間帯により本数変動 (朝・夕は多め、昼間は1時間に1本程度の時間帯あり)
-  - 停車パターンも多様 (スーパーはこね / はこね / ホームウェイ など)
-本テンプレートでは全便を「はこね」として停車駅・所要時間を統一。
+代表ダイヤ (PDF掲載分、実ダイヤ準拠):
 
-Stop intervals from 新宿:
-  SHINJUKU       +0:00 dep
-  MACHIDA        +0:35 arr / +0:36 dep
-  EBINA          +0:44 arr / +0:45 dep
-  HONATSUGI      +0:49 arr / +0:50 dep
-  HADANO         +1:02 arr / +1:03 dep
-  ODAWARA        +1:15 arr / +1:17 dep   (箱根登山線への切替で2分停車)
-  HAKONEYUMOTO   +1:25 arr
+  平日 下り (新宿発) 16本:
+    はこね41/21/1/71/3/5/23/7/25/9/27/11/13/29号 + ホームウェイ1/5号
+    7:57〜18:15、新宿発で計算 (箱根湯本着 - 85分)
+
+  平日 上り (箱根湯本発) 16本:
+    9:32〜19:50、はこね2/30/4/32/6/8/34/10/40/12/36/14/16/18/20/22号
+
+  土休日 下り (新宿発) 22本:
+    はこね 各種 + スーパーはこね5/9号 + ホームウェイ1/5号
+    7:01〜18:10、平日より6本多い (観光ピーク需要)
+
+  土休日 上り (箱根湯本発) 21本:
+    はこね 各種、平日より5本多い
+
+PDF掲載外 (早朝・深夜の通勤特急便) は本テンプレート対象外。
+所要時間は便によって 75-90分のばらつきがあるが、85分で統一。
+
+Stop intervals from 新宿 (代表値):
+  SHINJUKU      +0:00 dep
+  MACHIDA       +0:35 arr / +0:36 dep
+  EBINA         +0:44 arr / +0:45 dep
+  HONATSUGI     +0:49 arr / +0:50 dep
+  HADANO        +1:02 arr / +1:03 dep
+  ODAWARA       +1:12 arr / +1:14 dep   (箱根登山線への切替で2分停車)
+  HAKONEYUMOTO  +1:25 arr
 """
 import os
 
@@ -46,12 +54,12 @@ STOPS_DOWN = [
     ('EBINA',        44,   45),
     ('HONATSUGI',    49,   50),
     ('HADANO',       62,   63),
-    ('ODAWARA',      75,   77),
+    ('ODAWARA',      72,   74),
     ('HAKONEYUMOTO', 85,   None),
 ]
 STOPS_UP = [
     ('HAKONEYUMOTO', None, 0),
-    ('ODAWARA',      8,    10),
+    ('ODAWARA',      11,   13),
     ('HADANO',       22,   23),
     ('HONATSUGI',    35,   36),
     ('EBINA',        40,   41),
@@ -59,24 +67,96 @@ STOPS_UP = [
     ('SHINJUKU',     85,   None),
 ]
 
+# 平日 実ダイヤ (PDF掲載分、新宿発時刻 = 箱根湯本着 - 85分)
+WEEKDAY_DOWN_DEPS = [
+    '07:57',  # はこね41号 → 箱根湯本 9:22
+    '08:28',  # はこね21号 → 9:53
+    '08:53',  # はこね1号 → 10:18
+    '09:30',  # はこね71号 → 10:55
+    '10:02',  # はこね3号 → 11:27
+    '11:00',  # はこね5号 → 12:25
+    '11:28',  # はこね23号 → 12:53
+    '11:59',  # はこね7号 → 13:24
+    '12:22',  # はこね25号 → 13:47
+    '13:05',  # はこね9号 → 14:30
+    '13:31',  # はこね27号 → 14:56
+    '14:02',  # はこね11号 → 15:27
+    '15:00',  # はこね13号 → 16:25
+    '16:12',  # はこね29号 → 17:37
+    '17:03',  # ホームウェイ1号 → 18:28
+    '18:15',  # ホームウェイ5号 → 19:40
+]
 
-def gen_half_hourly(start_h, start_m, end_h, end_m):
-    times = []
-    h, m = start_h, start_m
-    while (h, m) <= (end_h, end_m):
-        times.append(f'{h:02d}:{m:02d}')
-        if m == 0:
-            m = 30
-        else:
-            m = 0
-            h += 1
-    return times
+# 平日 上り (箱根湯本発)
+WEEKDAY_UP_DEPS = [
+    '09:32',  # はこね2号
+    '10:10',  # はこね30号
+    '10:34',  # はこね4号
+    '11:13',  # はこね32号
+    '11:35',  # はこね6号
+    '12:40',  # はこね8号
+    '13:12',  # はこね34号
+    '13:35',  # はこね10号
+    '13:55',  # はこね40号
+    '14:48',  # はこね12号
+    '15:13',  # はこね36号
+    '15:52',  # はこね14号
+    '16:51',  # はこね16号
+    '17:46',  # はこね18号
+    '18:36',  # はこね20号
+    '19:50',  # はこね22号
+]
 
+# 土休日 実ダイヤ (PDF掲載分、観光ピークで本数多め)
+HOLIDAY_DOWN_DEPS = [
+    '07:01',  # はこね1号 → 8:26
+    '07:22',  # はこね31号 → 8:47
+    '07:59',  # はこね3号 → 9:24
+    '08:27',  # はこね33号 → 9:52
+    '09:00',  # スーパーはこね5号 (速達だが時刻調整で 85分扱い)
+    '09:27',  # はこね7号 → 10:52
+    '10:06',  # スーパーはこね9号 → 11:21
+    '10:25',  # はこね35号 → 11:50
+    '10:42',  # はこね11号 → 12:07
+    '11:00',  # はこね13号 → 12:25
+    '11:36',  # はこね15号 → 13:01
+    '12:03',  # はこね17号 → 13:28
+    '12:23',  # はこね37号 → 13:48
+    '13:03',  # はこね19号 → 14:28
+    '13:23',  # はこね21号 → 14:48
+    '14:01',  # はこね23号 → 15:26
+    '14:23',  # はこね39号 → 15:48
+    '15:03',  # はこね25号 → 16:28
+    '15:23',  # はこね41号 → 16:48
+    '15:44',  # はこね27号 → 17:09
+    '17:11',  # ホームウェイ1号 → 18:36
+    '18:10',  # ホームウェイ5号 → 19:35
+]
 
-WEEKDAY_DOWN_DEPS = gen_half_hourly(7, 0,  21, 30)   # 30本
-WEEKDAY_UP_DEPS   = gen_half_hourly(8, 30, 23, 0)    # 30本
-HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
-HOLIDAY_UP_DEPS   = WEEKDAY_UP_DEPS
+# 土休日 上り
+HOLIDAY_UP_DEPS = [
+    '08:34',  # はこね70号
+    '09:12',  # はこね30号
+    '09:33',  # はこね2号
+    '10:03',  # はこね32号
+    '10:24',  # はこね4号
+    '11:38',  # はこね6号
+    '11:59',  # はこね34号
+    '12:33',  # はこね8号
+    '13:15',  # はこね10号
+    '13:36',  # はこね12号
+    '13:56',  # はこね36号
+    '14:16',  # はこね14号
+    '14:36',  # はこね16号
+    '15:14',  # はこね18号
+    '15:35',  # はこね20号
+    '15:56',  # はこね38号
+    '16:36',  # はこね22号
+    '16:56',  # はこね40号
+    '17:17',  # はこね24号
+    '18:45',  # はこね26号
+    '19:52',  # はこね72号
+]
 
 
 def parse_hhmm(s):
@@ -121,10 +201,13 @@ def main():
     sched_wd = []
     sched_hd = []
 
-    emit('ROMANCECAR', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'はこね{n}', trains, sched_wd, 1)
-    emit('ROMANCECAR', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'はこね{n}', trains, sched_wd, 2)
-    emit_schedule_only('ROMANCECAR', HOLIDAY_DOWN_DEPS, STOPS_DOWN, sched_hd, 1)
-    emit_schedule_only('ROMANCECAR', HOLIDAY_UP_DEPS,   STOPS_UP,   sched_hd, 2)
+    # 平日と休日で時刻が大きく異なるため、train_id を分離 (ROMANCECAR_W / ROMANCECAR_H)
+    # 平日 ダイヤ (16+16=32本)
+    emit('ROMANCECAR_W', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'はこね{n}', trains, sched_wd, 1)
+    emit('ROMANCECAR_W', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'はこね{n}', trains, sched_wd, 2)
+    # 休日 ダイヤ (22+21=43本、観光ピーク)
+    emit('ROMANCECAR_H', HOLIDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'はこね{n}', trains, sched_hd, 1)
+    emit('ROMANCECAR_H', HOLIDAY_UP_DEPS,   STOPS_UP,   'up',   'はこね{n}', trains, sched_hd, 2)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:
@@ -142,10 +225,8 @@ def main():
         for row in sched_hd:
             f.write(','.join(map(str, row)) + '\n')
 
-    down = sum(1 for _, _, d in trains if d == 'down')
-    up = sum(1 for _, _, d in trains if d == 'up')
-    print(f'trains.csv: {len(trains)}本 (下り {down}, 上り {up})')
-    print(f'weekday: 下 {len(WEEKDAY_DOWN_DEPS)} + 上 {len(WEEKDAY_UP_DEPS)} = {len(WEEKDAY_DOWN_DEPS) + len(WEEKDAY_UP_DEPS)}本')
+    print(f'trains.csv: {len(trains)}本 (平日: 下 {len(WEEKDAY_DOWN_DEPS)} + 上 {len(WEEKDAY_UP_DEPS)} = {len(WEEKDAY_DOWN_DEPS) + len(WEEKDAY_UP_DEPS)}本)')
+    print(f'           (休日: 下 {len(HOLIDAY_DOWN_DEPS)} + 上 {len(HOLIDAY_UP_DEPS)} = {len(HOLIDAY_DOWN_DEPS) + len(HOLIDAY_UP_DEPS)}本)')
 
 
 if __name__ == '__main__':
