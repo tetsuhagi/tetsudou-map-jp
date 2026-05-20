@@ -14,8 +14,6 @@ RAPIT_A_23,ラピートα23,down
 RAPIT_A_25,ラピートα25,down
 RAPIT_A_27,ラピートα27,down
 RAPIT_A_29,ラピートα29,down
-RAPIT_A_31,ラピートα31,down
-RAPIT_A_33,ラピートα33,down
 RAPIT_A_2,ラピートα2,up
 RAPIT_A_4,ラピートα4,up
 RAPIT_A_6,ラピートα6,up
@@ -32,7 +30,6 @@ RAPIT_A_26,ラピートα26,up
 RAPIT_A_28,ラピートα28,up
 RAPIT_A_30,ラピートα30,up
 RAPIT_A_32,ラピートα32,up
-RAPIT_A_34,ラピートα34,up
 RAPIT_B_1,ラピートβ1,down
 RAPIT_B_3,ラピートβ3,down
 RAPIT_B_5,ラピートβ5,down
@@ -50,6 +47,7 @@ RAPIT_B_27,ラピートβ27,down
 RAPIT_B_29,ラピートβ29,down
 RAPIT_B_31,ラピートβ31,down
 RAPIT_B_33,ラピートβ33,down
+RAPIT_B_35,ラピートβ35,down
 RAPIT_B_2,ラピートβ2,up
 RAPIT_B_4,ラピートβ4,up
 RAPIT_B_6,ラピートβ6,up
