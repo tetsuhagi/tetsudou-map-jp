@@ -40,22 +40,25 @@ STOPS_DOWN = [
     ('OSAKA_NAMBA',      None, 0),
     ('OSAKA_UEHOMMACHI', 4,    5),
     ('TSURUHASHI',       8,    9),
-    ('YAMATO_YAGI',      36,   37),
-    ('UJIYAMADA',        115,  116),
-    ('TOBA',             129,  130),
-    ('KASHIKOJIMA',      135,  None),
+    ('YAMATO_YAGI',      37,   38),
+    ('UJIYAMADA',        123,  124),
+    ('TOBA',             137,  138),
+    ('KASHIKOJIMA',      143,  None),
 ]
 STOPS_UP = [
     ('KASHIKOJIMA',      None, 0),
-    ('TOBA',             5,    6),
-    ('UJIYAMADA',        19,   20),
-    ('YAMATO_YAGI',      98,   99),
-    ('TSURUHASHI',       126,  127),
-    ('OSAKA_UEHOMMACHI', 130,  131),
-    ('OSAKA_NAMBA',      135,  None),
+    ('TOBA',             6,    7),
+    ('UJIYAMADA',        20,   21),
+    ('YAMATO_YAGI',      105,  106),
+    ('TSURUHASHI',       133,  134),
+    ('OSAKA_UEHOMMACHI', 137,  138),
+    ('OSAKA_NAMBA',      141,  None),
 ]
 
-# 実ダイヤに合わせて1日1往復のみ (大阪難波 10:40 発、賢島 16:00 発)
+# 実ダイヤ (2026年版、tourist-train.info より):
+#   下り: 大阪難波 10:40 → 賢島 13:03 (143分)
+#   上り: 賢島 16:00 → 大阪難波 18:21 (141分)
+# 火曜定期運休だが本テンプレートでは毎日運行として簡略化
 WEEKDAY_DOWN_DEPS = ['10:40']
 WEEKDAY_UP_DEPS   = ['16:00']
 HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS

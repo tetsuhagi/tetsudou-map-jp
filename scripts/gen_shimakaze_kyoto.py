@@ -48,10 +48,10 @@ STOPS_DOWN = [
     ('KYOTO',           None, 0),
     ('YAMATO_SAIDAIJI', 35,   36),
     ('YAMATO_YAGI',     60,   61),
-    ('ISESHI',          145,  146),
-    ('UJIYAMADA',       150,  151),
-    ('TOBA',            163,  164),
-    ('KASHIKOJIMA',     165,  None),
+    ('ISESHI',          146,  147),
+    ('UJIYAMADA',       151,  152),
+    ('TOBA',            164,  165),
+    ('KASHIKOJIMA',     166,  None),
 ]
 STOPS_UP = [
     ('KASHIKOJIMA',     None, 0),
@@ -60,12 +60,15 @@ STOPS_UP = [
     ('ISESHI',          20,   21),
     ('YAMATO_YAGI',     105,  106),
     ('YAMATO_SAIDAIJI', 130,  131),
-    ('KYOTO',           165,  None),
+    ('KYOTO',           164,  None),
 ]
 
-# 実ダイヤ: 京都 09:00 発、賢島 16:10 発
-WEEKDAY_DOWN_DEPS = ['09:00']
-WEEKDAY_UP_DEPS   = ['16:10']
+# 実ダイヤ (2026年版、tourist-train.info より):
+#   下り: 京都 10:00 → 賢島 12:46 (166分) ← 前 09:00 だったが 10:00 に修正
+#   上り: 賢島 14:50 → 京都 17:34 (164分) ← 前 16:10 だったが 14:50 に修正
+# 水曜定期運休だが本テンプレートでは毎日運行として簡略化
+WEEKDAY_DOWN_DEPS = ['10:00']
+WEEKDAY_UP_DEPS   = ['14:50']
 HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
 HOLIDAY_UP_DEPS   = WEEKDAY_UP_DEPS
 

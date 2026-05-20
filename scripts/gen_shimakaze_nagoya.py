@@ -35,26 +35,29 @@ OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'SHIMAKAZE_NAGOYA')
 
 STOPS_DOWN = [
     ('KINTETSU_NAGOYA',    None, 0),
-    ('KINTETSU_YOKKAICHI', 30,   31),
-    ('TSU',                55,   56),
-    ('ISESHI',             110,  111),
-    ('UJIYAMADA',          115,  116),
-    ('TOBA',               129,  130),
-    ('KASHIKOJIMA',        135,  None),
+    ('KINTETSU_YOKKAICHI', 27,   28),
+    ('TSU',                50,   51),
+    ('ISESHI',             100,  101),
+    ('UJIYAMADA',          105,  106),
+    ('TOBA',               118,  119),
+    ('KASHIKOJIMA',        122,  None),
 ]
 STOPS_UP = [
     ('KASHIKOJIMA',        None, 0),
     ('TOBA',               5,    6),
-    ('UJIYAMADA',          19,   20),
-    ('ISESHI',             24,   25),
-    ('TSU',                79,   80),
-    ('KINTETSU_YOKKAICHI', 104,  105),
-    ('KINTETSU_NAGOYA',    135,  None),
+    ('UJIYAMADA',          18,   19),
+    ('ISESHI',             23,   24),
+    ('TSU',                72,   73),
+    ('KINTETSU_YOKKAICHI', 95,   96),
+    ('KINTETSU_NAGOYA',    124,  None),
 ]
 
-# 実ダイヤ: 近鉄名古屋 10:25 発、賢島 16:10 発
+# 実ダイヤ (2026年版、tourist-train.info より):
+#   下り: 近鉄名古屋 10:25 → 賢島 12:27 (122分) ← 前 135分 → 122分に修正
+#   上り: 賢島 15:40 → 近鉄名古屋 17:44 (124分) ← 前 16:10 → 15:40 に修正
+# 木曜定期運休だが本テンプレートでは毎日運行として簡略化
 WEEKDAY_DOWN_DEPS = ['10:25']
-WEEKDAY_UP_DEPS   = ['16:10']
+WEEKDAY_UP_DEPS   = ['15:40']
 HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
 HOLIDAY_UP_DEPS   = WEEKDAY_UP_DEPS
 
