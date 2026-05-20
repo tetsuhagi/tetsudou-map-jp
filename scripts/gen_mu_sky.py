@@ -1,72 +1,136 @@
 #!/usr/bin/env python3
 """
-Generate ミュースカイ timetable (名鉄岐阜 ⇔ 中部国際空港).
+Generate ミュースカイ timetable (名鉄岐阜・名鉄名古屋 ⇔ 中部国際空港).
 
-代表ダイヤ（2026年5月時点の概略を簡略化）:
-- ほぼ30分間隔で1日約30本/方向
-- 名鉄岐阜 → 中部国際空港 約65分
-- 始発(下り): 名鉄岐阜 7:30 発
-- 終発(下り): 名鉄岐阜 21:30 発
-- 始発(上り): 中部国際空港 8:30 発
-- 終発(上り): 中部国際空港 22:30 発
+名鉄2000系「ミュースカイ」の現行ダイヤを正確に反映。実態調査
+(名鉄公式/NAVITIME 平日時刻表) によると、ミュースカイは大半が
+**名鉄名古屋発着** で、名鉄岐阜発着は1日数本のみという運行形態。
 
-実ダイヤでは:
-- 名鉄一宮を通過するミュースカイあり (一部は停車)
-- 神宮前を通過するミュースカイあり (一部は停車)
-本テンプレートでは "全停車版" の代表ダイヤとして簡略化。
-将来的に通過パターンを反映する場合は STOPS_DOWN / STOPS_UP を分岐させる。
+経由路線:
+  - 名古屋鉄道 名古屋本線 (名鉄岐阜〜名鉄名古屋〜神宮前)
+  - 名古屋鉄道 常滑線 (神宮前〜常滑)
+  - 名古屋鉄道 空港線 (常滑〜中部国際空港)
 
-Stop intervals from 名鉄岐阜 (代表値):
+2系統:
+  ■ 名鉄岐阜発着系 (MU_SKY_G、6駅停車): 朝・夜の数本のみ
+      所要63分 (名鉄岐阜⇔中部国際空港)
+  ■ 名鉄名古屋発着系 (MU_SKY_N、4駅停車): 主流系統
+      所要39分 (名鉄名古屋⇔中部国際空港)
+
+設計のキモ「1 route_id 複数始終点」:
+  ASOBOY と同じパターン。routes.csv の stations 列は全駅含むが、
+  train ごとに停車駅 (stop_order) を変えて分岐表現。
+
+代表ダイヤ (平日、実ダイヤ準拠):
+  下り (空港行)
+    岐阜発: 5:55 (始発), 9:21, 19:21, 20:21 → 4本
+    名古屋発: 6:02, 6:29, 6:52, 7:19, 7:49, ..., 21:19 → 32本
+    計 36本
+
+  上り (空港発)
+    岐阜行: 8:00, 9:07, 18:06, 19:06, 20:07, 21:07 → 6本
+    名古屋行: 9:37, 10:07, 10:37, ..., 16:37, 17:06, 22:07 → 17本
+    計 23本
+
+  合計 59本/日
+
+  ※ 新鵜沼発着系 (犬山線経由) は本route_id では扱わず、将来
+    MU_SKY_INUYAMA として別途実装予定 (約8本/方向)
+
+Stop intervals 岐阜便 (下り):
   MEITETSU_GIFU         +0:00 dep
   MEITETSU_ICHINOMIYA   +0:09 arr / +0:10 dep
   MEITETSU_NAGOYA       +0:23 arr / +0:24 dep
   KANAYAMA              +0:28 arr / +0:29 dep
   JINGUMAE              +0:32 arr / +0:33 dep
-  CENTRAIR              +1:05 arr
+  CENTRAIR              +1:03 arr
+
+Stop intervals 名古屋便 (下り):
+  MEITETSU_NAGOYA       +0:00 dep
+  KANAYAMA              +0:04 arr / +0:05 dep
+  JINGUMAE              +0:08 arr / +0:09 dep
+  CENTRAIR              +0:39 arr
 """
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'MU_SKY')
 
-# (station_id, arrival_offset_min, departure_offset_min)
-STOPS_DOWN = [
+# === 岐阜発着系 (6駅停車、63分) ===
+STOPS_G_DOWN = [
     ('MEITETSU_GIFU',        None, 0),
     ('MEITETSU_ICHINOMIYA',  9,    10),
     ('MEITETSU_NAGOYA',      23,   24),
     ('KANAYAMA',             28,   29),
     ('JINGUMAE',             32,   33),
-    ('CENTRAIR',             65,   None),
+    ('CENTRAIR',             63,   None),
 ]
-STOPS_UP = [
+STOPS_G_UP = [
     ('CENTRAIR',             None, 0),
-    ('JINGUMAE',             32,   33),
-    ('KANAYAMA',             36,   37),
-    ('MEITETSU_NAGOYA',      41,   42),
-    ('MEITETSU_ICHINOMIYA',  55,   56),
-    ('MEITETSU_GIFU',        65,   None),
+    ('JINGUMAE',             30,   31),
+    ('KANAYAMA',             34,   35),
+    ('MEITETSU_NAGOYA',      39,   40),
+    ('MEITETSU_ICHINOMIYA',  53,   54),
+    ('MEITETSU_GIFU',        63,   None),
 ]
 
+# === 名古屋発着系 (4駅停車、39分) ===
+STOPS_N_DOWN = [
+    ('MEITETSU_NAGOYA', None, 0),
+    ('KANAYAMA',        4,    5),
+    ('JINGUMAE',        8,    9),
+    ('CENTRAIR',        39,   None),
+]
+STOPS_N_UP = [
+    ('CENTRAIR',        None, 0),
+    ('JINGUMAE',        30,   31),
+    ('KANAYAMA',        34,   35),
+    ('MEITETSU_NAGOYA', 39,   None),
+]
 
-def gen_half_hourly(start_h, start_m, end_h, end_m):
-    """Generate departures at :00 and :30 from start to end (inclusive)."""
-    times = []
-    h, m = start_h, start_m
-    while (h, m) <= (end_h, end_m):
-        times.append(f'{h:02d}:{m:02d}')
-        if m == 0:
-            m = 30
-        else:
-            m = 0
-            h += 1
-    return times
+# === 平日ダイヤ (実ダイヤ準拠) ===
 
+# 岐阜発着: 下り4本、上り6本
+WEEKDAY_G_DOWN = ['05:55', '09:21', '19:21', '20:21']
+WEEKDAY_G_UP   = ['08:00', '09:07', '18:06', '19:06', '20:07', '21:07']
 
-# Half-hourly base. Holiday is same — Centrair patronage is similar 7 days a week.
-WEEKDAY_DOWN_DEPS = gen_half_hourly(7, 30, 21, 30)
-WEEKDAY_UP_DEPS   = gen_half_hourly(8, 30, 22, 30)
-HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
-HOLIDAY_UP_DEPS   = WEEKDAY_UP_DEPS
+# 名古屋発着: 下り32本、上り17本
+WEEKDAY_N_DOWN = [
+    '06:02', '06:29', '06:52',
+    '07:19', '07:49',
+    '08:19', '08:49',
+    '09:19', '09:49',
+    '10:19', '10:49',
+    '11:19', '11:49',
+    '12:19', '12:49',
+    '13:19', '13:49',
+    '14:19', '14:49',
+    '15:19', '15:49',
+    '16:19', '16:49',
+    '17:19', '17:49',
+    '18:19', '18:49',
+    '19:19', '19:49',
+    '20:19', '20:49',
+    '21:19',
+]
+WEEKDAY_N_UP = [
+    '09:37',
+    '10:07', '10:37',
+    '11:07', '11:37',
+    '12:07', '12:37',
+    '13:07', '13:37',
+    '14:07', '14:37',
+    '15:07', '15:37',
+    '16:07', '16:37',
+    '17:06',
+    '22:07',
+]
+
+# 休日も平日とほぼ同等として簡略化
+HOLIDAY_G_DOWN = WEEKDAY_G_DOWN
+HOLIDAY_G_UP   = WEEKDAY_G_UP
+HOLIDAY_N_DOWN = WEEKDAY_N_DOWN
+HOLIDAY_N_UP   = WEEKDAY_N_UP
 
 
 def parse_hhmm(s):
@@ -111,10 +175,17 @@ def main():
     sched_wd = []
     sched_hd = []
 
-    emit('MU_SKY', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'ミュースカイ{n}', trains, sched_wd, 1)
-    emit('MU_SKY', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'ミュースカイ{n}', trains, sched_wd, 2)
-    emit_schedule_only('MU_SKY', HOLIDAY_DOWN_DEPS, STOPS_DOWN, sched_hd, 1)
-    emit_schedule_only('MU_SKY', HOLIDAY_UP_DEPS,   STOPS_UP,   sched_hd, 2)
+    # 岐阜発着系 (G)
+    emit('MU_SKY_G', WEEKDAY_G_DOWN, STOPS_G_DOWN, 'down', 'ミュースカイ{n}', trains, sched_wd, 1)
+    emit('MU_SKY_G', WEEKDAY_G_UP,   STOPS_G_UP,   'up',   'ミュースカイ{n}', trains, sched_wd, 2)
+    emit_schedule_only('MU_SKY_G', HOLIDAY_G_DOWN, STOPS_G_DOWN, sched_hd, 1)
+    emit_schedule_only('MU_SKY_G', HOLIDAY_G_UP,   STOPS_G_UP,   sched_hd, 2)
+
+    # 名古屋発着系 (N)
+    emit('MU_SKY_N', WEEKDAY_N_DOWN, STOPS_N_DOWN, 'down', 'ミュースカイ{n}', trains, sched_wd, 1)
+    emit('MU_SKY_N', WEEKDAY_N_UP,   STOPS_N_UP,   'up',   'ミュースカイ{n}', trains, sched_wd, 2)
+    emit_schedule_only('MU_SKY_N', HOLIDAY_N_DOWN, STOPS_N_DOWN, sched_hd, 1)
+    emit_schedule_only('MU_SKY_N', HOLIDAY_N_UP,   STOPS_N_UP,   sched_hd, 2)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:
@@ -132,11 +203,9 @@ def main():
         for row in sched_hd:
             f.write(','.join(map(str, row)) + '\n')
 
-    down = sum(1 for _, _, d in trains if d == 'down')
-    up = sum(1 for _, _, d in trains if d == 'up')
-    print(f'trains.csv: {len(trains)}本 (下り {down}, 上り {up})')
-    print(f'weekday: 下 {len(WEEKDAY_DOWN_DEPS)} + 上 {len(WEEKDAY_UP_DEPS)} = {len(WEEKDAY_DOWN_DEPS) + len(WEEKDAY_UP_DEPS)}本')
-    print(f'holiday: 下 {len(HOLIDAY_DOWN_DEPS)} + 上 {len(HOLIDAY_UP_DEPS)} = {len(HOLIDAY_DOWN_DEPS) + len(HOLIDAY_UP_DEPS)}本')
+    gifu = sum(1 for tid, _, _ in trains if tid.startswith('MU_SKY_G'))
+    nagoya = sum(1 for tid, _, _ in trains if tid.startswith('MU_SKY_N'))
+    print(f'trains.csv: {len(trains)}本 (岐阜発着 {gifu}, 名古屋発着 {nagoya})')
 
 
 if __name__ == '__main__':
