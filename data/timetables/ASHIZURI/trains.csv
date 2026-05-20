@@ -1,0 +1,19 @@
+train_id,name,direction
+ASHIZURI_N_1,あしずり1号,down
+ASHIZURI_N_3,あしずり3号,down
+ASHIZURI_N_5,あしずり5号,down
+ASHIZURI_N_7,あしずり7号,down
+ASHIZURI_N_9,あしずり9号,down
+ASHIZURI_N_11,あしずり11号,down
+ASHIZURI_N_13,あしずり13号,down
+ASHIZURI_N_2,あしずり2号,up
+ASHIZURI_N_4,あしずり4号,up
+ASHIZURI_N_6,あしずり6号,up
+ASHIZURI_N_8,あしずり8号,up
+ASHIZURI_N_10,あしずり10号,up
+ASHIZURI_N_12,あしずり12号,up
+ASHIZURI_N_14,あしずり14号,up
+ASHIZURI_S_1,あしずり1号 (宿毛行),down
+ASHIZURI_S_3,あしずり3号 (宿毛行),down
+ASHIZURI_S_2,あしずり2号 (宿毛発),up
+ASHIZURI_S_4,あしずり4号 (宿毛発),up
