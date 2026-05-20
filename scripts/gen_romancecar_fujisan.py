@@ -1,30 +1,45 @@
 #!/usr/bin/env python3
 """
-Generate 小田急ロマンスカー ふじさん系統 timetable (新宿 ⇔ 御殿場).
+Generate 小田急ロマンスカー ふじさん timetable (新宿 ⇔ 御殿場) — 実ダイヤ準拠版.
 
-小田急60000形 MSE 専用の系統。新宿から小田急小田原線を南下し、新松田駅で
-JR御殿場線へ渡り線経由で乗り入れて御殿場まで運行する直通特急。
+小田急電鉄60000形 MSE 専用の系統。新宿からJR御殿場線へ直通する稀少便。
+2026年度ダイヤ (2022年3月改正以降、土休日臨時便廃止) を反映。
 
 経由路線:
   - 小田急電鉄 小田原線 (新宿〜新松田)
   - JR東海 御殿場線 (松田〜御殿場)
-  ※ 新松田駅と松田駅は徒歩100m程度の隣接駅。MLIT 上は別ノードなので
-    build_geometry.py の snap_meters パラメータで接続が必要。
+  ※ 新松田駅と松田駅は徒歩100m程度の隣接駅、MLIT 上は別ノード
 
-代表ダイヤ (ふじさん):
-  - 1日4往復 (実ダイヤ準拠)
-  - 新宿発: 8:30, 11:30, 14:30, 17:30
-  - 御殿場発: 10:30, 13:30, 16:30, 19:30
-  - 所要時間 90分 (新宿→御殿場)
+代表ダイヤ (実ダイヤ準拠、毎日3往復):
+  下り (新宿発):
+    ふじさん1号: 06:40 → 御殿場 08:13 (93分)
+    ふじさん3号: 10:40 → 御殿場 12:24 (104分)
+    ふじさん5号: 14:40 → 御殿場 16:21 (101分)
+  上り (御殿場発):
+    ふじさん2号: 08:48 → 新宿 10:28 (100分)
+    ふじさん4号: 12:48 → 新宿 14:25 (97分)
+    ふじさん6号: 17:23 → 新宿 19:05 (102分)
 
-Stop intervals from 新宿:
-  SHINJUKU      +0:00 dep
-  MACHIDA       +0:35 arr / +0:36 dep
-  EBINA         +0:44 arr / +0:45 dep
-  HONATSUGI     +0:49 arr / +0:50 dep
-  HADANO        +1:02 arr / +1:03 dep
-  SHIN_MATSUDA  +1:13 arr / +1:15 dep   (渡り線で御殿場線へ転線、2分停車)
-  GOTEMBA       +1:30 arr
+  合計 6本/日
+
+実態の特徴:
+  - 朝・昼・夕の3パターン (1往復ずつ)
+  - 平日と土休日で同一ダイヤ (土休日臨時便は2022年に廃止)
+  - 所要時間 93〜104分 (代表値 100分)
+
+停車駅 (実態):
+  新宿 → 新百合ヶ丘 → 相模大野 → 本厚木 → 秦野 → 新松田 → 御殿場
+  ※ 町田・海老名は通過 (前実装で誤って停車していた)
+  ※ 一部便は駿河小山停車 (本テンプレートでは省略)
+
+Stop intervals from 新宿 (代表値 100分所要):
+  SHINJUKU         +0:00 dep
+  SHIN_YURIGAOKA   +0:20 arr / +0:21 dep
+  SAGAMI_ONO       +0:30 arr / +0:31 dep
+  HONATSUGI        +0:45 arr / +0:46 dep
+  HADANO           +1:00 arr / +1:01 dep
+  SHIN_MATSUDA     +1:15 arr / +1:17 dep   (渡り線で御殿場線へ転線、2分停車)
+  GOTEMBA          +1:40 arr
 """
 import os
 
@@ -32,27 +47,27 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'ROMANCECAR_FUJISAN')
 
 STOPS_DOWN = [
-    ('SHINJUKU',     None, 0),
-    ('MACHIDA',      35,   36),
-    ('EBINA',        44,   45),
-    ('HONATSUGI',    49,   50),
-    ('HADANO',       62,   63),
-    ('SHIN_MATSUDA', 73,   75),
-    ('GOTEMBA',      90,   None),
+    ('SHINJUKU',       None, 0),
+    ('SHIN_YURIGAOKA', 20,   21),
+    ('SAGAMI_ONO',     30,   31),
+    ('HONATSUGI',      45,   46),
+    ('HADANO',         60,   61),
+    ('SHIN_MATSUDA',   75,   77),
+    ('GOTEMBA',        100,  None),
 ]
 STOPS_UP = [
-    ('GOTEMBA',      None, 0),
-    ('SHIN_MATSUDA', 15,   17),
-    ('HADANO',       27,   28),
-    ('HONATSUGI',    40,   41),
-    ('EBINA',        45,   46),
-    ('MACHIDA',      54,   55),
-    ('SHINJUKU',     90,   None),
+    ('GOTEMBA',        None, 0),
+    ('SHIN_MATSUDA',   23,   25),
+    ('HADANO',         39,   40),
+    ('HONATSUGI',      54,   55),
+    ('SAGAMI_ONO',     69,   70),
+    ('SHIN_YURIGAOKA', 79,   80),
+    ('SHINJUKU',       100,  None),
 ]
 
-# 1日4往復 (実ダイヤ準拠)
-WEEKDAY_DOWN_DEPS = ['08:30', '11:30', '14:30', '17:30']
-WEEKDAY_UP_DEPS   = ['10:30', '13:30', '16:30', '19:30']
+# 実ダイヤ準拠 (1日3往復、平日・休日同一)
+WEEKDAY_DOWN_DEPS = ['06:40', '10:40', '14:40']
+WEEKDAY_UP_DEPS   = ['08:48', '12:48', '17:23']
 HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
 HOLIDAY_UP_DEPS   = WEEKDAY_UP_DEPS
 
@@ -99,8 +114,8 @@ def main():
     sched_wd = []
     sched_hd = []
 
-    emit('ROMANCECAR_FUJISAN', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'ふじさん{n}', trains, sched_wd, 1)
-    emit('ROMANCECAR_FUJISAN', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'ふじさん{n}', trains, sched_wd, 2)
+    emit('ROMANCECAR_FUJISAN', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'ふじさん{n}号', trains, sched_wd, 1)
+    emit('ROMANCECAR_FUJISAN', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'ふじさん{n}号', trains, sched_wd, 2)
     emit_schedule_only('ROMANCECAR_FUJISAN', HOLIDAY_DOWN_DEPS, STOPS_DOWN, sched_hd, 1)
     emit_schedule_only('ROMANCECAR_FUJISAN', HOLIDAY_UP_DEPS,   STOPS_UP,   sched_hd, 2)
 
