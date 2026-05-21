@@ -1,362 +1,186 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>鉄道マップ 全国版 | 特急・新幹線・寝台特急の走行をシミュレーション表示</title>
-  <meta name="description" content="日本国内の主要な特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示する個人運営サイト。サンライズ瀬戸／出雲・新幹線のぞみ・ひかり・こだまなどのおおよその走行イメージを確認できます。" />
-  <meta name="robots" content="index, follow" />
-  <meta name="google-site-verification" content="q0Z-sk7dPIYdA-0p-wYO0FfKGlb3UvMn4LGPZi_ik8Q" />
-  <link rel="canonical" href="https://tetsudou-map.com/" />
-  <link rel="icon" type="image/png" href="/assets/icons/train_cream.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>鉄道マップ全国版｜全国の鉄道をマップで見て、記事で学ぶ</title>
+  <meta name="description" content="鉄道マップ全国版は、全国の特急・新幹線・寝台特急の走行を地図でシミュレーション表示しつつ、路線解説・コラム・ニュースなど、鉄道と旅行を楽しむための記事を発信する個人運営の鉄道・旅行情報サイトです。">
+  <meta name="robots" content="index, follow">
+  <meta name="google-site-verification" content="q0Z-sk7dPIYdA-0p-wYO0FfKGlb3UvMn4LGPZi_ik8Q">
+  <link rel="canonical" href="https://tetsudou-map.com/">
+  <link rel="stylesheet" href="/assets/content.css?v=99">
+  <link rel="icon" type="image/png" href="/assets/icons/train_cream.png">
 
   <!-- OGP / Twitter Card -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="鉄道マップ 全国版 - 特急・新幹線・寝台特急の走行シミュレーション" />
-  <meta property="og:description" content="日本国内の特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示。" />
-  <meta property="og:url" content="https://tetsudou-map.com/" />
-  <meta property="og:site_name" content="鉄道マップ全国版" />
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="鉄道マップ 全国版" />
-  <meta name="twitter:description" content="日本国内の特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示。" />
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="鉄道マップ全国版｜全国の鉄道をマップで見て、記事で学ぶ">
+  <meta property="og:description" content="全国の特急・新幹線・寝台特急の走行を地図でシミュレーション表示しつつ、路線解説・コラム・ニュースを発信する鉄道・旅行情報サイト。">
+  <meta property="og:url" content="https://tetsudou-map.com/">
+  <meta property="og:site_name" content="鉄道マップ全国版">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="鉄道マップ全国版">
+  <meta name="twitter:description" content="全国の鉄道をマップで見て、記事で学ぶ。路線解説・コラム・ニュースを発信する鉄道・旅行情報サイト。">
 
-  <!-- 構造化データ: トップページ (WebSite) -->
+  <!-- 構造化データ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://tetsudou-map.com/#website",
-    "url": "https://tetsudou-map.com/",
-    "name": "鉄道マップ全国版",
-    "description": "日本国内の主要な特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示する個人運営サイト。",
-    "inLanguage": "ja"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://tetsudou-map.com/#website",
+        "url": "https://tetsudou-map.com/",
+        "name": "鉄道マップ全国版",
+        "description": "全国の特急・新幹線・寝台特急の走行を地図でシミュレーション表示しつつ、路線解説・コラム・ニュースを発信する鉄道・旅行情報サイト。",
+        "inLanguage": "ja"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://tetsudou-map.com/#webpage",
+        "url": "https://tetsudou-map.com/",
+        "name": "鉄道マップ全国版｜全国の鉄道をマップで見て、記事で学ぶ",
+        "isPartOf": { "@id": "https://tetsudou-map.com/#website" },
+        "inLanguage": "ja"
+      }
+    ]
   }
   </script>
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <style>
-    html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif; }
-    /* 100dvh: avoids iOS Safari bottom bar overlap; falls back to 100vh on older browsers */
-    #map { width: 100%; height: 100vh; height: 100dvh; }
-
-    /* Top-right corner stack: clock on top, night-toggle below it.
-       Using a wrapper avoids fragile pixel offsets and keeps spacing consistent
-       across font sizes / themes. Safe-area padding handles iPhone notch. */
-    #top-right {
-      position: absolute;
-      top: calc(10px + env(safe-area-inset-top, 0px));
-      right: calc(10px + env(safe-area-inset-right, 0px));
-      z-index: 1000;
-      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
-      pointer-events: none;  /* let map receive events; children re-enable */
-    }
-    #top-right > * { pointer-events: auto; }
-
-    #clock {
-      background: rgba(255,255,255,0.92); padding: 8px 14px;
-      border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      font-size: 16px; font-weight: 600;
-      transition: background-color 4s linear, color 4s linear;
-    }
-    /* Status bar doubles as the "About / disclaimer" trigger. Wording is
-       softened (走行表示中 / イメージ) and the inline ℹ️ icon makes the
-       disclaimer entry obvious — co-locating it with the status reduces
-       the chance users mistake the display for official operation info. */
-    #status {
-      position: absolute;
-      bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-      left: calc(10px + env(safe-area-inset-left, 0px));
-      z-index: 1000;
-      max-width: calc(100vw - 20px); box-sizing: border-box;
-      background: rgba(255,255,255,0.92); padding: 6px 12px;
-      border: none;
-      border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      font-size: 13px;
-      font-family: inherit;
-      color: inherit;
-      display: inline-flex; align-items: center; gap: 8px;
-      cursor: pointer;
-      text-align: left;
-      transition: background-color 4s linear, color 4s linear;
-    }
-    #status:hover .status-info-icon,
-    #status:focus-visible .status-info-icon { opacity: 1; }
-    .status-info-icon { font-size: 14px; opacity: 0.55; line-height: 1; }
-    body.theme-dark #clock,
-    body.theme-dark #status {
-      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
-    #night-toggle {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.92); padding: 6px 12px;
-      border: none; border-radius: 999px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      user-select: none;
-      transition: background-color 0.2s linear, color 0.2s linear;
-    }
-    #night-toggle .dot {
-      width: 10px; height: 10px; border-radius: 50%;
-      background: #cbd5e1; transition: background-color 0.2s linear;
-    }
-    #night-toggle.on .dot { background: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
-    body.theme-dark #night-toggle {
-      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
-
-    /* Top-right hamburger menu (anchored dropdown).
-       Sits at the top of the #top-right stack; panel pops down on click
-       and overlays the clock/night-toggle (intentional — when users are
-       navigating they don't need the clock visible). Closes on outside
-       click or Escape (see inline script at end of body). */
-    .menu-wrap { position: relative; }
-    #menu-toggle {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 40px; height: 36px;
-      background: rgba(255,255,255,0.92);
-      border: none; border-radius: 999px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      font-size: 18px; line-height: 1; cursor: pointer;
-      transition: background-color 0.2s linear, color 0.2s linear;
-    }
-    #menu-toggle:hover { background: rgba(255,255,255,1); }
-    body.theme-dark #menu-toggle {
-      background: rgba(20, 30, 65, 0.88); color: #e2e8f0;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-    }
-    body.theme-dark #menu-toggle:hover { background: rgba(20, 30, 65, 1); }
-
-    #menu-panel {
-      position: absolute;
-      top: calc(100% + 8px); right: 0;
-      min-width: 220px;
-      background: rgba(255,255,255,0.97);
-      border-radius: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      padding: 6px 0;
-      transform-origin: top right;
-      animation: menu-pop 0.15s ease-out;
-      z-index: 1500;  /* above clock/night-toggle in the same stack */
-    }
-    #menu-panel.hidden { display: none; }
-    @keyframes menu-pop {
-      from { opacity: 0; transform: scale(0.96) translateY(-4px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
-    #menu-panel a {
-      display: block;
-      padding: 10px 18px;
-      color: #1a202c;
-      text-decoration: none;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    #menu-panel a:hover,
-    #menu-panel a:focus-visible {
-      background: rgba(37, 99, 235, 0.08);
-      color: #2563eb;
-      outline: none;
-    }
-    #menu-panel a[aria-current="page"] {
-      color: #2563eb; font-weight: 600;
-    }
-    .menu-divider {
-      height: 1px;
-      background: rgba(0,0,0,0.08);
-      margin: 6px 12px;
-    }
-    body.theme-dark #menu-panel {
-      background: rgba(20, 30, 65, 0.96); color: #e2e8f0;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-    }
-    body.theme-dark #menu-panel a { color: #e2e8f0; }
-    body.theme-dark #menu-panel a:hover,
-    body.theme-dark #menu-panel a:focus-visible {
-      background: rgba(96, 165, 250, 0.15);
-      color: #60a5fa;
-    }
-    body.theme-dark #menu-panel a[aria-current="page"] { color: #60a5fa; }
-    body.theme-dark .menu-divider { background: rgba(255,255,255,0.1); }
-
-    /* About / disclaimer modal. Backdrop + centered panel. Hidden by default;
-       opened by clicking the status bar. Closes on ×, backdrop click, or Escape. */
-    #info-modal {
-      position: fixed; inset: 0; z-index: 2000;
-      display: flex; align-items: center; justify-content: center;
-    }
-    #info-modal.hidden { display: none; }
-    .info-backdrop {
-      position: absolute; inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-    }
-    /* Panel itself does NOT scroll — the inner .info-scroll handles overflow.
-       This keeps .info-close (absolute, top-right) anchored to the visible
-       panel corner instead of scrolling away with the content. dvh accounts
-       for mobile browsers whose URL bar steals viewport height (iOS Safari). */
-    .info-panel {
-      position: relative;
-      background: #fff; color: #1a202c;
-      max-width: 560px; width: calc(100% - 32px);
-      max-height: calc(100dvh - 32px);
-      overflow: hidden;
-      display: flex; flex-direction: column;
-      border-radius: 12px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-    }
-    .info-scroll {
-      overflow-y: auto;
-      /* Top padding (36px) leaves clearance for the absolutely-positioned
-         close button so the heading isn't tucked under it. */
-      padding: 36px 28px 24px;
-      line-height: 1.7;
-      font-size: 14px;
-    }
-    body.theme-dark .info-panel {
-      background: rgba(20, 30, 65, 0.98); color: #e2e8f0;
-    }
-    .info-panel h2 { font-size: 18px; margin: 0 0 12px; }
-    .info-panel h3 { font-size: 14px; margin: 18px 0 6px; color: #2563eb; }
-    body.theme-dark .info-panel h3 { color: #60a5fa; }
-    .info-panel p { margin: 0 0 10px; }
-    .info-panel ul { padding-left: 20px; margin: 0 0 8px; }
-    .info-panel li { margin-bottom: 4px; }
-    .info-panel a { color: #2563eb; word-break: break-all; }
-    body.theme-dark .info-panel a { color: #60a5fa; }
-    .info-close {
-      position: absolute; top: 4px; right: 8px;
-      z-index: 1;
-      background: transparent; border: none;
-      font-size: 28px; cursor: pointer;
-      color: #64748b; line-height: 1;
-      padding: 6px 12px;
-      /* Larger tap target for mobile */
-      min-width: 44px; min-height: 44px;
-    }
-    .info-close:hover { color: #1a202c; }
-    body.theme-dark .info-close { color: #cbd5e1; }
-    body.theme-dark .info-close:hover { color: #fff; }
-
-    /* Phones & narrow tablets: condense panel sizes, hide toggle text label
-       (icon + dot stay), and keep status above Leaflet's attribution line. */
-    @media (max-width: 600px) {
-      #clock { font-size: 13px; padding: 6px 10px; }
-      #night-toggle { font-size: 12px; padding: 6px 10px; }
-      #night-toggle .label-text { display: none; }
-      #menu-toggle { width: 36px; height: 32px; font-size: 16px; }
-      #menu-panel { min-width: 200px; }
-      #menu-panel a { font-size: 13px; padding: 10px 16px; }
-      .info-scroll { font-size: 13px; padding: 32px 20px 20px; }
-      .info-panel h2 { font-size: 16px; }
-      #status {
-        font-size: 11px; padding: 5px 9px;
-        bottom: calc(28px + env(safe-area-inset-bottom, 0px));  /* clear attribution */
-      }
-      .status-info-icon { font-size: 12px; }
-    }
-  </style>
 </head>
 <body>
-  <div id="map"></div>
-  <div id="top-right">
-    <div class="menu-wrap">
-      <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-panel" aria-label="メニュー" title="メニュー">☰</button>
-      <nav id="menu-panel" class="hidden" aria-label="サイトメニュー">
-        <a href="/" aria-current="page">マップ</a>
-        <a href="/routes/">路線一覧</a>
-        <a href="/news/">ニュース</a>
-        <a href="/about">本サイトについて</a>
-        <a href="/faq">よくある質問</a>
-        <a href="/contact">お問い合わせ</a>
-        <div class="menu-divider" role="separator" aria-hidden="true"></div>
-        <a href="/terms">利用規約</a>
-        <a href="/privacy">プライバシーポリシー</a>
-      </nav>
-    </div>
-    <div id="clock">--:--:--</div>
-    <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
-      <span class="dot"></span><span class="label">🌙<span class="label-text"> ナイトモード</span></span>
-    </button>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-logo" href="/">🚉 鉄道マップ全国版</a>
+    <nav class="site-nav" aria-label="サイトメイン">
+      <a href="/" aria-current="page">トップ</a>
+      <a href="/map">マップ</a>
+      <a href="/routes/">路線</a>
+      <a href="/columns/">コラム</a>
+      <a href="/news/">ニュース</a>
+      <a href="/about">About</a>
+      <a href="/contact">お問い合わせ</a>
+    </nav>
   </div>
-  <button id="status" type="button" title="本サイトについて（クリックで詳細）">
-    <span id="status-text">読み込み中…</span>
-    <span class="status-info-icon" aria-hidden="true">ℹ️</span>
-  </button>
+</header>
 
-  <div id="info-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="info-title">
-    <div class="info-backdrop"></div>
-    <div class="info-panel" role="document">
-      <button class="info-close" type="button" aria-label="閉じる">×</button>
-      <div class="info-scroll">
-        <h2 id="info-title">本サイトについて</h2>
-        <p>本サイトは個人が運営する鉄道ファン向けの非公式サイトです。いかなる鉄道事業者・公的機関とも関係ありません。</p>
-        <p>地図上に表示される列車は、一般に知られている運行スケジュールを参考に作成した独自の概略データに基づくシミュレーション表示であり、実際の運行とは異なります。あくまでイメージとしてお楽しみください。</p>
+<main class="home">
 
-        <h3>ご利用にあたっての注意</h3>
+  <section class="home-hero" aria-label="サイト紹介">
+    <h1 class="home-hero__title">鉄道マップ全国版</h1>
+    <p class="home-hero__tagline">全国の鉄道を、マップで見て、記事で学ぶ。</p>
+    <p class="home-hero__desc">
+      全国の特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示する個人運営の鉄道・旅行情報サイトです。
+      あわせて、路線解説・コラム・ニュースなど、鉄道と旅行をもっと楽しむための記事を継続的に発信しています。
+    </p>
+    <a class="home-hero__cta" href="/map">走行マップを開く →</a>
+  </section>
+
+  <section class="home-section" aria-label="路線解説">
+    <h2>路線解説（最新）</h2>
+    <div class="article-grid">
+      <article class="article-card">
+        <a href="/routes/sunrise-izumo">
+          <div class="article-card__image">
+            <img src="/assets/og/sunrise-izumo.jpg" alt="サンライズ出雲 完全ガイド" loading="lazy" width="1200" height="749">
+          </div>
+          <div class="article-card__body">
+            <p class="article-card__cat">寝台特急</p>
+            <h3 class="article-card__title">サンライズ出雲 完全ガイド</h3>
+            <p class="article-card__desc">JR西日本・JR東海運行の寝台特急。伯備線・宍道湖を抜けて、出雲大社のお膝元まで。</p>
+          </div>
+        </a>
+      </article>
+      <article class="article-card">
+        <a href="/routes/sunrise-seto">
+          <div class="article-card__image">
+            <img src="/assets/og/sunrise-seto.jpg" alt="サンライズ瀬戸 完全ガイド" loading="lazy" width="1200" height="669">
+          </div>
+          <div class="article-card__body">
+            <p class="article-card__cat">寝台特急</p>
+            <h3 class="article-card__title">サンライズ瀬戸 完全ガイド</h3>
+            <p class="article-card__desc">JR西日本・JR東海運行の寝台特急。瀬戸大橋を渡って高松まで、朝の絶景区間も解説。</p>
+          </div>
+        </a>
+      </article>
+    </div>
+    <p class="home-section__more"><a href="/routes/">路線一覧をすべて見る →</a></p>
+  </section>
+
+  <section class="home-section" aria-label="コラム・雑記">
+    <h2>コラム・雑記</h2>
+    <div class="article-grid">
+      <article class="article-card">
+        <a href="/columns/linear-to-hakata">
+          <div class="article-card__image">
+            <img src="/assets/og/linear-to-hakata.jpg" alt="リニアは博多まで来るのか？" loading="lazy" width="1200" height="669">
+          </div>
+          <div class="article-card__body">
+            <p class="article-card__cat">考察</p>
+            <h3 class="article-card__title">リニアは博多まで来るのか？</h3>
+            <p class="article-card__desc">リニア中央新幹線の博多延伸の可能性を、歴史と現実の壁から考察するコラム。</p>
+          </div>
+        </a>
+      </article>
+    </div>
+    <p class="home-section__more"><a href="/columns/">コラム一覧をすべて見る →</a></p>
+  </section>
+
+  <section class="home-section" aria-label="ニュース">
+    <h2>ニュース・お知らせ</h2>
+    <p class="home-section__placeholder">準備中。鉄道・旅行に関するニュースを順次掲載していきます。</p>
+    <p class="home-section__more"><a href="/news/">ニュース一覧 →</a></p>
+  </section>
+
+  <section class="home-about" aria-label="サイト紹介">
+    <h2>本サイトについて</h2>
+    <p>
+      鉄道マップ全国版は、日本国内の主要な特急・新幹線・寝台特急の走行位置を地図上にシミュレーション表示する個人運営の非公式サイトです。
+      列車の概略的な走行イメージをリアルタイムで眺めながら、路線解説・コラム・ニュース記事を通じて、鉄道と旅行を楽しむヒントをお届けすることを目指しています。
+    </p>
+    <p>
+      鉄道事業者・公的機関とは関係ありません。商標・列車名は事実の参照として表示しているものであり、各事業者との提携・関連はありません。
+      詳しくは <a href="/about">本サイトについて</a> をご覧ください。
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__cols">
+      <div>
+        <h4>サイトマップ</h4>
         <ul>
-          <li>本サイトの表示は実際の運行情報ではありません。遅延・運休・臨時列車・運転変更などは一切反映されません。</li>
-          <li>実際の運行情報は各鉄道事業者の公式サイト等でご確認ください。</li>
-          <li>本サイトのコンテンツやURLは予告なく変更・公開停止することがあります。</li>
-          <li>本サイトの利用はお客様の自己責任において行うものとし、本サイトの利用または利用不能から生じるいかなる損害についても、運営者は一切の責任を負いません。</li>
+          <li><a href="/">トップ</a></li>
+          <li><a href="/map">走行マップ</a></li>
+          <li><a href="/routes/">路線一覧</a></li>
+          <li><a href="/columns/">コラム・雑記</a></li>
+          <li><a href="/news/">ニュース</a></li>
+          <li><a href="/about">本サイトについて</a></li>
+          <li><a href="/faq">よくある質問</a></li>
+          <li><a href="/contact">お問い合わせ</a></li>
         </ul>
-
-        <h3>表示について</h3>
+      </div>
+      <div>
+        <h4>規約・ポリシー</h4>
         <ul>
-          <li>表示対象は一部の列車のみで、全列車を網羅したものではありません。</li>
-          <li>列車アイコンは路線・列車種別ごとの代表的なイメージであり、実在の車両を正確に表現したものではありません。</li>
-          <li>列車名・路線名は事実の参照として表示しているもので、各社の商標を権利侵害する意図はありません。</li>
-        </ul>
-
-        <h3>データ・地図</h3>
-        <ul>
-          <li>地図タイル: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></li>
-          <li>路線形状: 国土交通省「国土数値情報（鉄道データ）」を加工して作成</li>
-        </ul>
-
-        <h3>広告・Cookie について</h3>
-        <ul>
-          <li>本サイトでは Google AdSense による広告を配信しています。</li>
-          <li>Google などの第三者配信事業者は、Cookie を使用して本サイトや他サイトへのアクセス情報に基づき、ユーザーの興味に応じた広告を配信することがあります。</li>
-          <li>パーソナライズ広告は <a href="https://adssettings.google.com/" target="_blank" rel="noopener">Google アカウントの広告設定</a> から無効化できます。</li>
-          <li>詳しくは <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">Google の広告ポリシー</a> をご参照ください。</li>
+          <li><a href="/terms">利用規約</a></li>
+          <li><a href="/privacy">プライバシーポリシー</a></li>
         </ul>
       </div>
     </div>
+    <p class="site-footer__notice">
+      本サイトは個人運営の非公式サイトであり、いかなる鉄道事業者・公的機関とも関係ありません。
+      表示される列車位置は概略データに基づくシミュレーションです。
+    </p>
+    <p class="site-footer__notice">
+      本サイト上に表示される列車名・路線名・社名・サービス名は、各鉄道事業者・各社の登録商標または商号です。
+      本サイトでは事実の参照・解説として表示しているものであり、各事業者・各社との提携・関連はありません。
+    </p>
+    <p class="site-footer__copyright">
+      © 2026 鉄道マップ全国版
+    </p>
   </div>
+</footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="src/app.js?v=129"></script>
-  <script>
-    /* Hamburger menu controller: open/close panel, close on outside click
-       or Escape. Self-contained — no dependency on app.js. Lives inline
-       because it's purely UI and the DOM nodes are above this script. */
-    (function() {
-      const toggle = document.getElementById('menu-toggle');
-      const panel  = document.getElementById('menu-panel');
-      if (!toggle || !panel) return;
-
-      const isOpen = () => !panel.classList.contains('hidden');
-      const open   = () => { panel.classList.remove('hidden'); toggle.setAttribute('aria-expanded', 'true'); };
-      const close  = () => { panel.classList.add('hidden');    toggle.setAttribute('aria-expanded', 'false'); };
-
-      toggle.addEventListener('click', (e) => {
-        e.stopPropagation();  /* don't bubble to document outside-click handler */
-        isOpen() ? close() : open();
-      });
-
-      /* Click anywhere outside the panel (or toggle) closes it. */
-      document.addEventListener('click', (e) => {
-        if (!isOpen()) return;
-        if (panel.contains(e.target) || toggle.contains(e.target)) return;
-        close();
-      });
-
-      /* Escape closes & returns focus to the toggle button (a11y). */
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && isOpen()) { close(); toggle.focus(); }
-      });
-    })();
-  </script>
 </body>
 </html>

@@ -112,8 +112,10 @@
   <div class="site-header__inner">
     <a class="site-logo" href="/">🚉 鉄道マップ全国版</a>
     <nav class="site-nav" aria-label="サイトメイン">
-      <a href="/">マップ</a>
+      <a href="/">トップ</a>
+      <a href="/map">マップ</a>
       <a href="/routes/">路線</a>
+      <a href="/columns/">コラム</a>
       <a href="/news/">ニュース</a>
       <a href="/about">About</a>
       <a href="/contact">お問い合わせ</a>
@@ -123,12 +125,19 @@
 
 <nav class="breadcrumb" aria-label="パンくず">
   <a href="/">トップ</a><span class="breadcrumb__separator">›</span>
+  <a href="/columns/">コラム</a>
   <a href="/news/">ニュース</a><span class="breadcrumb__separator">›</span>{{BREADCRUMB_NAME}}
 </nav>
 
 <main class="article">
   <h1>{{TITLE}}</h1>
   <p class="page-meta">公開: {{NEWS_DATE_LABEL}} / カテゴリ: {{CATEGORY}}</p>
+
+  <!-- ▼ サムネ画像があれば記事冒頭に表示。{{OG_IMAGE}} 未指定の記事では <figure> ごと削除。
+       高さ属性は実画像のアスペクト比に合わせる（CLS 対策）。 -->
+  <figure class="article-hero">
+    <img src="{{OG_IMAGE}}" alt="{{TITLE_SHORT}}" width="1200" height="630" decoding="async">
+  </figure>
 
   <!-- TODO: 導入文（200〜300字）
        - ニュースの要点を 1〜2 文で
@@ -258,8 +267,11 @@
       <div>
         <h4>サイトマップ</h4>
         <ul>
-          <li><a href="/">マップ（トップ）</a></li>
+          <li><a href="/">トップ</a></li>
+          <li><a href="/map">走行マップ</a></li>
           <li><a href="/routes/">路線一覧</a></li>
+          <li><a href="/columns/">コラム・雑記</a></li>
+
           <li><a href="/news/">ニュース</a></li>
           <li><a href="/about">本サイトについて</a></li>
           <li><a href="/faq">よくある質問</a></li>

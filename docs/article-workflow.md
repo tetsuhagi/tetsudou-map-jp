@@ -76,9 +76,20 @@
 4. 該当記事の `og:image` / `twitter:image` / JSON-LD `image` に
    `https://tetsudou-map.com/assets/og/{slug}.jpg` を設定
 5. `twitter:card` は `summary_large_image` を使用
+6. **記事本文の冒頭にもヒーロー画像として表示** する。`<h1>` と `<p class="page-meta">` の直下に
+   `.article-hero` ブロックを挿入:
+   ```html
+   <figure class="article-hero">
+     <img src="/assets/og/{slug}.jpg" alt="{タイトル等}" width="1200" height="{実画像の高さ}" decoding="async">
+   </figure>
+   ```
+   - `height` は実画像のアスペクト比に合わせる（Cumulative Layout Shift 対策）
+   - `sips -g pixelHeight assets/og/{slug}.jpg` で実寸取得して反映
 
-サムネ未指定の場合は OGP 系画像タグ（og:image / twitter:image / image）を記事から **削除して書く**
-（あとでサムネが用意されたら追加すれば良い）。
+サムネ未指定の場合は以下をすべて **削除して書く**（あとでサムネが用意されたら追加すれば良い）:
+- `<meta property="og:image">` / `<meta name="twitter:image">`
+- JSON-LD の `"image"` フィールド
+- `<figure class="article-hero">...</figure>` ブロック
 
 ---
 
@@ -100,15 +111,23 @@
 
 | 記事タイプ | コピー元 | 配置先 |
 |---|---|---|
-| 路線詳細 / 旅行記 / 雑記 | `docs/article-template.html` | `routes/{slug}.html` |
+| 路線詳細（列車別ガイド） | `docs/article-template.html` | `routes/{slug}.html` |
+| コラム・雑記・旅行記 | `docs/article-template.html` | `columns/{slug}.html` |
 | ニュース | `docs/article-template-news.html` | `news/{slug}.html` |
 
 ```bash
 # 路線詳細の場合
 cp docs/article-template.html routes/{SLUG}.html
+# コラム・雑記・旅行記の場合（テンプレは routes と共通。breadcrumb・canonical を /columns/ に修正）
+cp docs/article-template.html columns/{SLUG}.html
 # ニュースの場合
 cp docs/article-template-news.html news/{SLUG}.html
 ```
+
+**コラム・雑記・旅行記の特記**:
+- ファイルパスは `columns/{slug}.html`、URL は `/columns/{slug}`
+- breadcrumb のパンくず 2 階層目は「コラム」（`/columns/`）に変更する（路線詳細用テンプレは「路線一覧」になっているので修正必須）
+- JSON-LD `BreadcrumbList` の position 2 も同様に修正
 
 開いて以下を順に処理:
 
@@ -148,8 +167,13 @@ cp docs/article-template-news.html news/{SLUG}.html
 </li>
 ```
 
+**コラム・雑記・旅行記の場合**: `columns/index.html` の該当カテゴリ（コラム・考察 / 旅行記）に追加。
+
 **ニュース記事の場合**: `news/index.html` の該当カテゴリ（鉄道ニュース / 旅行・観光ニュース）に追加。
 ニュースは **公開日が新しいものを上** に並べる（時系列降順）。
+
+**新TOP（/）の最新記事グリッドも更新**: `index.html` の該当カテゴリの `.article-grid` 内に
+新しい `<article class="article-card">` を追加（thumbnail 必須・最新を先頭に）。
 
 カテゴリが存在しない場合は新しい `<h2>` ブロックを追加。
 
@@ -166,6 +190,14 @@ cp docs/article-template-news.html news/{SLUG}.html
   <priority>0.8</priority>
 </url>
 
+<!-- コラム・雑記・旅行記 -->
+<url>
+  <loc>https://tetsudou-map.com/columns/{SLUG}</loc>
+  <lastmod>{YYYY-MM-DD}</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
 <!-- ニュース -->
 <url>
   <loc>https://tetsudou-map.com/news/{SLUG}</loc>
@@ -176,10 +208,13 @@ cp docs/article-template-news.html news/{SLUG}.html
 ```
 
 現行の priority / changefreq 値:
-- トップ: 1.0 / weekly
-- routes/: 0.9 / weekly
-- news/: 0.9 / weekly
-- 路線詳細: 0.8 / monthly
+- トップ `/`: 1.0 / weekly
+- 走行マップ `/map`: 0.9 / weekly（※ sitemap 未登録なら追加検討）
+- `/routes/`: 0.9 / weekly
+- `/columns/`: 0.9 / weekly
+- `/news/`: 0.9 / weekly
+- 路線詳細個別記事: 0.8 / monthly
+- コラム個別記事: 0.8 / monthly
 - ニュース個別記事: 0.7 / monthly
 
 `<lastmod>` は **公開日**。後で本文を更新したらここも更新する。
@@ -190,9 +225,11 @@ cp docs/article-template-news.html news/{SLUG}.html
 
 ```
 # 路線詳細
-/routes/{SLUG}.html /routes/{SLUG} 301
+/routes/{SLUG}.html  /routes/{SLUG}  301
+# コラム・雑記・旅行記
+/columns/{SLUG}.html /columns/{SLUG} 301
 # ニュース
-/news/{SLUG}.html   /news/{SLUG}   301
+/news/{SLUG}.html    /news/{SLUG}    301
 ```
 
 ### 2-D. `assets/content.css` のバンプ（CSS自体を変更した場合のみ）
@@ -308,9 +345,10 @@ git push
 
 | やったこと | 何を更新する？ | content.css バンプ |
 |---|---|---|
-| 新規路線詳細HTMLを追加 | routes/index.html, sitemap.xml, _redirects, articles-index.md | ❌ 不要 |
-| 新規ニュースHTMLを追加 | news/index.html, sitemap.xml, _redirects, articles-index.md | ❌ 不要 |
-| サムネ画像の追加 | assets/og/{slug}.jpg, 該当HTML の og:image系 | ❌ 不要 |
+| 新規路線詳細HTMLを追加 | routes/index.html, sitemap.xml, _redirects, articles-index.md, index.html (TOP grid) | ❌ 不要 |
+| 新規コラムHTMLを追加 | columns/index.html, sitemap.xml, _redirects, articles-index.md, index.html (TOP grid) | ❌ 不要 |
+| 新規ニュースHTMLを追加 | news/index.html, sitemap.xml, _redirects, articles-index.md, index.html (TOP grid) | ❌ 不要 |
+| サムネ画像の追加 | assets/og/{slug}.jpg, 該当HTML の og:image系 + article-hero + TOPの article-card | ❌ 不要 |
 | 既存記事の本文修正 | （その記事のみ） | ❌ 不要 |
 | バルーン公開（draft→本番） | （その記事のみ） | ❌ 不要 |
 | content.css の修正 | content.css 自身 + 全 HTML の ?v= | ✅ 必要 |
@@ -323,12 +361,16 @@ git push
 | 種類 | 命名 | 例 |
 |---|---|---|
 | スラッグ（路線） | 小文字・ハイフン区切り・実列車名ベース | `sunrise-izumo`, `mu-sky`, `romance-car-gse` |
+| スラッグ（コラム） | 小文字・ハイフン区切り・内容を簡潔に表す | `linear-to-hakata`, `sunrise-vs-airline` |
 | スラッグ（ニュース） | 小文字・ハイフン区切り・内容を簡潔に表す | `jr-east-2026-summer-campaign`, `mu-sky-renewal-2026` |
 | ファイル名（路線） | `routes/{slug}.html` | `routes/sunrise-izumo.html` |
+| ファイル名（コラム） | `columns/{slug}.html` | `columns/linear-to-hakata.html` |
 | ファイル名（ニュース） | `news/{slug}.html` | `news/jr-east-2026-summer-campaign.html` |
 | URL（路線） | `/routes/{slug}` (拡張子なし) | `/routes/sunrise-izumo` |
+| URL（コラム） | `/columns/{slug}` (拡張子なし) | `/columns/linear-to-hakata` |
 | URL（ニュース） | `/news/{slug}` (拡張子なし) | `/news/jr-east-2026-summer-campaign` |
 | 路線カテゴリ | 寝台特急 / 新幹線 / 特急 / 私鉄特急 | （routes/index.html 内の h2） |
+| コラムカテゴリ | コラム・考察 / 旅行記 | （columns/index.html 内の h2） |
 | ニュースカテゴリ | 鉄道ニュース / 旅行・観光ニュース | （news/index.html 内の h2） |
 | サムネ画像 | `assets/og/{slug}.jpg`（1200px幅・JPEG q75） | `assets/og/sunrise-izumo.jpg` |
 

@@ -10,6 +10,7 @@ https://tetsudou-map-jp.pages.dev/* https://tetsudou-map.com/:splat 301!
 # .html 付きの URL は、拡張子なしの正規 URL に 301 で寄せる。
 # /about.html を直接叩いた場合に重複コンテンツになるのを防ぐ。
 /index.html       /            301
+/map.html         /map         301
 /about.html       /about       301
 /privacy.html     /privacy     301
 /terms.html       /terms       301
@@ -17,9 +18,17 @@ https://tetsudou-map-jp.pages.dev/* https://tetsudou-map.com/:splat 301!
 /contact.html     /contact     301
 
 # /routes/ 配下も同様にクリーンURL寄せ
-/routes/sunrise-seto.html  /routes/sunrise-seto  301
-/routes/sunrise-izumo.html /routes/sunrise-izumo 301
-/routes/index.html         /routes/              301
+/routes/sunrise-seto.html   /routes/sunrise-seto   301
+/routes/sunrise-izumo.html  /routes/sunrise-izumo  301
+/routes/index.html          /routes/               301
+
+# /columns/ 配下も同様にクリーンURL寄せ
+/columns/linear-to-hakata.html /columns/linear-to-hakata 301
+/columns/index.html            /columns/                 301
 
 # /news/ 配下も同様にクリーンURL寄せ
 /news/index.html           /news/                301
+
+# 旧URL→新URL（カテゴリ整理 2026-05-21: 雑記を /routes/ から /columns/ へ移動）
+/routes/linear-to-hakata   /columns/linear-to-hakata 301
+/routes/linear-to-hakata.html /columns/linear-to-hakata 301

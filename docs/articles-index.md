@@ -28,7 +28,17 @@
 
 （準備中）
 
-### 旅行記・雑記
+---
+
+## コラム・雑記・旅行記（columns/）
+
+### コラム・考察
+
+| スラッグ | パス | タイトル | 1行説明 | 関連記事 |
+|---|---|---|---|---|
+| `linear-to-hakata` | `/columns/linear-to-hakata` | リニアは博多まで来るのか？ | リニア中央新幹線の博多延伸の可能性を、歴史と現実の壁から考察 | — |
+
+### 旅行記
 
 （準備中）
 
@@ -70,10 +80,13 @@
 | 種類 | 命名 | 例 |
 |---|---|---|
 | 路線スラッグ | 小文字・ハイフン区切り・実列車名ベース | `sunrise-izumo`, `mu-sky`, `romance-car-gse` |
+| コラムスラッグ | 小文字・ハイフン区切り・内容を簡潔に表す | `linear-to-hakata`, `sunrise-vs-airline` |
 | ニューススラッグ | 小文字・ハイフン区切り・内容を簡潔に表す | `jr-east-2026-summer-campaign`, `mu-sky-renewal-2026` |
 | 路線ファイル | `routes/{slug}.html` | `routes/sunrise-izumo.html` |
+| コラムファイル | `columns/{slug}.html` | `columns/linear-to-hakata.html` |
 | ニュースファイル | `news/{slug}.html` | `news/jr-east-2026-summer-campaign.html` |
 | 路線URL | `/routes/{slug}`（拡張子なし） | `/routes/sunrise-izumo` |
+| コラムURL | `/columns/{slug}`（拡張子なし） | `/columns/linear-to-hakata` |
 | ニュースURL | `/news/{slug}`（拡張子なし） | `/news/jr-east-2026-summer-campaign` |
 | サムネ画像 | `assets/og/{slug}.jpg` | `assets/og/sunrise-izumo.jpg` |
 
