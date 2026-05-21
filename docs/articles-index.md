@@ -7,26 +7,40 @@
 
 ---
 
-## 寝台特急
+## 路線詳細（routes/）
+
+### 寝台特急
 
 | スラッグ | パス | タイトル | 1行説明 | 兄弟列車 |
 |---|---|---|---|---|
 | `sunrise-seto` | `/routes/sunrise-seto` | サンライズ瀬戸（東京〜高松） | JR西日本・JR東海運行の寝台特急。瀬戸大橋を渡って高松まで | sunrise-izumo |
 | `sunrise-izumo` | `/routes/sunrise-izumo` | サンライズ出雲（東京〜出雲市） | JR西日本・JR東海運行の寝台特急。伯備線・宍道湖を抜けて出雲大社のお膝元まで | sunrise-seto |
 
-## 新幹線
+### 新幹線
 
 （準備中）
 
-## 特急
+### 特急
 
 （準備中）
 
-## 私鉄特急
+### 私鉄特急
 
 （準備中）
 
-## 旅行記・雑記
+### 旅行記・雑記
+
+（準備中）
+
+---
+
+## ニュース（news/）
+
+### 鉄道ニュース
+
+（準備中）
+
+### 旅行・観光ニュース
 
 （準備中）
 
@@ -38,7 +52,7 @@
 
 ```html
 <li>
-  <a href="/routes/{related-slug}">{表示名}</a>
+  <a href="/{section}/{related-slug}">{表示名}</a>
   <div class="related__desc">{1行説明}</div>
 </li>
 ```
@@ -46,15 +60,29 @@
 「兄弟列車」列に挙がっているスラッグ同士は、**両方の記事で相互リンク** を貼る。
 片方だけ貼り忘れがちなので、新規記事追加時にもう片方の記事も併せて更新すること。
 
+ニュース記事と関連する路線記事がある場合（例: 新型車両のニュース → その車両の路線詳細）は、
+両方向にリンクを張ると読者の回遊性が上がる。
+
 ---
 
 ## 命名規則の再掲
 
 | 種類 | 命名 | 例 |
 |---|---|---|
-| スラッグ | 小文字・ハイフン区切り・実列車名ベース | `sunrise-izumo`, `mu-sky`, `romance-car-gse` |
-| ファイル名 | `routes/{slug}.html` | `routes/sunrise-izumo.html` |
-| URL | `/routes/{slug}`（拡張子なし） | `/routes/sunrise-izumo` |
+| 路線スラッグ | 小文字・ハイフン区切り・実列車名ベース | `sunrise-izumo`, `mu-sky`, `romance-car-gse` |
+| ニューススラッグ | 小文字・ハイフン区切り・内容を簡潔に表す | `jr-east-2026-summer-campaign`, `mu-sky-renewal-2026` |
+| 路線ファイル | `routes/{slug}.html` | `routes/sunrise-izumo.html` |
+| ニュースファイル | `news/{slug}.html` | `news/jr-east-2026-summer-campaign.html` |
+| 路線URL | `/routes/{slug}`（拡張子なし） | `/routes/sunrise-izumo` |
+| ニュースURL | `/news/{slug}`（拡張子なし） | `/news/jr-east-2026-summer-campaign` |
+| サムネ画像 | `assets/og/{slug}.jpg` | `assets/og/sunrise-izumo.jpg` |
+
+---
+
+## 新規記事を依頼するときのプロンプトテンプレ
+
+依頼プロンプトの標準フォーマットは [docs/article-request-template.md](article-request-template.md) を参照。
+スレッドが長くなっても抜け漏れなくルールが適用されるよう設計されている。
 
 ---
 

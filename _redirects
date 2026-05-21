@@ -20,3 +20,6 @@ https://tetsudou-map-jp.pages.dev/* https://tetsudou-map.com/:splat 301!
 /routes/sunrise-seto.html  /routes/sunrise-seto  301
 /routes/sunrise-izumo.html /routes/sunrise-izumo 301
 /routes/index.html         /routes/              301
+
+# /news/ 配下も同様にクリーンURL寄せ
+/news/index.html           /news/                301
