@@ -1,15 +1,16 @@
 <!--
   ============================================================
-  鉄道マップ全国版 — 路線詳細記事テンプレート
+  鉄道マップ全国版 — 記事テンプレート（路線詳細 / 旅行 / 雑記 共用）
   ============================================================
 
   使い方:
-    1. このファイルを routes/{slug}.html にコピー
+    1. このファイルを routes/{slug}.html （あるいは将来 articles/{slug}.html 等）にコピー
        例: cp docs/article-template.html routes/sunrise-izumo.html
     2. {{...}} のプレースホルダを全て置換
     3. <!-- TODO: ... --> コメントの指示に従って本文を執筆
     4. 不要なセクション (h2 ブロック) は丸ごと削除してOK
-    5. speech--draft は本文執筆者は触らない（運営者が後でコメント入れる）
+       特に「【路線詳細記事向け】」マークの付いたブロックは、旅行記・雑記記事では削除
+    5. ⚠ speech--draft は本文執筆者は触らない（運営者が後でコメント入れる）
 
   プレースホルダ一覧:
     {{SLUG}}                URL スラッグ（例: sunrise-izumo）
@@ -17,19 +18,25 @@
     {{TITLE_SHORT}}         OGP 用の短縮タイトル（30字以内）
     {{DESCRIPTION}}         meta description（120〜160字）
     {{DESCRIPTION_SHORT}}   OGP 用の短縮 description（〜90字）
+    {{OG_IMAGE}}            OGP 画像の絶対 or サイト相対パス
+                            （未用意なら /assets/og/default.png 等のデフォルトを指定）
     {{BREADCRUMB_NAME}}     パンくず最下層の表示名
     {{TRAIN_NAME}}          列車名（記事中の主語）
     {{ROUTE}}               運行区間（例: 東京〜出雲市）
-    {{OPERATOR}}            運行会社
+    {{OPERATOR}}            運行会社（disclaimer リンクの選び方は voice-guide §7 参照）
     {{ROLLING_STOCK}}       使用車両
-    {{CATEGORY}}            カテゴリ表示用（例: 路線詳細 / 寝台特急）
+    {{CATEGORY}}            カテゴリ表示用（例: 路線詳細 / 寝台特急 / 旅行記）
     {{PUBLISH_DATE}}        公開日 (YYYY-MM-DD)
     {{LAST_MODIFIED}}       最終更新日 (YYYY-MM-DD)
     {{LAST_MODIFIED_LABEL}} 表示用最終更新（例: 2026年5月）
     {{KEYWORDS}}            JSON-LD 用キーワード（カンマ区切り）
+    {{AUTHOR_NAME}}         記事の著者表記（運営者ハンドル等。E-E-A-T 担保用）
     {{CSS_VERSION}}         content.css のバージョン（現在の最新を確認）
 
-  voice-guide.md を読んでから書くこと！
+  ⚠ 必読:
+    - voice-guide.md ← 声・トーン・バルーンの語感
+    - article-workflow.md ← 時刻データの扱い・プレビュー手順・チェックリスト
+    - articles-index.md ← 既存記事のスラッグ一覧（クロスリンク作成時に参照）
 -->
 <!DOCTYPE html>
 <html lang="ja">
@@ -50,9 +57,11 @@
   <meta property="og:description" content="{{DESCRIPTION_SHORT}}">
   <meta property="og:url" content="https://tetsudou-map.com/routes/{{SLUG}}">
   <meta property="og:site_name" content="鉄道マップ全国版">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://tetsudou-map.com{{OG_IMAGE}}">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{TITLE_SHORT}}">
   <meta name="twitter:description" content="{{DESCRIPTION_SHORT}}">
+  <meta name="twitter:image" content="https://tetsudou-map.com{{OG_IMAGE}}">
 
   <!-- 構造化データ -->
   <script type="application/ld+json">
@@ -75,7 +84,17 @@
         "dateModified": "{{LAST_MODIFIED}}",
         "isPartOf": { "@id": "https://tetsudou-map.com/#website" },
         "mainEntityOfPage": "https://tetsudou-map.com/routes/{{SLUG}}",
-        "keywords": "{{KEYWORDS}}"
+        "keywords": "{{KEYWORDS}}",
+        "image": "https://tetsudou-map.com{{OG_IMAGE}}",
+        "author": {
+          "@type": "Person",
+          "name": "{{AUTHOR_NAME}}"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "鉄道マップ全国版",
+          "url": "https://tetsudou-map.com/"
+        }
       },
       {
         "@type": "BreadcrumbList",
@@ -128,7 +147,9 @@
   </div>
 
   <!-- ✋ Bubble 1: 記事冒頭、「この列車を初めて知った」「噂は聞いてた」系
-       speech--draft クラスは執筆者は触らない。運営者があとで実コメントを入れる。 -->
+       ⚠ 執筆AIは speech--draft クラスのバルーン本文を触らない！
+          このプレースホルダのまま残し、運営者が後で実コメントに差し替える工程がある。
+          詳細: article-workflow.md §5 -->
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
@@ -142,12 +163,14 @@
   <p>…</p>
   <p>…</p>
 
-  <!-- ✋ Bubble 2: 概要を読んだ後の素朴な感想（「面白そう」「知らなかった」系） -->
+  <!-- ✋ Bubble 2: 概要を読んだ後の素朴な感想（「面白そう」「知らなかった」系）
+       ⚠ 執筆AIは speech--draft の本文を触らない（運営者作業） -->
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
   </div>
 
+  <!-- 【路線詳細記事向け】旅行記・雑記記事ではこの h2 ブロックごと削除 -->
   <h2>運行会社と運行区間</h2>
   <ul>
     <li><strong>運行会社</strong>: {{OPERATOR}}</li>
@@ -157,6 +180,9 @@
     <li><strong>所要時間</strong>: <!-- TODO --></li>
   </ul>
 
+  <!-- 【路線詳細記事向け】旅行記・雑記記事ではこの h2 ブロックごと削除
+       ⚠ 時刻データは Web 検索で実ダイヤを参照すること。data/timetables/ の CSV は参考イメージで、
+          最新ダイヤと一致しない場合がある。詳細: article-workflow.md §1 -->
   <h2>停車駅と運行時間帯（参考）</h2>
   <p>
     {{TRAIN_NAME}}の停車駅と、おおよその運行時間帯は以下のとおりです。
@@ -186,7 +212,8 @@
     </tbody>
   </table>
 
-  <!-- ✋ Bubble 3: ダイヤを見たあとの感想（時間帯・経路への反応） -->
+  <!-- ✋ Bubble 3: ダイヤを見たあとの感想（時間帯・経路への反応）
+       ⚠ 執筆AIは speech--draft の本文を触らない（運営者作業） -->
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
@@ -198,6 +225,7 @@
     <a class="map-cta__button" href="/">マップを開く →</a>
   </div>
 
+  <!-- 【路線詳細記事向け】旅行記・雑記記事ではこの h2 ブロックごと削除 -->
   <h2>車両と座席タイプ</h2>
   <!-- TODO: 車両概要（200〜400字）+ 座席タイプ一覧
        - 寝台列車なら個室タイプ table
@@ -219,7 +247,8 @@
   <!-- TODO: 大まかな価格帯。具体的金額は「時期により変動」と注釈 -->
   <p>…</p>
 
-  <!-- ✋ Bubble 4: 車両・座席・料金についての反応（コスパ・憧れ系） -->
+  <!-- ✋ Bubble 4: 車両・座席・料金についての反応（コスパ・憧れ系）
+       ⚠ 執筆AIは speech--draft の本文を触らない（運営者作業） -->
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
@@ -239,7 +268,15 @@
   <h3>3. ○○</h3>
   <p>…</p>
 
-  <!-- ▼ オプションセクション: 関連列車（併結・姉妹列車など）がある場合のみ残す -->
+  <!-- ▼ 【路線詳細・任意】車窓のおすすめサイド：絶景区間がある列車の場合のみ残す
+       例: 瀬戸大橋は左側 / 宍道湖は右側 / 富士山は東海道下りで右側 など。
+       絶景区間がない／読者にとって優先度が低い列車（通勤特急など）では h2 ブロックごと削除。 -->
+  <h2>車窓のおすすめサイド・絶景区間</h2>
+  <!-- TODO: ハイライト区間と、進行方向に対するおすすめの窓側（左／右）を明示。
+       通過時刻の目安（朝・夕など）も添えると◎。 -->
+  <p>…</p>
+
+  <!-- ▼ 【路線詳細・任意】関連列車（併結・姉妹列車など）がある場合のみ残す -->
   <h2>関連列車との違い・関係</h2>
   <!-- TODO: 併結相手・後継・前身列車などとの関係を解説。
        なければ h2 ブロックごと削除。 -->
@@ -247,12 +284,24 @@
 
   <h2>到着後の旅行プラン例</h2>
   <!-- TODO: 終着駅エリアの観光スポット 4〜6個を箇条書き。
-       食・観光・絶景・体験のバランスを意識。 -->
+       食・観光・絶景・体験のバランスを意識。
+       旅行記・雑記記事でも使い回せるセクション。 -->
   <ul>
     <li><strong>○○</strong>: 説明</li>
   </ul>
 
-  <!-- ✋ Bubble 5: 観光プランへの反応（「行きたい」「食べたい」系） -->
+  <!-- ▼ 【路線詳細・任意】途中下車できる観光スポット：途中駅に観光価値がある路線のみ残す
+       例: 安来→足立美術館 / 玉造温泉→温泉 / 松江→松江城 など。
+       通勤特急・短距離特急・直行が前提の旅行プランなどでは h2 ブロックごと削除。 -->
+  <h2>途中下車で楽しめるスポット</h2>
+  <!-- TODO: 途中駅 + 駅からの観光スポット 2〜5個を箇条書き。
+       「{駅名}下車」と書いて、本来の目的地と分かるように。 -->
+  <ul>
+    <li><strong>○○（○○駅下車）</strong>: 説明</li>
+  </ul>
+
+  <!-- ✋ Bubble 5: 観光プランへの反応（「行きたい」「食べたい」系）
+       ⚠ 執筆AIは speech--draft の本文を触らない（運営者作業） -->
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
@@ -264,6 +313,7 @@
     <a class="map-cta__button" href="/">マップで走行を見る →</a>
   </div>
 
+  <!-- 【路線詳細記事向け】旅行記・雑記記事ではこの h2 ブロックごと削除 -->
   <h2>予約・チケット入手のコツ</h2>
   <!-- TODO: 発売開始時期、予約手段、取りやすい時期・取りにくい時期、
        キャンセル拾いのコツなど。
@@ -285,7 +335,8 @@
     <li><!-- TODO --></li>
   </ul>
 
-  <!-- ✋ Bubble 6: 予約・人気についての反応。記事のオチっぽく「一度は乗ってみたい」系 -->
+  <!-- ✋ Bubble 6: 予約・人気についての反応。記事のオチっぽく「一度は乗ってみたい」系
+       ⚠ 執筆AIは speech--draft の本文を触らない（運営者作業） -->
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
@@ -311,9 +362,17 @@
     <li>運行会社公式: <a href="" target="_blank" rel="noopener">{{OPERATOR}}</a></li>
   </ul>
 
+  <!-- 関連ページ：兄弟列車・併結列車などのクロスリンクは「最上位」に置く（共通リンクの上）。
+       既存記事のスラッグ一覧は docs/articles-index.md を参照。 -->
   <div class="related">
     <h2>関連ページ</h2>
     <ul>
+      <!-- TODO: 兄弟列車・併結相手などがあればここに追加（共通リンクより上）
+      <li>
+        <a href="/routes/{related-slug}">{兄弟列車の表示名}</a>
+        <div class="related__desc">{1行説明}</div>
+      </li>
+      -->
       <li>
         <a href="/routes/">路線一覧</a>
         <div class="related__desc">本サイトで紹介している全路線・列車の一覧</div>
