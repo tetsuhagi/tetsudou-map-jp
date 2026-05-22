@@ -71,14 +71,10 @@ STOPS_UP = [
 ]
 
 
-def gen_every_2h(start_h, end_h, minute=0):
-    """2時間ごとの発時刻を生成 (奇数時 or 偶数時)"""
-    return [f'{h:02d}:{minute:02d}' for h in range(start_h, end_h + 1, 2)]
-
-
-# 2時間間隔の代表ダイヤ
-WEEKDAY_DOWN_DEPS = gen_every_2h(7, 21, minute=0)    # 7,9,11,13,15,17,19,21 → 8本
-WEEKDAY_UP_DEPS   = gen_every_2h(8, 22, minute=0)    # 8,10,12,14,16,18,20,22 → 8本
+# 実態 (Wikipediaより): リバティ会津は1日4往復 (前 8往復 → 4往復に修正)
+# ほぼ全便がリバティけごんと併結、下今市で分割・併合
+WEEKDAY_DOWN_DEPS = ['08:00', '11:00', '14:00', '17:00']
+WEEKDAY_UP_DEPS   = ['09:00', '12:00', '15:00', '18:00']
 HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
 HOLIDAY_UP_DEPS   = WEEKDAY_UP_DEPS
 
