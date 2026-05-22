@@ -61,35 +61,42 @@
 - **複数情報源があれば中立に**: 主張のズレを把握し、片方だけを採用しない
 - **公開日明示**: ニュースは公開日（YYYY-MM-DD）を `page-meta` と `disclaimer` に必ず記載
 
-### 1.6 サムネイル画像の自動処理
+### 1.6 サムネイル画像の扱い（2026年5月 現在: 非表示方針）
 
-執筆依頼プロンプトの `サムネイル画像:` 欄にファイル名（例: `samune-foo.png`）が指定されていたら、
-記事執筆時に以下を自動的に行う:
+> **現行方針（2026-05-21〜）**: AI生成サムネ画像が「AI製感」で逆にユーザーを遠ざける懸念があるため、
+> サムネイル表示はサイト全体で **オフ** にしている。記事はテキスト中心で勝負する。
+> CSSクラス（`.article-hero` / `.article-card__image`）と `assets/og/*.jpg` のファイルは
+> 将来の再有効化に備えて保持しているが、HTML 上では参照しない。
+
+**現在のルール（サムネを記事に表示しない）:**
+
+新規記事執筆時、執筆依頼の `サムネイル画像:` 欄に何が書かれていても **以下を含めない**:
+
+- `<meta property="og:image">` / `<meta name="twitter:image">` の OGP 画像 meta タグ
+- JSON-LD の `"image"` フィールド
+- 記事本文冒頭の `<figure class="article-hero">...</figure>` ブロック
+- TOP（`index.html`）の `.article-card` 内の `<div class="article-card__image">` 部分
+
+代わりに:
+- `twitter:card` は `summary` を使用（large_image でなく）
+- TOP の `.article-card` はテキストのみ（カテゴリバッジ＋タイトル＋説明文）で構成
+
+**将来サムネ表示を再開する場合の手順（参考・現在は休眠）:**
+
+サムネが指定されたら以下を自動実行する想定だった処理:
 
 1. リポジトリルートから当該ファイルを探す
-2. `sips` で **幅 1200px・JPEG 品質 75** に圧縮
+2. `sips` で 1200px 幅・JPEG q75 に圧縮:
    ```bash
    sips --resampleWidth 1200 {input} --out assets/og/{slug}.jpg \
      -s format jpeg -s formatOptions 75
    ```
-3. ファイル名は記事の slug に合わせて `{slug}.jpg` にリネームし `assets/og/` 配置
-4. 該当記事の `og:image` / `twitter:image` / JSON-LD `image` に
-   `https://tetsudou-map.com/assets/og/{slug}.jpg` を設定
-5. `twitter:card` は `summary_large_image` を使用
-6. **記事本文の冒頭にもヒーロー画像として表示** する。`<h1>` と `<p class="page-meta">` の直下に
-   `.article-hero` ブロックを挿入:
-   ```html
-   <figure class="article-hero">
-     <img src="/assets/og/{slug}.jpg" alt="{タイトル等}" width="1200" height="{実画像の高さ}" decoding="async">
-   </figure>
-   ```
-   - `height` は実画像のアスペクト比に合わせる（Cumulative Layout Shift 対策）
-   - `sips -g pixelHeight assets/og/{slug}.jpg` で実寸取得して反映
+3. `og:image` / `twitter:image` / JSON-LD `image` に `https://tetsudou-map.com/assets/og/{slug}.jpg` を設定
+4. `twitter:card` を `summary_large_image` に変更
+5. 記事本文冒頭に `<figure class="article-hero">` を追加（`height` は実画像比率で CLS 対策）
+6. TOP の該当 `.article-card` に `<div class="article-card__image">` を再追加
 
-サムネ未指定の場合は以下をすべて **削除して書く**（あとでサムネが用意されたら追加すれば良い）:
-- `<meta property="og:image">` / `<meta name="twitter:image">`
-- JSON-LD の `"image"` フィールド
-- `<figure class="article-hero">...</figure>` ブロック
+再開する際は、本セクションを「現行方針」として書き換える。
 
 ---
 

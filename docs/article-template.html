@@ -57,11 +57,9 @@
   <meta property="og:description" content="{{DESCRIPTION_SHORT}}">
   <meta property="og:url" content="https://tetsudou-map.com/routes/{{SLUG}}">
   <meta property="og:site_name" content="鉄道マップ全国版">
-  <meta property="og:image" content="https://tetsudou-map.com{{OG_IMAGE}}">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{{TITLE_SHORT}}">
   <meta name="twitter:description" content="{{DESCRIPTION_SHORT}}">
-  <meta name="twitter:image" content="https://tetsudou-map.com{{OG_IMAGE}}">
 
   <!-- 構造化データ -->
   <script type="application/ld+json">
@@ -85,7 +83,6 @@
         "isPartOf": { "@id": "https://tetsudou-map.com/#website" },
         "mainEntityOfPage": "https://tetsudou-map.com/routes/{{SLUG}}",
         "keywords": "{{KEYWORDS}}",
-        "image": "https://tetsudou-map.com{{OG_IMAGE}}",
         "author": {
           "@type": "Person",
           "name": "{{AUTHOR_NAME}}"
@@ -133,13 +130,6 @@
 <main class="article">
   <h1>{{TITLE}}</h1>
   <p class="page-meta">最終更新: {{LAST_MODIFIED_LABEL}} / カテゴリ: {{CATEGORY}}</p>
-
-  <!-- ▼ サムネ画像があれば記事冒頭に表示。{{OG_IMAGE}} 未指定の記事では <figure> ごと削除。
-       高さ属性は実画像のアスペクト比に合わせる（CLS 対策）。 -->
-  <figure class="article-hero">
-    <img src="{{OG_IMAGE}}" alt="{{TITLE_SHORT}}" width="1200" height="630" decoding="async">
-  </figure>
-
   <!-- TODO: 導入文（200〜300字）
        - {{TRAIN_NAME}} が何か、どこを走るか、なぜ人気か
        - この記事で何がわかるか

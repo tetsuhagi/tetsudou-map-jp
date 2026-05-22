@@ -25,6 +25,7 @@ https://tetsudou-map-jp.pages.dev/* https://tetsudou-map.com/:splat 301!
 # /columns/ 配下も同様にクリーンURL寄せ
 /columns/linear-to-hakata.html        /columns/linear-to-hakata        301
 /columns/kitakyushu-airport-access.html /columns/kitakyushu-airport-access 301
+/columns/recruit-card-travel.html     /columns/recruit-card-travel     301
 /columns/index.html                   /columns/                        301
 
 # /news/ 配下も同様にクリーンURL寄せ

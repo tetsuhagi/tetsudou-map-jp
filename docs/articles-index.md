@@ -36,6 +36,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `recruit-card-travel` | `/columns/recruit-card-travel` | リクルートカードは国内旅行好きにお得？ | 常時1.2%還元＋じゃらん連携。国内旅行ユースケースに絞ったリクルートカードの解説 | — |
 | `kitakyushu-airport-access` | `/columns/kitakyushu-airport-access` | 北九州空港アクセス改善は九州活性化のカギ？ | 24時間運用可能な海上空港・北九州空港のアクセス改善が九州全体の活性化につながりうるかを考察 | linear-to-hakata |
 | `linear-to-hakata` | `/columns/linear-to-hakata` | リニアは博多まで来るのか？ | リニア中央新幹線の博多延伸の可能性を、歴史と現実の壁から考察 | kitakyushu-airport-access |
 
