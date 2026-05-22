@@ -35,6 +35,29 @@
     'ja-jp-standard-b', 'ja-jp-standard-d'
   ];
 
+  // ---- 高品質 voice 検出用キーワード（iOS Enhanced / Microsoft Online Natural / Google WaveNet 等） ----
+  var QUALITY_KEYWORDS = [
+    'enhanced',   // Apple Enhanced（ユーザーが Settings から DL）
+    'premium',    // Google Premium / 高品質バリアント
+    'natural',    // Microsoft Natural（Edge 系の neural voice）
+    'neural',     // 汎用 neural TTS
+    'online',     // Microsoft Online voice（実質 neural）
+    'wavenet',    // Google WaveNet
+    'studio'      // Google Studio voice
+  ];
+
+  // voice の品質スコア（大きいほど高品質）
+  function scoreVoiceQuality(v) {
+    var s = 0;
+    var lower = (v.name || '').toLowerCase();
+    for (var i = 0; i < QUALITY_KEYWORDS.length; i++) {
+      if (lower.indexOf(QUALITY_KEYWORDS[i]) >= 0) { s += 100; break; }
+    }
+    if (v.localService === true) s += 10; // ユーザーがローカルに DL したっぽい voice
+    if (v.default === true) s += 3;
+    return s;
+  }
+
   // ---- State ----
   var voices = { female: null, male: null };
   var queue = [];            // [{ text, voiceType: 'female'|'male', element }]
@@ -218,14 +241,44 @@
     Array.prototype.forEach.call(els, function (el) { el.classList.remove('tts-reading'); });
   }
 
-  // 画面外なら中央に滑らかにスクロール。範囲内ならスクロールしない（ジッター回避）
+  // ハイライト中の要素が「ウィジェットに被らない安全領域」内に来るよう自動スクロール。
+  // 安全領域 = 上部の余白 〜 ウィジェット上端の少し上まで。
+  // 既に安全領域内にある場合は何もしない（ジッター回避）。
   function smartScroll(el) {
     if (!el || !el.getBoundingClientRect) return;
     var rect = el.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    if (rect.top < vh * 0.18 || rect.bottom > vh * 0.78) {
-      try { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
-      catch (e) { el.scrollIntoView(); }
+
+    // ウィジェットが画面下を占有している分を控除して、安全領域を計算
+    var widgetTop = vh; // デフォルト: ウィジェットなし → ビューポート全部使える
+    if (widget) {
+      var wRect = widget.getBoundingClientRect();
+      if (wRect && wRect.height > 0) widgetTop = wRect.top;
+    }
+    var safeTop = vh * 0.12;          // 上端から 12% は読み手の文脈用に余白
+    var safeBottom = widgetTop - 16;  // ウィジェット上端 - 16px マージン
+    if (safeBottom <= safeTop) safeBottom = vh; // 安全領域が確保できない場合のフォールバック
+    var safeHeight = safeBottom - safeTop;
+
+    // 既に安全領域内ならスクロールしない（ジッター回避）
+    if (rect.top >= safeTop && rect.bottom <= safeBottom) return;
+
+    // 要素のサイズに応じて目標位置を計算
+    var targetTop;
+    if (rect.height >= safeHeight) {
+      // 要素が安全領域より大きい場合は top を safeTop に合わせる
+      targetTop = safeTop;
+    } else {
+      // 安全領域内のやや上寄りに配置（カラオケ風: 次の文に視線が移しやすい位置）
+      targetTop = safeTop + (safeHeight - rect.height) * 0.3;
+    }
+
+    var deltaY = rect.top - targetTop;
+    if (Math.abs(deltaY) < 4) return; // ごく小さな差分はスクロールしない
+    try {
+      window.scrollBy({ top: deltaY, behavior: 'smooth' });
+    } catch (e) {
+      window.scrollBy(0, deltaY);
     }
   }
 
@@ -243,17 +296,22 @@
     }
   }
 
-  // ---- Voice 選択 ----
+  // ---- Voice 選択（高品質を優先） ----
   function selectVoices() {
     var all = speechSynthesis.getVoices() || [];
     var jp = all.filter(function (v) { return v.lang && v.lang.toLowerCase().indexOf('ja') === 0; });
     if (jp.length === 0) return;
 
+    // 品質スコア降順でソート（同スコア内は元の getVoices() 順を維持）
+    jp.sort(function (a, b) { return scoreVoiceQuality(b) - scoreVoiceQuality(a); });
+
+    // 品質ソート済の jp を上から舐めて、最初に pattern にマッチした voice を返す
+    // → 同じ voice 名でも高品質バリアントが優先される
     function findByPatterns(patterns) {
-      for (var i = 0; i < patterns.length; i++) {
-        var p = patterns[i].toLowerCase();
-        for (var j = 0; j < jp.length; j++) {
-          if (jp[j].name.toLowerCase().indexOf(p) >= 0) return jp[j];
+      for (var i = 0; i < jp.length; i++) {
+        var name = (jp[i].name || '').toLowerCase();
+        for (var j = 0; j < patterns.length; j++) {
+          if (name.indexOf(patterns[j].toLowerCase()) >= 0) return jp[i];
         }
       }
       return null;
@@ -261,8 +319,10 @@
 
     voices.female = findByPatterns(JP_FEMALE_PATTERNS) || jp[0];
     voices.male = findByPatterns(JP_MALE_PATTERNS)
-      || jp.find(function (v) { return v !== voices.female; })
-      || jp[0];
+      || (function () {
+           for (var k = 0; k < jp.length; k++) if (jp[k] !== voices.female) return jp[k];
+           return jp[0];
+         })();
   }
 
   function ensureVoicesLoaded() {
