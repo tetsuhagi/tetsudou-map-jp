@@ -84,6 +84,24 @@
     try { speechSynthesis.resume(); } catch (e) {}
   }
 
+  // hardCancel 直後に speak() を呼ぶと「音声バッファの残音」が原因で
+  // 新 utterance（特に短い見出し）が無視されることがある。
+  // speechSynthesis.speaking / pending が false になるまでポーリングしてから次の speak を呼ぶ。
+  function waitUntilIdle(callback, maxWaitMs) {
+    var start = Date.now();
+    var maxWait = typeof maxWaitMs === 'number' ? maxWaitMs : 500;
+    function check() {
+      var busy = false;
+      try { busy = speechSynthesis.speaking || speechSynthesis.pending; } catch (e) {}
+      if (!busy || (Date.now() - start) > maxWait) {
+        callback();
+        return;
+      }
+      setTimeout(check, 20);
+    }
+    check();
+  }
+
   // ---- 文末で文字列を分割（テーブル行用フォールバック・センテンス wrap しない場合に使用） ----
   function splitSentences(text) {
     if (!text) return [];
@@ -439,24 +457,52 @@
     updateUI();
   }
 
-  function skipNextSection() {
-    // 現在位置以降で最初の <h2> ブロックに紐付くキュー要素を探す
+  // 見出し（h2 / h3）粒度で次／前にジャンプ
+  function isHeading(el) {
+    return el && (el.tagName === 'H2' || el.tagName === 'H3');
+  }
+
+  function jumpTo(newPosition) {
+    position = newPosition;
+    hardCancel();
+    if (isPlaying && !isPaused) {
+      // waitUntilIdle で synthesis が idle になるまで待ってから speak
+      // これで見出しが残音バッファに飲まれて聞こえないのを防ぐ
+      waitUntilIdle(function () {
+        if (isPlaying && !isPaused) playFromCurrent();
+      });
+    } else {
+      // 停止中ならハイライトだけ移動
+      if (queue[newPosition]) highlightItem(queue[newPosition]);
+    }
+  }
+
+  function skipNextHeading() {
+    // 現在位置以降で最初の h2 / h3 ブロックを探す
     for (var i = position + 1; i < queue.length; i++) {
-      var el = queue[i].block;
-      if (el && el.tagName === 'H2') {
-        position = i;
-        hardCancel();
-        if (isPlaying && !isPaused) {
-          setTimeout(playFromCurrent, 50);
-        } else {
-          // 停止中ならハイライトだけ移動
-          highlightItem(queue[i]);
-        }
+      if (isHeading(queue[i].block)) {
+        jumpTo(i);
         return;
       }
     }
-    // 残りセクションなし
+    // 残りに見出しなし → 停止
     stop();
+  }
+
+  function skipPrevHeading() {
+    // 現在位置より前の最後の h2 / h3 を探す
+    // 振る舞い:
+    //   - 現在が見出し以外（本文の途中）→ 現在セクションの見出しに戻る
+    //   - 現在が見出しそのもの → さらにその前の見出しに戻る
+    //   - もう見出しがない → 記事先頭へ
+    for (var i = position - 1; i >= 0; i--) {
+      if (isHeading(queue[i].block)) {
+        jumpTo(i);
+        return;
+      }
+    }
+    // 前に見出しがない → 先頭へ
+    if (queue.length > 0) jumpTo(0);
   }
 
   function setRate(newRate) {
@@ -467,14 +513,14 @@
     // 再生中なら現在の utterance をハードキャンセルして同位置から再生し直し（rate 変更を即時反映）
     if (isPlaying && !isPaused && speechSynthesis.speaking) {
       hardCancel();
-      setTimeout(function () {
+      waitUntilIdle(function () {
         if (isPlaying && !isPaused) playFromCurrent();
-      }, 50);
+      });
     }
   }
 
   // ---- UI ----
-  var widget, fab, playBtn, pauseBtn, stopBtn, skipBtn, closeBtn, rateSelect;
+  var widget, fab, playBtn, pauseBtn, stopBtn, prevBtn, nextBtn, closeBtn, rateSelect;
 
   function createUI() {
     widget = document.createElement('div');
@@ -495,7 +541,10 @@
       '    <button class="tts-widget__play" type="button">▶ 再生</button>',
       '    <button class="tts-widget__pause" type="button" hidden>⏸ 一時停止</button>',
       '    <button class="tts-widget__stop" type="button">⏹ 停止</button>',
-      '    <button class="tts-widget__skip" type="button" aria-label="次のセクションへ" title="次のセクションへ">⏭</button>',
+      '  </div>',
+      '  <div class="tts-widget__controls tts-widget__controls--seek">',
+      '    <button class="tts-widget__prev" type="button" aria-label="前の見出しへ" title="前の見出し（h2/h3）へ">⏮ 前へ</button>',
+      '    <button class="tts-widget__next" type="button" aria-label="次の見出しへ" title="次の見出し（h2/h3）へ">次へ ⏭</button>',
       '  </div>',
       '  <div class="tts-widget__rate">',
       '    <label for="tts-rate-select">速度</label>',
@@ -517,7 +566,8 @@
     playBtn = widget.querySelector('.tts-widget__play');
     pauseBtn = widget.querySelector('.tts-widget__pause');
     stopBtn = widget.querySelector('.tts-widget__stop');
-    skipBtn = widget.querySelector('.tts-widget__skip');
+    prevBtn = widget.querySelector('.tts-widget__prev');
+    nextBtn = widget.querySelector('.tts-widget__next');
     closeBtn = widget.querySelector('.tts-widget__close');
     rateSelect = widget.querySelector('#tts-rate-select');
 
@@ -532,7 +582,8 @@
     playBtn.addEventListener('click', play);
     pauseBtn.addEventListener('click', pause);
     stopBtn.addEventListener('click', stop);
-    skipBtn.addEventListener('click', skipNextSection);
+    prevBtn.addEventListener('click', skipPrevHeading);
+    nextBtn.addEventListener('click', skipNextHeading);
     rateSelect.addEventListener('change', function (e) { setRate(e.target.value); });
   }
 
