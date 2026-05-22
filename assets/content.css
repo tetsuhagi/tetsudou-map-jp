@@ -455,19 +455,23 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   line-height: 1.5;
 }
 
-/* 読み上げ中のハイライト */
-.tts-reading {
-  background: linear-gradient(180deg, transparent 55%, #fef9c3 55%);
-  transition: background 0.3s ease;
+/* センテンス単位ハイライト（カラオケ風追従） */
+.tts-sentence {
+  /* base span — 通常は無装飾 */
+}
+.tts-sentence.tts-reading {
+  background: linear-gradient(180deg, transparent 58%, #fef08a 58%);
   border-radius: 2px;
+  transition: background 0.15s ease;
 }
-/* バルーン用のハイライト（吹き出し全体を強調） */
-.speech.tts-reading .speech__bubble {
-  background: #fef9c3;
-  border-color: #fde047;
+/* バルーン内のセンテンスハイライト（吹き出しの背景と区別するため濃いめ） */
+.speech__bubble .tts-sentence.tts-reading {
+  background: #fde047;
+  padding: 0 3px;
+  margin: 0 -3px;
+  border-radius: 3px;
 }
-.speech.tts-reading { background: transparent; }
-/* テーブル行のハイライト */
+/* テーブル行（センテンス wrap しないブロック）はブロック単位でハイライト */
 tr.tts-reading {
   background: #fef9c3 !important;
 }

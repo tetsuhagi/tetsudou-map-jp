@@ -39,13 +39,12 @@
   var voices = { female: null, male: null };
   var queue = [];            // [{ text, voiceType: 'female'|'male', element }]
   var position = 0;
-  var currentElement = null;
   var isPlaying = false;
   var isPaused = false;
   var rate = parseFloat(localStorage.getItem('tts-rate') || '1.0');
   if (!isFinite(rate) || rate < 0.5 || rate > 2) rate = 1.0;
 
-  // ---- 文末で文字列を分割（句読点を保持） ----
+  // ---- 文末で文字列を分割（テーブル行用フォールバック・センテンス wrap しない場合に使用） ----
   function splitSentences(text) {
     if (!text) return [];
     var parts = [];
@@ -62,11 +61,96 @@
     }
     var tail = current.trim();
     if (tail) parts.push(tail);
-    // 安全上限: 1 utterance あたり 240字（Chrome の 15秒制限への対策）
     return parts.filter(function (s) { return s.length > 0 && s.length <= 240; });
   }
 
-  // ---- DOM Walker: 再生キューを構築 ----
+  // ---- テキストノードを「。！？」で分割し <span class="tts-sentence" data-tts-sentence-id=N> でラップ ----
+  // インライン要素（<strong>, <a> 等）を跨ぐ文にも対応。
+  // 戻り値: [{ id, text }] — id は文ごとの一意ID（playback queue の sentenceId に対応）
+  var __nextSentenceId = 0;
+  function wrapTextNodesIntoSentences(container) {
+    var sentences = [];
+    var buffer = '';
+
+    function flushSentence() {
+      var t = buffer.replace(/\s+/g, ' ').trim();
+      if (t && t.length <= 240) {
+        sentences.push({ id: __nextSentenceId, text: t });
+        __nextSentenceId += 1;
+      } else if (t.length > 240) {
+        // 安全上限超過: 240字でぶった切って次へ（極めて長い文への保険）
+        sentences.push({ id: __nextSentenceId, text: t.slice(0, 240) });
+        __nextSentenceId += 1;
+      }
+      buffer = '';
+    }
+
+    // text node 一覧を収集
+    var textNodes = [];
+    var walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    var n;
+    while ((n = walker.nextNode())) {
+      var parent = n.parentElement;
+      if (!parent) continue;
+      if (parent.tagName === 'SCRIPT' || parent.tagName === 'STYLE') continue;
+      // 既にラップ済みのノードはスキップ（idempotent）
+      if (parent.classList && parent.classList.contains('tts-sentence')) continue;
+      textNodes.push(n);
+    }
+
+    textNodes.forEach(function (textNode) {
+      var text = textNode.textContent;
+      if (!text) return;
+
+      // 全角空白だけのノードは buffer に足すだけ（DOM は変更しない）
+      if (!text.replace(/\s/g, '').length) {
+        buffer += text;
+        return;
+      }
+
+      // 文末位置を検出
+      var positions = [];
+      for (var i = 0; i < text.length; i++) {
+        if ('。！？!?'.indexOf(text[i]) >= 0) positions.push(i + 1);
+      }
+
+      var fragment = document.createDocumentFragment();
+      var prev = 0;
+
+      function appendPiece(piece) {
+        if (!piece) return;
+        var span = document.createElement('span');
+        span.className = 'tts-sentence';
+        span.dataset.ttsSentenceId = String(__nextSentenceId);
+        span.appendChild(document.createTextNode(piece));
+        fragment.appendChild(span);
+        buffer += piece;
+      }
+
+      if (positions.length === 0) {
+        // 文末なし → 全部 1 つのピースとして追加（文は継続中）
+        appendPiece(text);
+      } else {
+        // 文末ごとに分割
+        positions.forEach(function (pos) {
+          appendPiece(text.slice(prev, pos));
+          flushSentence(); // 文確定 → __nextSentenceId++
+          prev = pos;
+        });
+        // 末尾の残り（次の text node に続く可能性あり）
+        if (prev < text.length) appendPiece(text.slice(prev));
+      }
+
+      textNode.parentNode.replaceChild(fragment, textNode);
+    });
+
+    // 全 text node 処理後、buffer が残っていたら最後の文として確定
+    flushSentence();
+
+    return sentences;
+  }
+
+  // ---- 再生キューを構築（センテンス wrap も同時に実行） ----
   function buildQueue() {
     var items = [];
     var inSkipSection = false;
@@ -82,17 +166,19 @@
       }
       if (inSkipSection) return;
 
-      // バルーン (.speech) → 男性声
+      // バルーン (.speech) → 男性声・センテンス wrap
       if (block.classList && block.classList.contains('speech')) {
         var bubble = block.querySelector('.speech__bubble');
-        var bText = bubble ? bubble.textContent.trim() : '';
-        if (bText) splitSentences(bText).forEach(function (s) {
-          items.push({ text: s, voiceType: 'male', element: block });
-        });
+        if (bubble) {
+          var sList = wrapTextNodesIntoSentences(bubble);
+          sList.forEach(function (s) {
+            items.push({ text: s.text, voiceType: 'male', block: block, sentenceId: s.id });
+          });
+        }
         return;
       }
 
-      // テーブル: 行ごと
+      // テーブル: 行ごと（センテンス wrap せず、行全体をハイライト対象に）
       if (block.tagName === 'TABLE') {
         var rows = block.querySelectorAll('tr');
         Array.prototype.forEach.call(rows, function (row) {
@@ -100,30 +186,61 @@
             row.querySelectorAll('th, td'),
             function (c) { return (c.textContent || '').trim(); }
           ).filter(Boolean).join('、');
-          if (cells) items.push({ text: cells, voiceType: 'female', element: row });
+          if (cells) items.push({ text: cells, voiceType: 'female', block: row, sentenceId: null });
         });
         return;
       }
 
-      // リスト: li ごと
+      // リスト: li ごとにセンテンス wrap
       if (block.tagName === 'UL' || block.tagName === 'OL') {
         Array.prototype.forEach.call(block.querySelectorAll('li'), function (li) {
-          var liText = (li.textContent || '').replace(/\s+/g, ' ').trim();
-          if (liText) splitSentences(liText).forEach(function (s) {
-            items.push({ text: s, voiceType: 'female', element: li });
+          var sList = wrapTextNodesIntoSentences(li);
+          sList.forEach(function (s) {
+            items.push({ text: s.text, voiceType: 'female', block: li, sentenceId: s.id });
           });
         });
         return;
       }
 
-      // 見出し・段落・disclaimer・blockquote 等
-      var text = (block.textContent || '').replace(/\s+/g, ' ').trim();
-      if (text) splitSentences(text).forEach(function (s) {
-        items.push({ text: s, voiceType: 'female', element: block });
+      // 見出し・段落・disclaimer・blockquote 等 → センテンス wrap
+      var sList2 = wrapTextNodesIntoSentences(block);
+      sList2.forEach(function (s) {
+        items.push({ text: s.text, voiceType: 'female', block: block, sentenceId: s.id });
       });
     });
 
     return items;
+  }
+
+  // ---- ハイライト管理 ----
+  function clearAllHighlights() {
+    var els = article.querySelectorAll('.tts-sentence.tts-reading, tr.tts-reading');
+    Array.prototype.forEach.call(els, function (el) { el.classList.remove('tts-reading'); });
+  }
+
+  // 画面外なら中央に滑らかにスクロール。範囲内ならスクロールしない（ジッター回避）
+  function smartScroll(el) {
+    if (!el || !el.getBoundingClientRect) return;
+    var rect = el.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    if (rect.top < vh * 0.18 || rect.bottom > vh * 0.78) {
+      try { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+      catch (e) { el.scrollIntoView(); }
+    }
+  }
+
+  function highlightItem(item) {
+    clearAllHighlights();
+    if (item.sentenceId !== null && item.sentenceId !== undefined) {
+      // センテンス単位ハイライト（インライン要素を跨ぐ場合は複数 span）
+      var spans = article.querySelectorAll('[data-tts-sentence-id="' + item.sentenceId + '"]');
+      Array.prototype.forEach.call(spans, function (s) { s.classList.add('tts-reading'); });
+      if (spans.length > 0) smartScroll(spans[0]);
+    } else if (item.block) {
+      // テーブル行など、ブロック単位ハイライト
+      item.block.classList.add('tts-reading');
+      smartScroll(item.block);
+    }
   }
 
   // ---- Voice 選択 ----
@@ -177,17 +294,8 @@
     }
     var item = queue[position];
 
-    // ハイライト（要素が変わった時だけ DOM 操作）
-    if (currentElement !== item.element) {
-      if (currentElement) currentElement.classList.remove('tts-reading');
-      item.element.classList.add('tts-reading');
-      try {
-        item.element.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      } catch (e) {
-        item.element.scrollIntoView();
-      }
-      currentElement = item.element;
-    }
+    // センテンス／ブロック単位でハイライト＆スマートスクロール
+    highlightItem(item);
 
     var u = new SpeechSynthesisUtterance(item.text);
     u.lang = 'ja-JP';
@@ -245,29 +353,22 @@
     isPlaying = false;
     isPaused = false;
     position = 0;
-    if (currentElement) {
-      currentElement.classList.remove('tts-reading');
-      currentElement = null;
-    }
+    clearAllHighlights();
     updateUI();
   }
 
   function skipNextSection() {
-    // 現在位置以降で最初の <h2> を探す
+    // 現在位置以降で最初の <h2> ブロックに紐付くキュー要素を探す
     for (var i = position + 1; i < queue.length; i++) {
-      var el = queue[i].element;
-      if (el.tagName === 'H2') {
+      var el = queue[i].block;
+      if (el && el.tagName === 'H2') {
         position = i;
         try { speechSynthesis.cancel(); } catch (e) {}
         if (isPlaying && !isPaused) {
           setTimeout(playFromCurrent, 50);
         } else {
           // 停止中ならハイライトだけ移動
-          if (currentElement) currentElement.classList.remove('tts-reading');
-          el.classList.add('tts-reading');
-          try { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
-          catch (e) { el.scrollIntoView(); }
-          currentElement = el;
+          highlightItem(queue[i]);
         }
         return;
       }
