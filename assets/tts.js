@@ -64,8 +64,25 @@
   var position = 0;
   var isPlaying = false;
   var isPaused = false;
+  var currentUtterance = null; // 直近 speak() した utterance（停止時にコールバック無効化用）
   var rate = parseFloat(localStorage.getItem('tts-rate') || '1.0');
   if (!isFinite(rate) || rate < 0.5 || rate > 2) rate = 1.0;
+
+  // ---- ハードキャンセル（音声バッファの残音をできるだけ短縮） ----
+  // pause() は OS レベルで音声出力を即時停止 → cancel() でキュー全消去 →
+  // resume() で synthesis を再利用可能な状態に戻す（次回 speak が即動作するように）
+  // 現在の utterance のコールバックも nullify（in-flight な onend の暴発防止）
+  function hardCancel() {
+    if (currentUtterance) {
+      currentUtterance.onend = null;
+      currentUtterance.onerror = null;
+      currentUtterance.onboundary = null;
+      currentUtterance = null;
+    }
+    try { speechSynthesis.pause(); } catch (e) {}
+    try { speechSynthesis.cancel(); } catch (e) {}
+    try { speechSynthesis.resume(); } catch (e) {}
+  }
 
   // ---- 文末で文字列を分割（テーブル行用フォールバック・センテンス wrap しない場合に使用） ----
   function splitSentences(text) {
@@ -364,15 +381,19 @@
     else if (voices.female) u.voice = voices.female;
 
     u.onend = function () {
+      // hardCancel された後は currentUtterance が null 化されているので、自分が現役か確認
+      if (currentUtterance !== u) return;
       if (!isPlaying || isPaused) return;
       position += 1;
       playFromCurrent();
     };
     u.onerror = function () {
+      if (currentUtterance !== u) return;
       // エラーは飛ばして次へ
       position += 1;
       if (isPlaying && !isPaused) playFromCurrent();
     };
+    currentUtterance = u;
     try {
       speechSynthesis.speak(u);
     } catch (e) {
@@ -409,10 +430,11 @@
   }
 
   function stop() {
-    try { speechSynthesis.cancel(); } catch (e) {}
+    // 先にフラグを倒してから hardCancel（in-flight な onend が暴発しないように）
     isPlaying = false;
     isPaused = false;
     position = 0;
+    hardCancel();
     clearAllHighlights();
     updateUI();
   }
@@ -423,7 +445,7 @@
       var el = queue[i].block;
       if (el && el.tagName === 'H2') {
         position = i;
-        try { speechSynthesis.cancel(); } catch (e) {}
+        hardCancel();
         if (isPlaying && !isPaused) {
           setTimeout(playFromCurrent, 50);
         } else {
@@ -442,9 +464,9 @@
     if (!isFinite(r)) r = 1.0;
     rate = r;
     try { localStorage.setItem('tts-rate', String(rate)); } catch (e) {}
-    // 再生中なら現在の utterance をキャンセルして同位置から再生し直し（rate 変更を即時反映）
+    // 再生中なら現在の utterance をハードキャンセルして同位置から再生し直し（rate 変更を即時反映）
     if (isPlaying && !isPaused && speechSynthesis.speaking) {
-      try { speechSynthesis.cancel(); } catch (e) {}
+      hardCancel();
       setTimeout(function () {
         if (isPlaying && !isPaused) playFromCurrent();
       }, 50);
