@@ -214,8 +214,8 @@
     var inSkipSection = false;
 
     Array.prototype.forEach.call(article.children, function (block) {
-      // 除外: ステータス情報・地図CTA・関連ページ
-      if (block.matches && block.matches('.page-meta, .map-cta, .related')) return;
+      // 除外: ステータス情報・地図CTA・関連ページ・注意書き
+      if (block.matches && block.matches('.page-meta, .map-cta, .related, .disclaimer')) return;
 
       // 「関連情報・参考リンク」h2 を検出したら以降を全スキップ
       if (block.tagName === 'H2' && /関連情報/.test(block.textContent || '')) {
