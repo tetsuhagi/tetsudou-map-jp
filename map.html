@@ -278,9 +278,15 @@
       </nav>
     </div>
     <div id="clock">--:--:--</div>
+    <!-- 2026-05: ナイトモード切替ボタンを一時非表示。
+         デフォルト ON で常時動作させる方針 (時間帯に応じた色味は自動で変わる)。
+         不便と判明したら下のコメントを外して再表示する。
+         src/app.js は null check 入りで動くため、ボタン有無で他の動作は変わらない。 -->
+    <!--
     <button id="night-toggle" type="button" aria-pressed="false" title="時間帯に応じた色味（早朝/昼/夕方/夜）に切替">
       <span class="dot"></span><span class="label">🌙<span class="label-text"> ナイトモード</span></span>
     </button>
+    -->
   </div>
   <button id="status" type="button" title="本サイトについて（クリックで詳細）">
     <span id="status-text">読み込み中…</span>
@@ -329,7 +335,7 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="src/app.js?v=131"></script>
+  <script type="module" src="src/app.js?v=132"></script>
   <script>
     /* Hamburger menu controller: open/close panel, close on outside click
        or Escape. Self-contained — no dependency on app.js. Lives inline

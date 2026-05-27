@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=131';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=131';
+import { loadAllData } from './data.js?v=132';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=132';
 
 const TICK_MS = 1000;
 const ICON_SIZE = 24;
@@ -99,19 +99,25 @@ function phaseLabel(date) {
   return '黄昏';
 }
 
-// Night mode toggle. Defaults to off — the tint is only applied while enabled.
-// Persisted to localStorage so the user's preference survives reloads.
-let nightModeOn = localStorage.getItem('nightMode') === '1';
-const nightToggleEl = document.getElementById('night-toggle');
+// Night mode: 2026-05 から常時オン固定。map.html 側でトグルボタンを
+// コメントアウトしたため UI からの切替は不可。日中 (8-15時) は tint α が
+// ほぼ 0 なので、常時ONでも昼間は無色のまま — 実質「自動カラーモード」。
+// ボタン復活時の動作も維持できるよう、DOM 要素は null check で扱う。
+let nightModeOn = true;
+const nightToggleEl = document.getElementById('night-toggle');  // 通常 null
 
 function setNightMode(on) {
   nightModeOn = on;
-  nightToggleEl.classList.toggle('on', on);
-  nightToggleEl.setAttribute('aria-pressed', on ? 'true' : 'false');
+  if (nightToggleEl) {
+    nightToggleEl.classList.toggle('on', on);
+    nightToggleEl.setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
   localStorage.setItem('nightMode', on ? '1' : '0');
   updateTint(new Date());
 }
-nightToggleEl.addEventListener('click', () => setNightMode(!nightModeOn));
+if (nightToggleEl) {
+  nightToggleEl.addEventListener('click', () => setNightMode(!nightModeOn));
+}
 setNightMode(nightModeOn);
 
 // About / disclaimer modal. Opened by clicking the status bar (which doubles
@@ -138,8 +144,11 @@ function updateTint(now) {
   // Hide the toggle during the daytime window (8–15時) where tint alpha ≈ 0:
   // pressing it would do nothing visible, so the button just confuses users.
   // Always shown when nightMode is ON so users can disable it.
+  // (Note: 2026-05 以降ボタンは常時非表示中。下記の null check は復活時用。)
   const wouldShowEffect = c.a > 0.05;
-  nightToggleEl.style.display = (wouldShowEffect || nightModeOn) ? '' : 'none';
+  if (nightToggleEl) {
+    nightToggleEl.style.display = (wouldShowEffect || nightModeOn) ? '' : 'none';
+  }
 
   if (!nightModeOn) {
     tintRect.setStyle({ fillOpacity: 0 });
