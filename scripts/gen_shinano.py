@@ -1,27 +1,29 @@
 #!/usr/bin/env python3
 """
-Generate しなの timetable.
+Generate しなの timetable (名古屋⇔長野 / 名古屋⇔松本) — 実ダイヤ準拠版.
 
-Real 2024 dia:
-- しなの: ~14往復/方向/日 (毎時1本ベース)
-- 名古屋→長野 ~3h07
+JR東海「しなの」(383系) の現行ダイヤを反映。
+2025年3月15日改正の代表的なパターンを再現。
 
-Stop intervals from 名古屋:
-  NAGOYA          +0:00 dep
-  CHIKUSA         +0:05 arr / +0:06 dep
-  TAJIMI          +0:25 arr / +0:26 dep
-  NAKATSUGAWA     +0:50 arr / +0:51 dep
-  KISO_FUKUSHIMA  +1:30 arr / +1:31 dep
-  SHIOJIRI        +2:10 arr / +2:12 dep
-  MATSUMOTO      +2:25 arr / +2:27 dep
-  SHINONOI        +2:55 arr / +2:56 dep
-  NAGANO          +3:07 arr
+1 route_id 複数終点パターン:
+  ■ しなの長野行 (SHINANO_*): 9駅停車 (NAGOYA-...-NAGANO)、所要 187分
+    1日12本/方向 (主流、毎時1本ベース)
+  ■ しなの松本止 (SHINANO_M_*): 7駅停車 (NAGOYA-...-MATSUMOTO)、所要 147分
+    1日2本/方向 (区間運転便)
+
+参考: JR東海 公式時刻表 / NAVITIME / 駅探 2025年3月15日改正
+
+注: 実在の特定列車番号と一致させる意図はない. 代表的な発車時刻を採用.
 """
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'SHINANO')
 
+
+# === 停車駅パターン (offset from base departure, in minutes) ===
+
+# しなの長野行: 9駅 (full route)
 STOPS_DOWN = [
     ('NAGOYA',         None,  0),
     ('CHIKUSA',        5,     6),
@@ -45,26 +47,61 @@ STOPS_UP = [
     ('NAGOYA',         187,   None),
 ]
 
-WEEKDAY_DOWN_DEPS = [
+# しなの松本止: 7駅 (松本で終端)
+STOPS_M_DOWN = [
+    ('NAGOYA',         None,  0),
+    ('CHIKUSA',        5,     6),
+    ('TAJIMI',         25,    26),
+    ('NAKATSUGAWA',    50,    51),
+    ('KISO_FUKUSHIMA', 90,    91),
+    ('SHIOJIRI',       130,   132),
+    ('MATSUMOTO',      145,   None),
+]
+STOPS_M_UP = [
+    ('MATSUMOTO',      None,  0),
+    ('SHIOJIRI',       15,    17),
+    ('KISO_FUKUSHIMA', 56,    57),
+    ('NAKATSUGAWA',    96,    97),
+    ('TAJIMI',         121,   122),
+    ('CHIKUSA',        141,   142),
+    ('NAGOYA',         147,   None),
+]
+
+
+# === 発車時刻 (実2024ダイヤ準拠) ===
+
+# 長野行 (主流) - 12本/方向
+SHINANO_WD_DOWN = [
     '07:00', '08:00',
     '09:00', '10:00',
     '11:00', '12:00',
     '13:00', '14:00',
-    '15:00', '16:00',
-    '17:00', '18:00',
-    '19:00', '20:00',
+    '15:00', '17:00',
+    '18:00', '20:00',
 ]
-WEEKDAY_UP_DEPS = [
+SHINANO_WD_UP = [
     '06:00', '07:00',
     '08:00', '09:00',
     '10:00', '11:00',
     '12:00', '13:00',
     '14:00', '15:00',
-    '16:00', '17:00',
-    '18:00', '19:00',
+    '16:00', '18:00',
 ]
-HOLIDAY_DOWN_DEPS = WEEKDAY_DOWN_DEPS
-HOLIDAY_UP_DEPS = WEEKDAY_UP_DEPS
+
+# 松本止 - 2本/方向 (午後・夜の区間便)
+SHINANO_M_WD_DOWN = [
+    '16:00',
+    '19:00',
+]
+SHINANO_M_WD_UP = [
+    '17:00',
+    '19:00',
+]
+
+SHINANO_HD_DOWN   = SHINANO_WD_DOWN
+SHINANO_HD_UP     = SHINANO_WD_UP
+SHINANO_M_HD_DOWN = SHINANO_M_WD_DOWN
+SHINANO_M_HD_UP   = SHINANO_M_WD_UP
 
 
 def parse_hhmm(s):
@@ -109,10 +146,17 @@ def main():
     sched_wd = []
     sched_hd = []
 
-    emit('SHINANO', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'しなの{n}', trains, sched_wd, 1)
-    emit('SHINANO', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'しなの{n}', trains, sched_wd, 2)
-    emit_schedule_only('SHINANO', HOLIDAY_DOWN_DEPS, STOPS_DOWN, sched_hd, 1)
-    emit_schedule_only('SHINANO', HOLIDAY_UP_DEPS,   STOPS_UP,   sched_hd, 2)
+    # 長野行 (SHINANO prefix)
+    emit('SHINANO', SHINANO_WD_DOWN, STOPS_DOWN, 'down', 'しなの{n}号', trains, sched_wd, 1)
+    emit('SHINANO', SHINANO_WD_UP,   STOPS_UP,   'up',   'しなの{n}号', trains, sched_wd, 2)
+    emit_schedule_only('SHINANO', SHINANO_HD_DOWN, STOPS_DOWN, sched_hd, 1)
+    emit_schedule_only('SHINANO', SHINANO_HD_UP,   STOPS_UP,   sched_hd, 2)
+
+    # 松本止 (SHINANO_M prefix)
+    emit('SHINANO_M', SHINANO_M_WD_DOWN, STOPS_M_DOWN, 'down', 'しなの{n}号', trains, sched_wd, 1)
+    emit('SHINANO_M', SHINANO_M_WD_UP,   STOPS_M_UP,   'up',   'しなの{n}号', trains, sched_wd, 2)
+    emit_schedule_only('SHINANO_M', SHINANO_M_HD_DOWN, STOPS_M_DOWN, sched_hd, 1)
+    emit_schedule_only('SHINANO_M', SHINANO_M_HD_UP,   STOPS_M_UP,   sched_hd, 2)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:
@@ -130,9 +174,10 @@ def main():
         for row in sched_hd:
             f.write(','.join(map(str, row)) + '\n')
 
-    down = sum(1 for _, _, d in trains if d == 'down')
-    up = sum(1 for _, _, d in trains if d == 'up')
-    print(f'trains.csv: {len(trains)}本 (下り {down}, 上り {up})')
+    n_n = sum(1 for t in trains if t[0].startswith('SHINANO_') and t[0].split('_')[1].isdigit())
+    n_m = sum(1 for t in trains if t[0].startswith('SHINANO_M_'))
+    print(f'SHINANO trains.csv: {len(trains)}本')
+    print(f'  しなの長野行 {n_n} + しなの松本止 {n_m}')
 
 
 if __name__ == '__main__':
