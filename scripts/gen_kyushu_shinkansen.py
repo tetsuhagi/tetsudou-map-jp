@@ -1,16 +1,33 @@
 #!/usr/bin/env python3
 """
-Generate 九州新幹線 timetable (みずほ・さくら + つばめ).
+Generate 九州新幹線 timetable (博多 ⇔ 鹿児島中央) — 実ダイヤ準拠版 + 列車種別拡充.
 
-Real 2024 dia:
-- みずほ+さくら統合 (高速種別): ~28本/方向、5駅停車、1h30min
-- つばめ (各駅停車): ~14本/方向、博多-熊本シャトル、7駅停車、50min
+このスクリプトは gen_kyushu_mizuho_sakura.py を継承・拡張する。
+みずほ・さくら統合 (KYUSHU_*) と つばめ博多-熊本 (TSUBAME_*) の発車時刻は
+同スクリプトから引き継ぎ、つばめ全線 (TSUBAME_FULL_*) を追加で実装する。
+
+つばめ全線追加の目的: 出水・新水俣の停車駅未カバー問題を解消する。
+既存のみずほ・さくらは博多-鹿児島中央を5駅で走るため、出水/新水俣を通過していた。
+
+1 route_id 複数列車種別パターン:
+  ■ みずほ・さくら統合 (KYUSHU_*): 5駅停車 (博多・新鳥栖・久留米・熊本・鹿児島中央)、所要 90分
+  ■ つばめ博多-熊本 (TSUBAME_*): 7駅停車、所要 50分 — 各駅停車シャトル便
+  ■ つばめ全線 (TSUBAME_FULL_*): 全12駅停車、所要 125分 — 1日数本
+
+参考: JR九州・JR西日本 公式時刻表 / NAVITIME / 駅探 2025年3月15日改正
+
+注: 実在の特定列車番号と一致させる意図はない. みずほ・さくら・つばめ熊本止は
+   実ダイヤの発車時刻、つばめ全線は出水/新水俣 station coverage のための補完便.
 """
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, 'data', 'timetables', 'KYUSHU_SHINKANSEN')
 
+
+# === 停車駅パターン ===
+
+# みずほ・さくら統合: 5駅 (博多・新鳥栖・久留米・熊本・鹿児島中央)
 STOPS_DOWN = [
     ('HAKATA',         None,  0),
     ('SHIN_TOSU',      12,    13),
@@ -18,7 +35,6 @@ STOPS_DOWN = [
     ('KUMAMOTO',       50,    52),
     ('KAGOSHIMA_CHUO', 90,    None),
 ]
-
 STOPS_UP = [
     ('KAGOSHIMA_CHUO', None,  0),
     ('KUMAMOTO',       38,    40),
@@ -27,7 +43,7 @@ STOPS_UP = [
     ('HAKATA',         90,    None),
 ]
 
-# つばめ: 博多-熊本シャトル、各駅停車
+# つばめ博多-熊本: 7駅 (各駅停車シャトル)
 TSUBAME_STOPS_DOWN = [
     ('HAKATA',            None,  0),
     ('SHIN_TOSU',         12,    13),
@@ -46,6 +62,114 @@ TSUBAME_STOPS_UP = [
     ('SHIN_TOSU',         37,    38),
     ('HAKATA',            50,    None),
 ]
+
+# つばめ全線 博多-鹿児島中央: 全12駅停車 (出水・新水俣カバー目的)
+TSUBAME_FULL_STOPS_DOWN = [
+    ('HAKATA',          None, 0),
+    ('SHIN_TOSU',       13,   14),
+    ('KURUME',          22,   23),
+    ('CHIKUGO_FUNAGOYA',32,   33),
+    ('SHIN_OMUTA',      42,   43),
+    ('SHIN_TAMANA',     52,   53),
+    ('KUMAMOTO',        62,   64),
+    ('SHIN_YATSUSHIRO', 75,   76),
+    ('SHIN_MINAMATA',   90,   91),
+    ('IZUMI',           100,  101),
+    ('SENDAI_KYUSHU',   112,  113),
+    ('KAGOSHIMA_CHUO',  125,  None),
+]
+TSUBAME_FULL_STOPS_UP = [
+    ('KAGOSHIMA_CHUO',  None, 0),
+    ('SENDAI_KYUSHU',   12,   13),
+    ('IZUMI',           24,   25),
+    ('SHIN_MINAMATA',   34,   35),
+    ('SHIN_YATSUSHIRO', 49,   50),
+    ('KUMAMOTO',        61,   63),
+    ('SHIN_TAMANA',     72,   73),
+    ('SHIN_OMUTA',      82,   83),
+    ('CHIKUGO_FUNAGOYA',92,   93),
+    ('KURUME',          102,  103),
+    ('SHIN_TOSU',       111,  112),
+    ('HAKATA',          125,  None),
+]
+
+
+# === みずほ・さくら統合 発車時刻 (gen_kyushu_mizuho_sakura.py より継承) ===
+
+WEEKDAY_DOWN_DEPS = [
+    '06:00', '06:32',
+    '07:00', '07:30', '07:48',
+    '08:13', '08:30',
+    '09:00', '09:30',
+    '10:00', '10:30', '10:48',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30', '13:48',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:30', '16:48',
+    '17:00', '17:30',
+    '18:00', '18:30',
+    '19:00', '19:30', '19:48',
+    '20:00', '20:30',
+    '21:00', '21:30', '21:55',
+]
+WEEKDAY_UP_DEPS = [
+    '06:00', '06:32',
+    '07:00', '07:30',
+    '08:00', '08:30',
+    '09:00', '09:30',
+    '10:00', '10:30',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:30',
+    '17:00', '17:30',
+    '18:00', '18:30',
+    '19:00', '19:30',
+    '20:00', '20:30',
+    '21:00',
+]
+HOLIDAY_DOWN_DEPS = [
+    '06:00', '06:32',
+    '07:00', '07:30',
+    '08:13', '08:30',
+    '09:00', '09:30',
+    '10:00', '10:30',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:30',
+    '17:00', '17:30',
+    '18:00', '18:30',
+    '19:00', '19:30',
+    '20:00', '20:30',
+    '21:00', '21:30',
+]
+HOLIDAY_UP_DEPS = [
+    '06:00', '06:32',
+    '07:00', '07:30',
+    '08:00', '08:30',
+    '09:00', '09:30',
+    '10:00', '10:30',
+    '11:00', '11:30',
+    '12:00', '12:30',
+    '13:00', '13:30',
+    '14:00', '14:30',
+    '15:00', '15:30',
+    '16:00', '16:30',
+    '17:00', '17:30',
+    '18:00', '18:30',
+    '19:00', '19:30',
+    '20:00',
+]
+
+
+# === つばめ博多-熊本 発車時刻 (gen_kyushu_mizuho_sakura.py より継承) ===
 
 TSUBAME_WEEKDAY_DOWN = [
     '06:36', '07:36', '08:00', '08:36',
@@ -72,80 +196,23 @@ TSUBAME_HOLIDAY_UP = [
     '18:30', '19:30',
 ]
 
-WEEKDAY_DOWN_DEPS = [
-    '06:00', '06:32',
-    '07:00', '07:30', '07:48',
-    '08:13', '08:30',
-    '09:00', '09:30',
-    '10:00', '10:30', '10:48',
-    '11:00', '11:30',
-    '12:00', '12:30',
-    '13:00', '13:30', '13:48',
-    '14:00', '14:30',
-    '15:00', '15:30',
-    '16:00', '16:30', '16:48',
-    '17:00', '17:30',
-    '18:00', '18:30',
-    '19:00', '19:30', '19:48',
-    '20:00', '20:30',
-    '21:00', '21:30', '21:55',
-]
 
-WEEKDAY_UP_DEPS = [
-    '06:00', '06:32',
-    '07:00', '07:30',
-    '08:00', '08:30',
-    '09:00', '09:30',
-    '10:00', '10:30',
-    '11:00', '11:30',
-    '12:00', '12:30',
-    '13:00', '13:30',
-    '14:00', '14:30',
-    '15:00', '15:30',
-    '16:00', '16:30',
-    '17:00', '17:30',
-    '18:00', '18:30',
-    '19:00', '19:30',
-    '20:00', '20:30',
-    '21:00',
-]
+# === つばめ全線 発車時刻 (NEW、1日数本のみ、出水/新水俣カバー目的) ===
 
-HOLIDAY_DOWN_DEPS = [
-    '06:00', '06:32',
-    '07:00', '07:30',
-    '08:13', '08:30',
-    '09:00', '09:30',
-    '10:00', '10:30',
-    '11:00', '11:30',
-    '12:00', '12:30',
-    '13:00', '13:30',
-    '14:00', '14:30',
-    '15:00', '15:30',
-    '16:00', '16:30',
-    '17:00', '17:30',
-    '18:00', '18:30',
-    '19:00', '19:30',
-    '20:00', '20:30',
-    '21:00', '21:30',
+TSUBAME_FULL_WD_DOWN = [
+    '07:48',
+    '11:54',
+    '15:54',
+    '19:54',
 ]
-
-HOLIDAY_UP_DEPS = [
-    '06:00', '06:32',
-    '07:00', '07:30',
-    '08:00', '08:30',
-    '09:00', '09:30',
-    '10:00', '10:30',
-    '11:00', '11:30',
-    '12:00', '12:30',
-    '13:00', '13:30',
-    '14:00', '14:30',
-    '15:00', '15:30',
-    '16:00', '16:30',
-    '17:00', '17:30',
-    '18:00', '18:30',
-    '19:00', '19:30',
-    '20:00',
+TSUBAME_FULL_WD_UP = [
+    '06:30',
+    '10:30',
+    '14:30',
+    '18:30',
 ]
+TSUBAME_FULL_HD_DOWN = TSUBAME_FULL_WD_DOWN
+TSUBAME_FULL_HD_UP   = TSUBAME_FULL_WD_UP
 
 
 def parse_hhmm(s):
@@ -190,15 +257,23 @@ def main():
     sched_wd = []
     sched_hd = []
 
+    # みずほ・さくら統合 (KYUSHU prefix)
     emit('KYUSHU', WEEKDAY_DOWN_DEPS, STOPS_DOWN, 'down', 'みずほ/さくら{n}', trains, sched_wd, 1)
     emit('KYUSHU', WEEKDAY_UP_DEPS,   STOPS_UP,   'up',   'みずほ/さくら{n}', trains, sched_wd, 2)
     emit_schedule_only('KYUSHU', HOLIDAY_DOWN_DEPS, STOPS_DOWN, sched_hd, 1)
     emit_schedule_only('KYUSHU', HOLIDAY_UP_DEPS,   STOPS_UP,   sched_hd, 2)
 
+    # つばめ博多-熊本 (TSUBAME prefix)
     emit('TSUBAME', TSUBAME_WEEKDAY_DOWN, TSUBAME_STOPS_DOWN, 'down', 'つばめ{n}', trains, sched_wd, 1)
     emit('TSUBAME', TSUBAME_WEEKDAY_UP,   TSUBAME_STOPS_UP,   'up',   'つばめ{n}', trains, sched_wd, 2)
     emit_schedule_only('TSUBAME', TSUBAME_HOLIDAY_DOWN, TSUBAME_STOPS_DOWN, sched_hd, 1)
     emit_schedule_only('TSUBAME', TSUBAME_HOLIDAY_UP,   TSUBAME_STOPS_UP,   sched_hd, 2)
+
+    # つばめ全線 (TSUBAME_FULL prefix) — NEW
+    emit('TSUBAME_FULL', TSUBAME_FULL_WD_DOWN, TSUBAME_FULL_STOPS_DOWN, 'down', 'つばめ{n}', trains, sched_wd, 1)
+    emit('TSUBAME_FULL', TSUBAME_FULL_WD_UP,   TSUBAME_FULL_STOPS_UP,   'up',   'つばめ{n}', trains, sched_wd, 2)
+    emit_schedule_only('TSUBAME_FULL', TSUBAME_FULL_HD_DOWN, TSUBAME_FULL_STOPS_DOWN, sched_hd, 1)
+    emit_schedule_only('TSUBAME_FULL', TSUBAME_FULL_HD_UP,   TSUBAME_FULL_STOPS_UP,   sched_hd, 2)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:
@@ -216,15 +291,14 @@ def main():
         for row in sched_hd:
             f.write(','.join(map(str, row)) + '\n')
 
-    down = sum(1 for _, _, d in trains if d == 'down')
-    up = sum(1 for _, _, d in trains if d == 'up')
-    print(f'trains.csv: {len(trains)}本 (下り {down}, 上り {up})')
-    wd_d = len(WEEKDAY_DOWN_DEPS) + len(TSUBAME_WEEKDAY_DOWN)
-    wd_u = len(WEEKDAY_UP_DEPS) + len(TSUBAME_WEEKDAY_UP)
-    hd_d = len(HOLIDAY_DOWN_DEPS) + len(TSUBAME_HOLIDAY_DOWN)
-    hd_u = len(HOLIDAY_UP_DEPS) + len(TSUBAME_HOLIDAY_UP)
-    print(f'weekday: 下 {wd_d} + 上 {wd_u} = {wd_d + wd_u}本')
-    print(f'holiday: 下 {hd_d} + 上 {hd_u} = {hd_d + hd_u}本')
+    n_ky = sum(1 for t in trains if t[0].startswith('KYUSHU'))
+    n_ts = sum(1 for t in trains if t[0].startswith('TSUBAME') and not t[0].startswith('TSUBAME_FULL'))
+    n_tf = sum(1 for t in trains if t[0].startswith('TSUBAME_FULL'))
+    wd = len(set(row[0] for row in sched_wd))
+    hd = len(set(row[0] for row in sched_hd))
+    print(f'KYUSHU_SHINKANSEN trains.csv: {len(trains)}本')
+    print(f'  みずほ/さくら {n_ky} + つばめ熊本止 {n_ts} + つばめ全線 {n_tf}')
+    print(f'  平日運行: {wd}本 / 土休日運行: {hd}本')
 
 
 if __name__ == '__main__':
