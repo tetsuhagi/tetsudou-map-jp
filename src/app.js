@@ -1,8 +1,19 @@
-import { loadAllData } from './data.js?v=132';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=132';
+import { loadAllData } from './data.js?v=133';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=133';
 
 const TICK_MS = 1000;
-const ICON_SIZE = 24;
+
+// 列車アイコンのサイズは zoom レベル連動で変える。広域 (z≤6) で 24px だと
+// 数百本のアイコンが重なって視認性が著しく悪化するため、ズームアウト時は
+// 小さく、拡大時はしっかり大きく。stationStyleForZoom() と同じ思想。
+function iconSizeForZoom(z) {
+  if (z <= 5) return 10;   // 北海道〜九州が一画面 (超広域)
+  if (z === 6) return 12;  // 日本全国 (デフォルト初期 zoom)
+  if (z === 7) return 16;  // 関東/関西などエリア
+  if (z === 8) return 20;
+  return 24;               // 拡大 (路線詳細)
+}
+let currentIconSize = 24;  // map 作成後に初期 zoom で上書き
 
 // Tile provider config. Currently using the OSM volunteer-run tile server,
 // which is tolerated for low-traffic sites. If traffic grows or we see 429
@@ -33,6 +44,10 @@ L.tileLayer(TILE_URL, {
   attribution: TILE_ATTRIBUTION,
   maxZoom: TILE_MAX_ZOOM,
 }).addTo(map);
+
+// 初期 zoom に基づいてアイコンサイズを設定。以降 zoom 変化時は
+// applyTrainZoomIconSize() で全 marker を再サイズ。
+currentIconSize = iconSizeForZoom(map.getZoom());
 
 const trainMarkers = {};
 
@@ -213,6 +228,7 @@ function drawRoutes(data) {
   }
   applyStationZoomStyle();
   map.on('zoomend', applyStationZoomStyle);
+  map.on('zoomend', applyTrainZoomIconSize);
 }
 
 function formatClock(date) {
@@ -233,22 +249,50 @@ function preloadIcons(routes) {
 }
 
 function createMarkerForTrain(train, route, latlng) {
+  const size = currentIconSize;
   if (route && route._iconLoaded) {
     const icon = L.icon({
       iconUrl: route.icon,
-      iconSize: [ICON_SIZE, ICON_SIZE],
-      iconAnchor: [ICON_SIZE / 2, ICON_SIZE / 2],
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
     });
     return L.marker(latlng, { icon });
   }
-  // Fallback: circle marker in route color
+  // Fallback: circle marker in route color (zoom 連動で radius も変える)
   return L.circleMarker(latlng, {
-    radius: 6,
+    radius: Math.max(3, size / 4),
     color: '#fff',
     fillColor: route?.color || '#888',
     fillOpacity: 1,
     weight: 2,
   });
+}
+
+// zoom 変化時に全 train marker のアイコンサイズを更新。アイコン URL は
+// 既存 marker から取り出して再生成 (route 情報を引き直す必要なし)。
+function applyTrainZoomIconSize() {
+  const newSize = iconSizeForZoom(map.getZoom());
+  if (newSize === currentIconSize) return;
+  currentIconSize = newSize;
+  for (const marker of Object.values(trainMarkers)) {
+    if (marker.setIcon && marker.options.icon) {
+      const url = marker.options.icon.options.iconUrl;
+      marker.setIcon(L.icon({
+        iconUrl: url,
+        iconSize: [newSize, newSize],
+        iconAnchor: [newSize / 2, newSize / 2],
+      }));
+      // Tooltip の offset も追従させて、アイコン上部から出る位置を維持
+      const t = marker.getTooltip();
+      if (t) {
+        const text = t.getContent();
+        marker.unbindTooltip();
+        marker.bindTooltip(text, { direction: 'top', offset: [0, -newSize / 2] });
+      }
+    } else if (marker.setRadius) {
+      marker.setRadius(Math.max(3, newSize / 4));
+    }
+  }
 }
 
 function updateTrains(data) {
@@ -282,7 +326,7 @@ function updateTrains(data) {
     if (!m) {
       m = createMarkerForTrain(train, route, latlng)
         .addTo(map)
-        .bindTooltip(tooltipText, { direction: 'top', offset: [0, -ICON_SIZE / 2] });
+        .bindTooltip(tooltipText, { direction: 'top', offset: [0, -currentIconSize / 2] });
       trainMarkers[train.id] = m;
     } else {
       m.setLatLng(latlng);
