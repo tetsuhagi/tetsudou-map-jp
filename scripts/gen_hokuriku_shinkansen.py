@@ -320,25 +320,28 @@ def main():
     sched_hd = []
     all_train_ids = set()
 
-    # 平日
+    # 平日 — 速達中心 (かがやき + はくたか) のみ表示.
+    # つるぎ・あさま は 2026-05 にマップ表示をスッキリさせる目的で非表示化.
+    # 停車駅パターンと発車時刻は上の定数群に保持してあるので、再表示時は
+    # 下のコメントアウト emit を有効化すれば復活可能.
     emit_trains_and_schedule('KAGAYAKI', KAGAYAKI_WD_DOWN, KAGAYAKI_STOPS_DOWN, 'down', 'かがやき{n}号', trains, sched_wd, 1, all_train_ids)
     emit_trains_and_schedule('KAGAYAKI', KAGAYAKI_WD_UP,   KAGAYAKI_STOPS_UP,   'up',   'かがやき{n}号', trains, sched_wd, 2, all_train_ids)
     emit_trains_and_schedule('HAKUTAKA', HAKUTAKA_WD_DOWN, HAKUTAKA_STOPS_DOWN, 'down', 'はくたか{n}号', trains, sched_wd, 1, all_train_ids)
     emit_trains_and_schedule('HAKUTAKA', HAKUTAKA_WD_UP,   HAKUTAKA_STOPS_UP,   'up',   'はくたか{n}号', trains, sched_wd, 2, all_train_ids)
-    emit_trains_and_schedule('TSURUGI',  TSURUGI_WD_DOWN,  TSURUGI_STOPS_DOWN,  'down', 'つるぎ{n}号',   trains, sched_wd, 1, all_train_ids)
-    emit_trains_and_schedule('TSURUGI',  TSURUGI_WD_UP,    TSURUGI_STOPS_UP,    'up',   'つるぎ{n}号',   trains, sched_wd, 2, all_train_ids)
-    emit_trains_and_schedule('ASAMA',    ASAMA_WD_DOWN,    ASAMA_STOPS_DOWN,    'down', 'あさま{n}号',   trains, sched_wd, 1, all_train_ids)
-    emit_trains_and_schedule('ASAMA',    ASAMA_WD_UP,      ASAMA_STOPS_UP,      'up',   'あさま{n}号',   trains, sched_wd, 2, all_train_ids)
+    # emit_trains_and_schedule('TSURUGI',  TSURUGI_WD_DOWN,  TSURUGI_STOPS_DOWN,  'down', 'つるぎ{n}号',   trains, sched_wd, 1, all_train_ids)
+    # emit_trains_and_schedule('TSURUGI',  TSURUGI_WD_UP,    TSURUGI_STOPS_UP,    'up',   'つるぎ{n}号',   trains, sched_wd, 2, all_train_ids)
+    # emit_trains_and_schedule('ASAMA',    ASAMA_WD_DOWN,    ASAMA_STOPS_DOWN,    'down', 'あさま{n}号',   trains, sched_wd, 1, all_train_ids)
+    # emit_trains_and_schedule('ASAMA',    ASAMA_WD_UP,      ASAMA_STOPS_UP,      'up',   'あさま{n}号',   trains, sched_wd, 2, all_train_ids)
 
     # 土休日
     emit_trains_and_schedule('KAGAYAKI', KAGAYAKI_HD_DOWN, KAGAYAKI_STOPS_DOWN, 'down', 'かがやき{n}号', trains, sched_hd, 1, all_train_ids)
     emit_trains_and_schedule('KAGAYAKI', KAGAYAKI_HD_UP,   KAGAYAKI_STOPS_UP,   'up',   'かがやき{n}号', trains, sched_hd, 2, all_train_ids)
     emit_trains_and_schedule('HAKUTAKA', HAKUTAKA_HD_DOWN, HAKUTAKA_STOPS_DOWN, 'down', 'はくたか{n}号', trains, sched_hd, 1, all_train_ids)
     emit_trains_and_schedule('HAKUTAKA', HAKUTAKA_HD_UP,   HAKUTAKA_STOPS_UP,   'up',   'はくたか{n}号', trains, sched_hd, 2, all_train_ids)
-    emit_trains_and_schedule('TSURUGI',  TSURUGI_HD_DOWN,  TSURUGI_STOPS_DOWN,  'down', 'つるぎ{n}号',   trains, sched_hd, 1, all_train_ids)
-    emit_trains_and_schedule('TSURUGI',  TSURUGI_HD_UP,    TSURUGI_STOPS_UP,    'up',   'つるぎ{n}号',   trains, sched_hd, 2, all_train_ids)
-    emit_trains_and_schedule('ASAMA',    ASAMA_HD_DOWN,    ASAMA_STOPS_DOWN,    'down', 'あさま{n}号',   trains, sched_hd, 1, all_train_ids)
-    emit_trains_and_schedule('ASAMA',    ASAMA_HD_UP,      ASAMA_STOPS_UP,      'up',   'あさま{n}号',   trains, sched_hd, 2, all_train_ids)
+    # emit_trains_and_schedule('TSURUGI',  TSURUGI_HD_DOWN,  TSURUGI_STOPS_DOWN,  'down', 'つるぎ{n}号',   trains, sched_hd, 1, all_train_ids)
+    # emit_trains_and_schedule('TSURUGI',  TSURUGI_HD_UP,    TSURUGI_STOPS_UP,    'up',   'つるぎ{n}号',   trains, sched_hd, 2, all_train_ids)
+    # emit_trains_and_schedule('ASAMA',    ASAMA_HD_DOWN,    ASAMA_STOPS_DOWN,    'down', 'あさま{n}号',   trains, sched_hd, 1, all_train_ids)
+    # emit_trains_and_schedule('ASAMA',    ASAMA_HD_UP,      ASAMA_STOPS_UP,      'up',   'あさま{n}号',   trains, sched_hd, 2, all_train_ids)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:

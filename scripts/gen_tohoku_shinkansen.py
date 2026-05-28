@@ -321,25 +321,28 @@ def main():
     sched_hd = []
     all_train_ids = set()
 
-    # 平日
+    # 平日 — 速達中心 (はやぶさ + やまびこ盛岡行) のみ表示.
+    # やまびこ仙台行・なすの は 2026-05 にマップ表示をスッキリさせる目的で非表示化.
+    # 停車駅パターンと発車時刻は上の定数群に保持してあるので、再表示時は
+    # 下のコメントアウト emit を有効化すれば復活可能.
     emit_trains_and_schedule('HAYABUSA',   HAYABUSA_WD_DOWN,   HAYABUSA_STOPS_DOWN,   'down', 'はやぶさ{n}号', trains, sched_wd, 1,   all_train_ids)
     emit_trains_and_schedule('HAYABUSA',   HAYABUSA_WD_UP,     HAYABUSA_STOPS_UP,     'up',   'はやぶさ{n}号', trains, sched_wd, 2,   all_train_ids)
-    emit_trains_and_schedule('YAMABIKO',   YAMABIKO_WD_DOWN,   YAMABIKO_STOPS_DOWN,   'down', 'やまびこ{n}号', trains, sched_wd, 1,   all_train_ids)
-    emit_trains_and_schedule('YAMABIKO',   YAMABIKO_WD_UP,     YAMABIKO_STOPS_UP,     'up',   'やまびこ{n}号', trains, sched_wd, 2,   all_train_ids)
+    # emit_trains_and_schedule('YAMABIKO',   YAMABIKO_WD_DOWN,   YAMABIKO_STOPS_DOWN,   'down', 'やまびこ{n}号', trains, sched_wd, 1,   all_train_ids)
+    # emit_trains_and_schedule('YAMABIKO',   YAMABIKO_WD_UP,     YAMABIKO_STOPS_UP,     'up',   'やまびこ{n}号', trains, sched_wd, 2,   all_train_ids)
     emit_trains_and_schedule('YAMABIKO_M', YAMABIKO_M_WD_DOWN, YAMABIKO_M_STOPS_DOWN, 'down', 'やまびこ{n}号', trains, sched_wd, 51,  all_train_ids)
     emit_trains_and_schedule('YAMABIKO_M', YAMABIKO_M_WD_UP,   YAMABIKO_M_STOPS_UP,   'up',   'やまびこ{n}号', trains, sched_wd, 52,  all_train_ids)
-    emit_trains_and_schedule('NASUNO',     NASUNO_WD_DOWN,     NASUNO_STOPS_DOWN,     'down', 'なすの{n}号',   trains, sched_wd, 1,   all_train_ids)
-    emit_trains_and_schedule('NASUNO',     NASUNO_WD_UP,       NASUNO_STOPS_UP,       'up',   'なすの{n}号',   trains, sched_wd, 2,   all_train_ids)
+    # emit_trains_and_schedule('NASUNO',     NASUNO_WD_DOWN,     NASUNO_STOPS_DOWN,     'down', 'なすの{n}号',   trains, sched_wd, 1,   all_train_ids)
+    # emit_trains_and_schedule('NASUNO',     NASUNO_WD_UP,       NASUNO_STOPS_UP,       'up',   'なすの{n}号',   trains, sched_wd, 2,   all_train_ids)
 
     # 土休日
     emit_trains_and_schedule('HAYABUSA',   HAYABUSA_HD_DOWN,   HAYABUSA_STOPS_DOWN,   'down', 'はやぶさ{n}号', trains, sched_hd, 1,   all_train_ids)
     emit_trains_and_schedule('HAYABUSA',   HAYABUSA_HD_UP,     HAYABUSA_STOPS_UP,     'up',   'はやぶさ{n}号', trains, sched_hd, 2,   all_train_ids)
-    emit_trains_and_schedule('YAMABIKO',   YAMABIKO_HD_DOWN,   YAMABIKO_STOPS_DOWN,   'down', 'やまびこ{n}号', trains, sched_hd, 1,   all_train_ids)
-    emit_trains_and_schedule('YAMABIKO',   YAMABIKO_HD_UP,     YAMABIKO_STOPS_UP,     'up',   'やまびこ{n}号', trains, sched_hd, 2,   all_train_ids)
+    # emit_trains_and_schedule('YAMABIKO',   YAMABIKO_HD_DOWN,   YAMABIKO_STOPS_DOWN,   'down', 'やまびこ{n}号', trains, sched_hd, 1,   all_train_ids)
+    # emit_trains_and_schedule('YAMABIKO',   YAMABIKO_HD_UP,     YAMABIKO_STOPS_UP,     'up',   'やまびこ{n}号', trains, sched_hd, 2,   all_train_ids)
     emit_trains_and_schedule('YAMABIKO_M', YAMABIKO_M_HD_DOWN, YAMABIKO_M_STOPS_DOWN, 'down', 'やまびこ{n}号', trains, sched_hd, 51,  all_train_ids)
     emit_trains_and_schedule('YAMABIKO_M', YAMABIKO_M_HD_UP,   YAMABIKO_M_STOPS_UP,   'up',   'やまびこ{n}号', trains, sched_hd, 52,  all_train_ids)
-    emit_trains_and_schedule('NASUNO',     NASUNO_HD_DOWN,     NASUNO_STOPS_DOWN,     'down', 'なすの{n}号',   trains, sched_hd, 1,   all_train_ids)
-    emit_trains_and_schedule('NASUNO',     NASUNO_HD_UP,       NASUNO_STOPS_UP,       'up',   'なすの{n}号',   trains, sched_hd, 2,   all_train_ids)
+    # emit_trains_and_schedule('NASUNO',     NASUNO_HD_DOWN,     NASUNO_STOPS_DOWN,     'down', 'なすの{n}号',   trains, sched_hd, 1,   all_train_ids)
+    # emit_trains_and_schedule('NASUNO',     NASUNO_HD_UP,       NASUNO_STOPS_UP,       'up',   'なすの{n}号',   trains, sched_hd, 2,   all_train_ids)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:
