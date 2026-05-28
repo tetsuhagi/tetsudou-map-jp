@@ -271,18 +271,21 @@ def main():
     # 平日 (down: 奇数番、up: 偶数番)
     emit_trains_and_schedule('NOZOMI', NOZOMI_WD_DOWN, NOZOMI_STOPS_DOWN, 'down', 'のぞみ{n}号', trains, sched_wd, 1,   all_train_ids)
     emit_trains_and_schedule('NOZOMI', NOZOMI_WD_UP,   NOZOMI_STOPS_UP,   'up',   'のぞみ{n}号', trains, sched_wd, 2,   all_train_ids)
-    emit_trains_and_schedule('HIKARI', HIKARI_WD_DOWN, HIKARI_STOPS_DOWN, 'down', 'ひかり{n}号', trains, sched_wd, 501, all_train_ids)
-    emit_trains_and_schedule('HIKARI', HIKARI_WD_UP,   HIKARI_STOPS_UP,   'up',   'ひかり{n}号', trains, sched_wd, 502, all_train_ids)
-    emit_trains_and_schedule('KODAMA', KODAMA_WD_DOWN, KODAMA_STOPS_DOWN, 'down', 'こだま{n}号', trains, sched_wd, 701, all_train_ids)
-    emit_trains_and_schedule('KODAMA', KODAMA_WD_UP,   KODAMA_STOPS_UP,   'up',   'こだま{n}号', trains, sched_wd, 702, all_train_ids)
+    # ひかり / こだま は 2026-05 にマップ表示をスッキリさせる目的で非表示化.
+    # 停車駅パターンと発車時刻は上の定数群に保持してあるので、再表示時は
+    # 下の emit を有効化すれば復活可能.
+    # emit_trains_and_schedule('HIKARI', HIKARI_WD_DOWN, HIKARI_STOPS_DOWN, 'down', 'ひかり{n}号', trains, sched_wd, 501, all_train_ids)
+    # emit_trains_and_schedule('HIKARI', HIKARI_WD_UP,   HIKARI_STOPS_UP,   'up',   'ひかり{n}号', trains, sched_wd, 502, all_train_ids)
+    # emit_trains_and_schedule('KODAMA', KODAMA_WD_DOWN, KODAMA_STOPS_DOWN, 'down', 'こだま{n}号', trains, sched_wd, 701, all_train_ids)
+    # emit_trains_and_schedule('KODAMA', KODAMA_WD_UP,   KODAMA_STOPS_UP,   'up',   'こだま{n}号', trains, sched_wd, 702, all_train_ids)
 
     # 土休日
     emit_trains_and_schedule('NOZOMI', NOZOMI_HD_DOWN, NOZOMI_STOPS_DOWN, 'down', 'のぞみ{n}号', trains, sched_hd, 1,   all_train_ids)
     emit_trains_and_schedule('NOZOMI', NOZOMI_HD_UP,   NOZOMI_STOPS_UP,   'up',   'のぞみ{n}号', trains, sched_hd, 2,   all_train_ids)
-    emit_trains_and_schedule('HIKARI', HIKARI_HD_DOWN, HIKARI_STOPS_DOWN, 'down', 'ひかり{n}号', trains, sched_hd, 501, all_train_ids)
-    emit_trains_and_schedule('HIKARI', HIKARI_HD_UP,   HIKARI_STOPS_UP,   'up',   'ひかり{n}号', trains, sched_hd, 502, all_train_ids)
-    emit_trains_and_schedule('KODAMA', KODAMA_HD_DOWN, KODAMA_STOPS_DOWN, 'down', 'こだま{n}号', trains, sched_hd, 701, all_train_ids)
-    emit_trains_and_schedule('KODAMA', KODAMA_HD_UP,   KODAMA_STOPS_UP,   'up',   'こだま{n}号', trains, sched_hd, 702, all_train_ids)
+    # emit_trains_and_schedule('HIKARI', HIKARI_HD_DOWN, HIKARI_STOPS_DOWN, 'down', 'ひかり{n}号', trains, sched_hd, 501, all_train_ids)
+    # emit_trains_and_schedule('HIKARI', HIKARI_HD_UP,   HIKARI_STOPS_UP,   'up',   'ひかり{n}号', trains, sched_hd, 502, all_train_ids)
+    # emit_trains_and_schedule('KODAMA', KODAMA_HD_DOWN, KODAMA_STOPS_DOWN, 'down', 'こだま{n}号', trains, sched_hd, 701, all_train_ids)
+    # emit_trains_and_schedule('KODAMA', KODAMA_HD_UP,   KODAMA_STOPS_UP,   'up',   'こだま{n}号', trains, sched_hd, 702, all_train_ids)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(os.path.join(OUT_DIR, 'trains.csv'), 'w', encoding='utf-8') as f:
