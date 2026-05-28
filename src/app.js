@@ -1,17 +1,18 @@
-import { loadAllData } from './data.js?v=141';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=141';
+import { loadAllData } from './data.js?v=142';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=142';
 
 const TICK_MS = 1000;
 
 // 列車アイコンのサイズは zoom レベル連動で変える。広域 (z≤6) で 24px だと
 // 数百本のアイコンが重なって視認性が著しく悪化するため、ズームアウト時は
 // 小さく、拡大時はしっかり大きく。stationStyleForZoom() と同じ思想。
+// zoomSnap: 0.5 で 6.5 等の半段階 zoom も発生するため、区間で判定する。
 function iconSizeForZoom(z) {
-  if (z <= 5) return 10;   // 北海道〜九州が一画面 (超広域)
-  if (z === 6) return 12;  // 日本全国 (デフォルト初期 zoom)
-  if (z === 7) return 16;  // 関東/関西などエリア
-  if (z === 8) return 20;
-  return 24;               // 拡大 (路線詳細)
+  if (z <= 5) return 10;     // 北海道〜九州が一画面 (超広域)
+  if (z <= 6.5) return 12;   // 日本全国〜本州全域 (PC初期 zoom=6.5)
+  if (z <= 7.5) return 16;   // 関東/関西などエリア (スマホ初期 zoom=7)
+  if (z <= 8.5) return 20;
+  return 24;                 // 拡大 (路線詳細)
 }
 let currentIconSize = 24;  // map 作成後に初期 zoom で上書き
 
@@ -28,9 +29,21 @@ const clockEl = document.getElementById('clock');
 const statusEl = document.getElementById('status');
 const statusTextEl = document.getElementById('status-text');
 
+// 初期表示はビューポート縦横比でデバイス分岐:
+//   - 横長 (PC/タブレット横): center 兵庫県東部、zoom 6.5
+//     → 九州北部〜千葉が一画面に収まる「全国版」感
+//   - 縦長 (スマホ縦)        : center 静岡県、zoom 7
+//     → 関西〜関東が一画面に収まる (縦長で九州まで入れると関東が小さくなる)
+// 判定はビューポート縦横比で実施 (横長ならPC扱い、縦長ならスマホ扱い).
+// iPad 縦は スマホ寄りに、iPad 横は PC 寄りに自然に振り分けられる.
+const isPortrait = window.innerHeight > window.innerWidth;
+const initialCenter = isPortrait ? [35.0, 138.0] : [35.0, 135.5];
+const initialZoom   = isPortrait ? 7 : 6.5;
+
 const map = L.map('map', {
-  center: [36.5, 137.5],
-  zoom: 6,
+  center: initialCenter,
+  zoom: initialZoom,
+  zoomSnap: 0.5,   // 0.5刻みでズーム可能に (デフォルト1).
   minZoom: 4,
   maxZoom: 12,
   // Canvas renderer makes polylines and circleMarkers draw to a single <canvas>
@@ -184,9 +197,9 @@ const stationMarkers = [];
 // Station dot styling per zoom level. At national zoom (z<=6) the dots are
 // dense and visually noisy; scale them down so they recede into the map.
 function stationStyleForZoom(z) {
-  if (z <= 5) return { radius: 0.6, weight: 0, opacity: 0, fillOpacity: 0.5 };
-  if (z === 6) return { radius: 1.2, weight: 0, opacity: 0, fillOpacity: 0.75 };
-  if (z === 7) return { radius: 2,   weight: 0.4, opacity: 0.5, fillOpacity: 0.9 };
+  if (z <= 5)   return { radius: 0.6, weight: 0,   opacity: 0,   fillOpacity: 0.5 };
+  if (z <= 6.5) return { radius: 1.2, weight: 0,   opacity: 0,   fillOpacity: 0.75 };
+  if (z <= 7.5) return { radius: 2,   weight: 0.4, opacity: 0.5, fillOpacity: 0.9 };
   return { radius: 3, weight: 1, opacity: 1, fillOpacity: 1 };
 }
 
