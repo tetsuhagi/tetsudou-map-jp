@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=144';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=144';
+import { loadAllData } from './data.js?v=145';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=145';
 
 const TICK_MS = 1000;
 
@@ -29,16 +29,16 @@ const clockEl = document.getElementById('clock');
 const statusEl = document.getElementById('status');
 const statusTextEl = document.getElementById('status-text');
 
-// 初期表示はビューポート縦横比でデバイス分岐 (zoom は両方 7、center で違いを出す):
-//   - 横長 (PC/タブレット横): center 兵庫県東部 [35.0, 135.5]
-//     → 福岡〜東京 が画面端付近に来る「全国版」感 (九州南部・千葉先端は切れる)
-//   - 縦長 (スマホ縦)        : center 静岡県     [35.0, 138.0]
-//     → 関西〜関東が一画面に収まる (縦長で九州まで入れると関東が小さくなる)
+// 初期表示はビューポート縦横比でデバイス分岐:
+//   - 横長 (PC/タブレット横): center 新大阪駅 [34.7338, 135.5004]、zoom 7.5
+//     → 関西を中心に近畿〜中部〜首都圏が画面端付近に
+//   - 縦長 (スマホ縦)        : center 静岡県  [35.0, 138.0]、zoom 7
+//     → 関西〜関東が一画面に収まる (縦長で広く取ると要部が小さくなる)
 // 判定はビューポート縦横比で実施 (横長ならPC扱い、縦長ならスマホ扱い).
 // iPad 縦は スマホ寄りに、iPad 横は PC 寄りに自然に振り分けられる.
 const isPortrait = window.innerHeight > window.innerWidth;
-const initialCenter = isPortrait ? [35.0, 138.0] : [35.0, 135.5];
-const initialZoom   = 7;
+const initialCenter = isPortrait ? [35.0, 138.0] : [34.7338, 135.5004];
+const initialZoom   = isPortrait ? 7 : 7.5;
 
 const map = L.map('map', {
   center: initialCenter,
