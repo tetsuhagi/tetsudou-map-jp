@@ -1,0 +1,7 @@
+train_id,name,direction
+KO_1,九州横断特急1号,down
+KO_3,九州横断特急3号,down
+KO_4,九州横断特急4号,up
+KO_6,九州横断特急6号,up
+KO_B_5,九州横断特急5号,down
+KO_B_2,九州横断特急2号,up
