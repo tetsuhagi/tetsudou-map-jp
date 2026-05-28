@@ -4,9 +4,11 @@ Generate timetables for remaining local express trains:
 - 南紀 (名古屋-紀伊勝浦)
 - ふじかわ (静岡-甲府)
 - 伊那路 (豊橋-飯田)
-- スーパーはくと (京都-倉吉)
 - うずしお (岡山-徳島)
 - しまんと (高松-高知)
+
+スーパーはくとは 2026-05 で複数終点パターン化のため gen_super_hakuto.py
+に分離 (倉吉行 + 鳥取止 variant).
 """
 import os
 
@@ -130,31 +132,7 @@ INAJI_UP = [
 INAJI_DEPS_DOWN = ['09:30', '13:30', '17:30']
 INAJI_DEPS_UP   = ['07:00', '11:00', '15:00']
 
-# スーパーはくと (京都→倉吉 ~3h30, ~7往復)
-HAKUTO_DOWN = [
-    ('KYOTO',      None,  0),
-    ('SHIN_OSAKA', 30,    31),
-    ('OSAKA',      35,    36),
-    ('SANNOMIYA',  65,    66),
-    ('HIMEJI',     100,   101),
-    ('KAMIGORI',   115,   116),
-    ('CHIZU',      145,   146),
-    ('TOTTORI',    180,   181),
-    ('KURAYOSHI',  210,   None),
-]
-HAKUTO_UP = [
-    ('KURAYOSHI',  None,  0),
-    ('TOTTORI',    29,    30),
-    ('CHIZU',      64,    65),
-    ('KAMIGORI',   94,    95),
-    ('HIMEJI',     109,   110),
-    ('SANNOMIYA',  144,   145),
-    ('OSAKA',      174,   175),
-    ('SHIN_OSAKA', 179,   180),
-    ('KYOTO',      210,   None),
-]
-HAKUTO_DEPS_DOWN = ['07:50', '09:24', '11:24', '13:24', '15:24', '17:24', '19:24']
-HAKUTO_DEPS_UP   = ['06:24', '08:24', '10:24', '12:24', '14:24', '16:24', '18:21']
+# NOTE: スーパーはくと は scripts/gen_super_hakuto.py に分離。
 
 # うずしお (岡山→徳島 or 高松→徳島, ~16往復)
 UZUSHIO_DOWN = [
@@ -203,7 +181,6 @@ def main():
     write_route('NANKI', 'NANKI', '南紀', NANKI_DEPS_DOWN, NANKI_DOWN, NANKI_DEPS_UP, NANKI_UP)
     write_route('FUJIKAWA', 'FUJIKAWA', 'ふじかわ', FUJIKAWA_DEPS_DOWN, FUJIKAWA_DOWN, FUJIKAWA_DEPS_UP, FUJIKAWA_UP)
     write_route('INAJI', 'INAJI', '伊那路', INAJI_DEPS_DOWN, INAJI_DOWN, INAJI_DEPS_UP, INAJI_UP)
-    write_route('SUPER_HAKUTO', 'HAKUTO', 'スーパーはくと', HAKUTO_DEPS_DOWN, HAKUTO_DOWN, HAKUTO_DEPS_UP, HAKUTO_UP)
     write_route('UZUSHIO', 'UZUSHIO', 'うずしお', UZUSHIO_DEPS_DOWN, UZUSHIO_DOWN, UZUSHIO_DEPS_UP, UZUSHIO_UP)
     write_route('SHIMANTO', 'SHIMANTO', 'しまんと', SHIMANTO_DEPS_DOWN, SHIMANTO_DOWN, SHIMANTO_DEPS_UP, SHIMANTO_UP)
 
