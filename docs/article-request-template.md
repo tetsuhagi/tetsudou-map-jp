@@ -41,7 +41,7 @@ slug:
    routes/sunrise-seto.html / routes/sunrise-izumo.html
 
 # 違反NGの重要ルール
-- speech--draft の本文は絶対に埋めない（運営者作業）
+- バルーンは自動生成して埋めてOK（2026-05-22〜）。生成後 docs/balloon-review-queue.md に記録。依頼者がバルーン文言を指定した場合はそれを最優先
 - 具体時刻（XX:XX）は書かない。頻度＋公式時刻表リンクで誘導
 - data/timetables の CSV は参考扱い、記事に転記しない
 - 参照URLの文章はコピペ禁止、要約・解釈のみ。出典は本文中に明示し、本文末に元リンクを置く
@@ -63,7 +63,7 @@ slug:
 鉄道マップ: 「{タイトル or 内容の概要}」を {slug} で記事化（{記事タイプ}）。
 内容: {こういうことを書いてほしい — タイトル空欄ならここから生成}
 docs/voice-guide.md / article-workflow.md / article-template{-news}.html / articles-index.md を必ず再読してから着手。
-speech--draft の本文は触らない。時刻は具体値NG・頻度＋公式リンクで。
+バルーンは自動生成で埋める（balloon-review-queue.md に記録）。時刻は具体値NG・頻度＋公式リンクで。
 参照URL: {URLがあれば}
 サムネ: {ファイル名があれば}
 ```
