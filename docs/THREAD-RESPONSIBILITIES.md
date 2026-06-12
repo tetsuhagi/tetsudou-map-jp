@@ -66,7 +66,8 @@
 | `src/app.js`、`src/data.js`、`src/train.js` | ✅ | ❌ |
 | `assets/content.css` | ✅ | ❌ |
 | `assets/tts.js`、他共通ウィジェット | ✅ | ❌ |
-| `assets/icons/`、`assets/og/` | ✅ | ❌ |
+| `assets/icons/` | ✅ | ❌ |
+| `assets/og/`（サムネ生成物 PNG）| 🟡 スクリプト・既存分 | 🟡 新記事分の生成・出力は許可 |
 | `data/routes.csv`、`stations.csv` | ✅ | ❌ |
 | `data/geometry/*.json`、`data/timetables/*` | ✅ | ❌ |
 | `scripts/*.py`、`scripts/*.sh` | ✅ | ❌ |
@@ -85,6 +86,14 @@
 - ✅: 完全担当
 - ❌: 触らない
 - 🟡: ファイル内で領域分け（後述）
+
+`assets/og/` の補足（2026-06 サムネ方針転換）:
+`scripts/gen_thumbnail.py`（Thread A 実装・保守）によるテキストサムネ PNG の
+**生成・出力は Thread B（Routine）の運用として許可**する。Thread B は新記事の
+公開フローで `python3 scripts/gen_thumbnail.py --line1 .. --line2 .. --out
+assets/og/{slug}.png` を実行し、生成された PNG をコミットしてよい
+（ルール: docs/autonomous-publishing.md §3.5）。スクリプト本体・フォント
+（`assets/fonts/`）・既存画像の整理は引き続き Thread A 担当。
 
 ---
 

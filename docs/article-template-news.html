@@ -17,8 +17,9 @@
     {{TITLE_SHORT}}         OGP 用の短縮タイトル（30字以内）
     {{DESCRIPTION}}         meta description（120〜160字）
     {{DESCRIPTION_SHORT}}   OGP 用の短縮 description（〜90字）
-    {{OG_IMAGE}}            OGP 画像の絶対 or サイト相対パス
-                            （未用意なら og:image / twitter:image / image を全削除）
+    {{OG_IMAGE}}            OGP 画像のサイト相対パス（例: /assets/og/{{SLUG}}.png）
+                            scripts/gen_thumbnail.py で生成したテキストサムネを指定。
+                            生成ルールは docs/autonomous-publishing.md §3.5 参照
     {{BREADCRUMB_NAME}}     パンくず最下層の表示名
     {{SUBJECT}}             ニュースの主体（例: JR東日本 / 京急 / 観光列車「○○」）
     {{CATEGORY}}            カテゴリ表示用（例: 鉄道ニュース / 旅行ニュース / 観光キャンペーン）
@@ -54,9 +55,11 @@
   <meta property="og:description" content="{{DESCRIPTION_SHORT}}">
   <meta property="og:url" content="https://tetsudou-map.com/news/{{SLUG}}">
   <meta property="og:site_name" content="鉄道マップ全国版">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://tetsudou-map.com{{OG_IMAGE}}">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{TITLE_SHORT}}">
   <meta name="twitter:description" content="{{DESCRIPTION_SHORT}}">
+  <meta name="twitter:image" content="https://tetsudou-map.com{{OG_IMAGE}}">
 
   <!-- 構造化データ（NewsArticle） -->
   <script type="application/ld+json">
@@ -81,6 +84,7 @@
         "mainEntityOfPage": "https://tetsudou-map.com/news/{{SLUG}}",
         "articleSection": "{{ARTICLE_SECTION}}",
         "keywords": "{{KEYWORDS}}",
+        "image": "https://tetsudou-map.com{{OG_IMAGE}}",
         "author": {
           "@type": "Person",
           "name": "{{AUTHOR_NAME}}"
@@ -129,6 +133,13 @@
 <main class="article">
   <h1>{{TITLE}}</h1>
   <p class="page-meta">公開: {{NEWS_DATE_LABEL}} / カテゴリ: {{CATEGORY}}</p>
+
+  <!-- ▼ テキストサムネ（scripts/gen_thumbnail.py で生成）を記事冒頭に表示。
+       1200×630 固定（CLS 対策で width/height 属性は変えない）。 -->
+  <figure class="article-hero">
+    <img src="{{OG_IMAGE}}" alt="{{TITLE_SHORT}}" width="1200" height="630" decoding="async">
+  </figure>
+
   <!-- TODO: 導入文（200〜300字）
        - ニュースの要点を 1〜2 文で
        - 主情報源を冒頭に明示（「{{SUBJECT}} の発表によると」等）
