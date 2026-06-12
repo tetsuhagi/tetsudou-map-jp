@@ -12,7 +12,7 @@
 ## キュー
 
 - [x] 【路線】成田エクスプレス（東京・横浜〜成田空港）— slug案: narita-express → 2026-06-12 / narita-express
-- [ ] 【路線】スカイライナー（上野・日暮里〜成田空港）— slug案: skyliner
+- [x] 【路線】スカイライナー（上野・日暮里〜成田空港）— slug案: skyliner → 2026-06-13 / skyliner
 - [ ] 【コラム】成田空港アクセス比較: 成田エクスプレス vs スカイライナー、どっちを選ぶ？ — slug案: narita-airport-access
 - [ ] 【路線】サンダーバード（大阪〜敦賀）— slug案: thunderbird
 - [ ] 【路線】ロマンスカー・はこね（新宿〜箱根湯本）— slug案: romancecar-hakone
