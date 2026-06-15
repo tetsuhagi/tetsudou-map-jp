@@ -67,6 +67,23 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
 .site-nav a[aria-current="page"] {
   color: var(--color-accent); font-weight: 600;
 }
+/* ハンバーガーボタン。デスクトップでは常に非表示。
+   スマホ(≤600px)かつ JS 有効時のみ表示（site-nav.js が html.js を付与）。
+   アイコンは ☰ グリフに依存せず CSS で3本バーを描画（環境差で消えない）。 */
+.nav-toggle {
+  display: none;            /* 表示切替は ≤600px の html.js ルールで行う */
+  position: relative;
+  align-items: center; justify-content: center;
+  width: 40px; height: 36px; padding: 0;
+  border: 1px solid var(--color-text-muted); border-radius: 8px;
+  background: var(--color-surface); cursor: pointer;
+  font-size: 0;             /* button 内の ☰ テキストを視覚的に隠す（aria-labelで読み上げ担保） */
+}
+.nav-toggle::before {
+  content: ""; width: 18px; height: 2px; border-radius: 2px;
+  background: var(--color-text);
+  box-shadow: 0 -6px 0 var(--color-text), 0 6px 0 var(--color-text);
+}
 
 /* ─────────────────────────────────────────────────────────────
    パンくず
@@ -146,7 +163,13 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
    ・OGP 画像（assets/og/{slug}.jpg）を記事本文の冒頭にも掲載するためのラッパー
    ・サムネ画像が用意されている記事のみ使用。未指定の記事では <figure> ごと省略
    ───────────────────────────────────────────────────────────── */
+/* 記事ヒーロー（テキストサムネ）はページ内では非表示（PC・スマホ共通）。
+   サムネの本来の役割は OGP/SNS カード（<head> の <meta> 側）に限定する。
+   本文冒頭の hero はすぐ上の h1 と同内容の繰り返しで、初期画面を占有して
+   「要点3つ」を画面外へ押し下げてしまうため省略し、読むハードルを下げる。
+   2026-06 ファーストビュー最適化。再表示したい場合は display:block に戻す。 */
 .article-hero {
+  display: none;
   margin: 4px 0 24px;
 }
 .article-hero img {
@@ -316,9 +339,6 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   .home-section > h2 { font-size: 19px; }
   .article-grid { grid-template-columns: 1fr; gap: 16px; }
   .home-about { padding: 20px 20px; }
-  /* ファーストビュー最適化: スマホでは hero を小型化し、要点3つ＋
-     最初のバルーンを Above the Fold に収める（PCは現状維持）。 */
-  .article-hero img { max-height: 150px; width: 100%; object-fit: cover; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -724,9 +744,30 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
   .article h1 { font-size: 23px; }
   .article h2 { font-size: 19px; margin-top: 28px; }
   .article h3 { font-size: 16px; }
-  .site-header__inner { gap: 16px; padding: 10px 14px; }
+  .site-header__inner { gap: 16px; padding: 10px 14px; position: relative; }
   .site-logo { font-size: 15px; }
-  .site-nav { gap: 14px; font-size: 13px; }
+
+  /* --- no-JS フォールバック: ナビを1行の横スクロールに（各項目の2行折返しを防ぐ） --- */
+  .site-nav {
+    gap: 14px; font-size: 13px;
+    flex-wrap: nowrap; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; max-width: 100%;
+  }
+  .site-nav a { white-space: nowrap; flex: 0 0 auto; }
+
+  /* --- JS 有効時: ハンバーガー化（ファーストビューを縦に広く使う） --- */
+  html.js .nav-toggle { display: inline-flex; margin-left: auto; }
+  html.js .site-nav {
+    display: none; position: absolute; top: 100%; right: 12px;
+    flex-direction: column; gap: 0; overflow: visible;
+    min-width: 200px; padding: 6px 0; margin-top: 4px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border); border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  html.js .site-nav.open { display: flex; }
+  html.js .site-nav a { padding: 10px 18px; }
+
   .breadcrumb { padding: 10px 14px 0; font-size: 12px; }
   .map-cta { padding: 20px 16px; }
   .site-footer__cols { grid-template-columns: 1fr; gap: 24px; }
