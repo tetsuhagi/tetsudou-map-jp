@@ -316,6 +316,9 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   .home-section > h2 { font-size: 19px; }
   .article-grid { grid-template-columns: 1fr; gap: 16px; }
   .home-about { padding: 20px 20px; }
+  /* ファーストビュー最適化: スマホでは hero を小型化し、要点3つ＋
+     最初のバルーンを Above the Fold に収める（PCは現状維持）。 */
+  .article-hero img { max-height: 150px; width: 100%; object-fit: cover; }
 }
 
 /* ─────────────────────────────────────────────────────────────

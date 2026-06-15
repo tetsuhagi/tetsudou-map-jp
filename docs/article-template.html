@@ -141,15 +141,7 @@
     <img src="{{OG_IMAGE}}" alt="{{TITLE_SHORT}}" width="1200" height="630" decoding="async">
   </figure>
 
-  <!-- TODO: 導入文（200〜300字）
-       - {{TRAIN_NAME}} が何か、どこを走るか、なぜ人気か
-       - この記事で何がわかるか
-       - 丁寧語、AI臭くならないように -->
-  <p>
-    <strong>{{TRAIN_NAME}}</strong>は、…
-  </p>
-
-  <!-- ▼ 要点3つ（導入文の直後・最初のh2の前に必ず置く）
+  <!-- ▼ 要点3つ（ファーストビュー最適化: hero直後・導入文より前に置く）
        結論を早く知りたい / 長文が苦手な読者向け。各1行・簡潔に。
        ⚠ 具体時刻（XX:XX）は入れない。誇大語（最強・日本一等）も使わない。
        タイトル「💡 まずはここだけ！3つの要点」は固定。✅マーカーはCSSが自動付与。 -->
@@ -162,13 +154,6 @@
     </ul>
   </div>
 
-  <div class="disclaimer">
-    <strong>ご注意:</strong>
-    本記事の情報は{{LAST_MODIFIED_LABEL}}時点のおおよその目安です。
-    実際の運行時刻・運行状況は <a href="" target="_blank" rel="noopener">{{OPERATOR}}</a>
-    等の公式情報でご確認ください。
-  </div>
-
   <!-- ✋ Bubble 1: 記事冒頭、「この列車を初めて知った」「噂は聞いてた」系
        ⚠ 執筆AIは speech--draft クラスのバルーン本文を触らない！
           このプレースホルダのまま残し、運営者が後で実コメントに差し替える工程がある。
@@ -176,6 +161,21 @@
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <!-- TODO: 導入文（ファーストビュー最適化により 100字程度に短縮。Thread B 対応）
+       - {{TRAIN_NAME}} が何か、どこを走るか、なぜ人気か
+       - この記事で何がわかるか
+       - 丁寧語、AI臭くならないように -->
+  <p>
+    <strong>{{TRAIN_NAME}}</strong>は、…
+  </p>
+
+  <div class="disclaimer">
+    <strong>ご注意:</strong>
+    本記事の情報は{{LAST_MODIFIED_LABEL}}時点のおおよその目安です。
+    実際の運行時刻・運行状況は <a href="" target="_blank" rel="noopener">{{OPERATOR}}</a>
+    等の公式情報でご確認ください。
   </div>
 
   <h2>{{TRAIN_NAME}}とは</h2>

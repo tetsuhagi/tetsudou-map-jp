@@ -140,16 +140,7 @@
     <img src="{{OG_IMAGE}}" alt="{{TITLE_SHORT}}" width="1200" height="630" decoding="async">
   </figure>
 
-  <!-- TODO: 導入文（200〜300字）
-       - ニュースの要点を 1〜2 文で
-       - 主情報源を冒頭に明示（「{{SUBJECT}} の発表によると」等）
-       - なぜこのニュースを取り上げるか、読者にどう関係するか
-       - 丁寧語、AI臭くならないように -->
-  <p>
-    <strong>{{SUBJECT}}</strong>の発表によると、…
-  </p>
-
-  <!-- ▼ 要点3つ（導入文の直後・最初のh2の前に必ず置く）
+  <!-- ▼ 要点3つ（ファーストビュー最適化: hero直後・導入文より前に置く）
        発表の要点を早く知りたい読者向け。各1行・簡潔に。
        ⚠ 具体時刻（XX:XX）は入れない。誇大語（最強・日本一等）も使わない。確定していない事項は「予定」等で。
        タイトル「💡 まずはここだけ！3つの要点」は固定。✅マーカーはCSSが自動付与。 -->
@@ -162,13 +153,6 @@
     </ul>
   </div>
 
-  <div class="disclaimer">
-    <strong>ご注意:</strong>
-    本記事は{{NEWS_DATE_LABEL}}時点で公開されている情報をもとに作成しています。
-    続報・最新情報は <a href="" target="_blank" rel="noopener">{{SUBJECT}} 公式</a>
-    等の一次情報でご確認ください。
-  </div>
-
   <!-- ✋ Bubble 1: ニュース冒頭、第一印象・素朴な驚き系
        ⚠ 執筆AIは speech--draft クラスのバルーン本文を触らない！
           このプレースホルダのまま残し、運営者が後で実コメントに差し替える工程がある。
@@ -176,6 +160,22 @@
   <div class="speech speech--draft">
     <span class="speech__avatar">🙋‍♂️</span>
     <div class="speech__bubble">← ここに一言（不要なら削除）</div>
+  </div>
+
+  <!-- TODO: 導入文（ファーストビュー最適化により 100字程度に短縮。Thread B 対応）
+       - ニュースの要点を 1〜2 文で
+       - 主情報源を冒頭に明示（「{{SUBJECT}} の発表によると」等）
+       - なぜこのニュースを取り上げるか、読者にどう関係するか
+       - 丁寧語、AI臭くならないように -->
+  <p>
+    <strong>{{SUBJECT}}</strong>の発表によると、…
+  </p>
+
+  <div class="disclaimer">
+    <strong>ご注意:</strong>
+    本記事は{{NEWS_DATE_LABEL}}時点で公開されている情報をもとに作成しています。
+    続報・最新情報は <a href="" target="_blank" rel="noopener">{{SUBJECT}} 公式</a>
+    等の一次情報でご確認ください。
   </div>
 
   <h2>発表の概要</h2>
