@@ -15,7 +15,7 @@
 - [x] 【路線】スカイライナー（上野・日暮里〜成田空港）— slug案: skyliner → 2026-06-13 / skyliner
 - [x] 【コラム】成田空港アクセス比較: 成田エクスプレス vs スカイライナー、どっちを選ぶ？ — slug案: narita-airport-access → 2026-06-14 / narita-airport-access
 - [x] 【路線】サンダーバード（大阪〜敦賀）— slug案: thunderbird → 2026-06-15 / thunderbird
-- [ ] 【路線】ロマンスカー・はこね（新宿〜箱根湯本）— slug案: romancecar-hakone
+- [x] 【路線】ロマンスカー・はこね（新宿〜箱根湯本）— slug案: romancecar-hakone → 2026-06-16 / romancecar-hakone
 - [ ] 【コラム】東京〜大阪は新幹線と飛行機どっちが楽？費用・所要・快適性で比較 — slug案: shinkansen-vs-airplane-tokyo-osaka
 - [ ] 【路線】ひのとり（大阪難波〜近鉄名古屋）— slug案: hinotori
 - [ ] 【路線】しまかぜ（大阪・京都・名古屋〜賢島）— slug案: shimakaze
