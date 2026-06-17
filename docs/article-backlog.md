@@ -17,7 +17,7 @@
 - [x] 【路線】サンダーバード（大阪〜敦賀）— slug案: thunderbird → 2026-06-15 / thunderbird
 - [x] 【路線】ロマンスカー・はこね（新宿〜箱根湯本）— slug案: romancecar-hakone → 2026-06-16 / romancecar-hakone
 - [x] 【コラム】東京〜大阪は新幹線と飛行機どっちが楽？費用・所要・快適性で比較 — slug案: shinkansen-vs-airplane-tokyo-osaka → 2026-06-17 / shinkansen-vs-airplane-tokyo-osaka
-- [ ] 【路線】ひのとり（大阪難波〜近鉄名古屋）— slug案: hinotori
+- [x] 【路線】ひのとり（大阪難波〜近鉄名古屋）— slug案: hinotori → 2026-06-18 / hinotori
 - [ ] 【路線】しまかぜ（大阪・京都・名古屋〜賢島）— slug案: shimakaze
 - [ ] 【コラム】観光特急はなぜ人気？プレミアムシート時代の鉄道旅 — slug案: kanko-tokkyu-ninki
 - [ ] 【路線】はるか（京都〜関西空港）— slug案: haruka
