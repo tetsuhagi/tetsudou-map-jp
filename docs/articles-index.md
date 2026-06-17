@@ -7,6 +7,27 @@
 
 ---
 
+## 記事の標準構成 早見表（2026-06 現在 / 詳細は各docを参照）
+
+新規・既存いずれも、記事は以下の要素で構成する。詳細ルールはリンク先が正。
+
+| 要素 | 概要 | 正となるdoc |
+|---|---|---|
+| 要素順（FV最適化） | `h1 → page-meta → hero(CSSで非表示) → 要点3つ → バルーン1 → 導入文 → disclaimer → 本文` | `article-template.html`（構造はThread A管轄） |
+| 要点3つ `div.keypoints` | 導入の直後。各1行・具体時刻/誇大語NG | `autonomous-publishing.md` §2-6 |
+| 導入文 | 約100字に短縮（FVに収めるため） | 同上 |
+| バルーン `div.speech` | 4〜6個・自動生成で本文入り→`balloon-review-queue.md`で事後レビュー | `voice-guide.md` §5.5 |
+| サムネ（テキスト） | `assets/og/{slug}.png`（`gen_thumbnail.py`生成）＋ og:image/twitter:image(summary_large_image)/JSON-LD image/`article-hero`/TOPカード画像 | `autonomous-publishing.md` §3.5 |
+| 時刻表記 | 具体時刻(XX:XX)は書かない・頻度＋公式リンク | `article-workflow.md` §1 |
+| アフィリ | 宿予約と自然につながる記事のみ。本文テキスト1＋CTA `div.affiliate-cta` 1＝計2まで。`<a>`は登録スニペットとbyte一致・disclaimerに開示 | `affiliate-links.md` |
+| TTS | 全記事に `<script src="/assets/tts.js?v=…">`（Thread A管轄・触らない） | `widgets-tts.md` |
+
+- CSS/JSの現行版: **content.css?v=106**（既存記事に合わせる。変更はThread A）
+- 自動公開はRoutine（毎朝1本・Phase 1）。手順の正は `autonomous-publishing.md`
+- 分担: 構造/CSS/JS/assets = **Thread A** ／ prose・SEO個別値・台帳 = **Thread B**（`THREAD-RESPONSIBILITIES.md`）
+
+---
+
 ## 路線詳細（routes/）
 
 ### 寝台特急
@@ -112,4 +133,4 @@
 
 ---
 
-最終更新: 2026-05-21
+最終更新: 2026-06-17（標準構成 早見表を追加）
