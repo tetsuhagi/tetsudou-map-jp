@@ -578,6 +578,24 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
   font-size: 11px; color: var(--color-text-muted); margin: 12px 0 0;
 }
 
+/* 2案件並列CTA（例: 楽天＋じゃらん）。ブロック内に <a> を2つ直接置くと
+   等幅2カラムのボタンになる（余白12px）。__label/__note は全幅行、
+   モバイルは縦積み。 */
+.affiliate-cta--duo {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch;
+  gap: 12px;
+}
+.affiliate-cta--duo .affiliate-cta__label,
+.affiliate-cta--duo .affiliate-cta__note { flex-basis: 100%; margin: 0; }
+.affiliate-cta--duo a { flex: 1 1 0; min-width: 0; margin: 0; }
+/* 2番目のボタン＝じゃらん想定。提供リンク <a> に class を付けられない
+   （byte一致厳守）ため nth-of-type(2) でフックして色分けする。
+   白文字のコントラスト比4.5:1以上を満たす濃いオレンジを使用
+   （淡いオレンジは不可: #d35400=4.17:1でNG。採用 #c2410c=5.18:1 / hover #9a3412=7.31:1）。
+   ⚠ ブロック内に他の <a>（note内リンク等）を置くと nth-of-type がずれるので置かない。 */
+.affiliate-cta--duo a:nth-of-type(2) { background: #c2410c; }
+.affiliate-cta--duo a:nth-of-type(2):hover { background: #9a3412; }
+
 /* ─────────────────────────────────────────────────────────────
    注意書きバナー (情報の鮮度・正確性を明示)
    ───────────────────────────────────────────────────────────── */
@@ -798,6 +816,8 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
   .breadcrumb { padding: 10px 14px 0; font-size: 12px; }
   .map-cta { padding: 20px 16px; }
   .affiliate-cta a { display: block; padding: 14px; }
+  .affiliate-cta--duo { flex-direction: column; }
+  .affiliate-cta--duo a { flex: 0 0 auto; width: 100%; }
   .site-footer__cols { grid-template-columns: 1fr; gap: 24px; }
 }
 
