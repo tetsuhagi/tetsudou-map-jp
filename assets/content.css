@@ -552,6 +552,33 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
 }
 
 /* ─────────────────────────────────────────────────────────────
+   アフィリエイト CTA (記事内に1つだけ置く控えめな行動喚起ブロック)
+   ・本文テキストリンクとは別に、まとめ前後で1回だけ使う想定
+   ・⚠ ASP規約の「リンク本体(<a>)改変禁止」に抵触しないよう、提供リンクの
+     <a> はそのまま置き、外側(.affiliate-cta a)からCSSでボタン化する
+   ・色は案件別に .affiliate-cta--{brand} で上書きする想定（既定は楽天向け赤系）
+   ───────────────────────────────────────────────────────────── */
+.affiliate-cta {
+  margin: 28px 0; padding: 20px 18px; text-align: center;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+.affiliate-cta__label {
+  font-size: 15px; font-weight: 700; color: var(--color-text);
+  margin: 0 0 14px;
+}
+/* 提供リンク <a> は改変禁止のため、親から装飾してボタン化する */
+.affiliate-cta a {
+  display: inline-block; background: #bf0000; color: #fff !important;
+  padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 16px;
+  text-decoration: none; max-width: 100%;
+}
+.affiliate-cta a:hover { background: #a00000; text-decoration: none; }
+.affiliate-cta__note {
+  font-size: 11px; color: var(--color-text-muted); margin: 12px 0 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
    注意書きバナー (情報の鮮度・正確性を明示)
    ───────────────────────────────────────────────────────────── */
 .disclaimer {
@@ -770,6 +797,7 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
 
   .breadcrumb { padding: 10px 14px 0; font-size: 12px; }
   .map-cta { padding: 20px 16px; }
+  .affiliate-cta a { display: block; padding: 14px; }
   .site-footer__cols { grid-template-columns: 1fr; gap: 24px; }
 }
 
