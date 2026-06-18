@@ -90,6 +90,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `shinkansen-supreme-class` | `/news/shinkansen-supreme-class` | 東海道・山陽新幹線に最上級「Supreme Class」導入（2026-06-19） | JR東海・JR西日本がN700Sに最上級クラス導入。2026年10月に個室「Cabin」から・23年ぶり個室復活。設備・料金・発売日を整理 | shinkansen-vs-airplane-tokyo-osaka, luna-azul-2027-debut, sunrise-izumo |
 | `luna-azul-2027-debut` | `/news/luna-azul-2027-debut` | 新夜行特急「ルナ・アズール」発表（2026-06-13） | JR東日本の新夜行特急の名称決定。2027年度デビュー予定・品川〜青森/長野原草津口 | sunrise-seto, sunrise-izumo |
 
 ### 旅行・観光ニュース
