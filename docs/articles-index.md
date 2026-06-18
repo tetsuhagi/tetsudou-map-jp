@@ -60,7 +60,8 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 兄弟列車 |
 |---|---|---|---|---|
-| `rail-kitchen-chikugo` | `/routes/rail-kitchen-chikugo` | THE RAIL KITCHEN CHIKUGO 完全ガイド｜西鉄の"走るレストラン"で筑後の食を味わう | 西日本鉄道の観光レストラン列車。車内の石窯と筑後の食材を楽しむ完全予約制。太宰府・柳川観光とも好相性 | — |
+| `shimakaze` | `/routes/shimakaze` | しまかぜ完全ガイド｜大阪・京都・名古屋〜賢島の停車駅・展望車・伊勢志摩の旅 | 近鉄が運行する伊勢志摩への観光特急（50000系）。ハイデッカー展望車・2階建てカフェ車両・個室を備え、大阪難波・京都・近鉄名古屋の3方面から賢島へ向かう | hinotori（同じ近鉄）, rail-kitchen-chikugo |
+| `rail-kitchen-chikugo` | `/routes/rail-kitchen-chikugo` | THE RAIL KITCHEN CHIKUGO 完全ガイド｜西鉄の"走るレストラン"で筑後の食を味わう | 西日本鉄道の観光レストラン列車。車内の石窯と筑後の食材を楽しむ完全予約制。太宰府・柳川観光とも好相性 | shimakaze |
 
 ---
 
