@@ -55,9 +55,12 @@ Phase 2 への切替は運営者がこのファイルを書き換えて指示す
      2ボタンは CTA「1枠」扱い（計2の原則は不変）。じゃらんは A8「じゃらんnet」＋計測img をセットで byte 一致。
    - クレカ等YMYL案件は**入れない**（禁止事項参照。トピック希薄化・低CVR）。
 8. 関連ファイル更新:
-   - `routes/index.html` または `columns/index.html` の該当カテゴリにエントリ追加
-   - `index.html`（TOP）の該当グリッドにテキストカード追加（最新を先頭）
-   - `sitemap.xml` に URL 追加（lastmod = 公開日 / monthly / 0.8）
+   - **カテゴリ別 index**: 【路線】`routes/index.html` ／【コラム】`columns/index.html` ／【ニュース】`news/index.html` の該当セクションにエントリ追加
+   - **`index.html`（TOP）の該当グリッドに必ずカード追加（最新を先頭）** — TOPには3つの `section.home-section` がある:
+     【路線】`aria-label="路線解説"` グリッド ／【コラム】`aria-label="コラム・雑記"` グリッド ／【ニュース】`aria-label="ニュース"` グリッド。
+     記事カテゴリに対応するグリッドの先頭に `article.article-card`（画像＝サムネpng・`__cat`・`__title`・`__desc`）を追加する。
+     ⚠ **ニュース記事もTOPの「ニュース」グリッドに必ず載せる**（過去に載せ漏れあり。スポット依頼記事も同様）。
+   - `sitemap.xml` に URL 追加（lastmod = 公開日 / monthly / 路線・コラム0.8 / ニュース0.7）
    - `docs/articles-index.md` にエントリ追加・関連記事との相互リンク
    - ⚠ `_redirects` は Thread A 領域なので**触らない**（クリーンURL運用は Cloudflare 側の既存ルールでカバーされない場合があるが、追記はしない。コミットメッセージに「Note for Thread A: /xxx/{slug}.html の 301 追加をお願いします」と書く）
 9. バックログの該当行を `- [x]` にし、`→ 2026-MM-DD / {slug}` を追記
