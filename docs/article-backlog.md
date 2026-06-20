@@ -19,7 +19,7 @@
 - [x] 【コラム】東京〜大阪は新幹線と飛行機どっちが楽？費用・所要・快適性で比較 — slug案: shinkansen-vs-airplane-tokyo-osaka → 2026-06-17 / shinkansen-vs-airplane-tokyo-osaka
 - [x] 【路線】ひのとり（大阪難波〜近鉄名古屋）— slug案: hinotori → 2026-06-18 / hinotori
 - [x] 【路線】しまかぜ（大阪・京都・名古屋〜賢島）— slug案: shimakaze → 2026-06-19 / shimakaze
-- [ ] 【コラム】観光特急はなぜ人気？プレミアムシート時代の鉄道旅 — slug案: kanko-tokkyu-ninki
+- [x] 【コラム】観光特急はなぜ人気？プレミアムシート時代の鉄道旅 — slug案: kanko-tokkyu-ninki → 2026-06-20 / kanko-tokkyu-ninki
 - [ ] 【路線】はるか（京都〜関西空港）— slug案: haruka
 - [ ] 【路線】ラピート（難波〜関西空港）— slug案: rapit
 - [ ] 【コラム】関空アクセス比較: はるか vs ラピート vs バス — slug案: kansai-airport-access
