@@ -21,7 +21,7 @@
 - [x] 【路線】しまかぜ（大阪・京都・名古屋〜賢島）— slug案: shimakaze → 2026-06-19 / shimakaze
 - [x] 【コラム】観光特急はなぜ人気？プレミアムシート時代の鉄道旅 — slug案: kanko-tokkyu-ninki → 2026-06-20 / kanko-tokkyu-ninki
 - [x] 【路線】はるか（京都〜関西空港）— slug案: haruka → 2026-06-21 / haruka
-- [ ] 【路線】ラピート（難波〜関西空港）— slug案: rapit
+- [x] 【路線】ラピート（難波〜関西空港）— slug案: rapit → 2026-06-22 / rapit
 - [ ] 【コラム】関空アクセス比較: はるか vs ラピート vs バス — slug案: kansai-airport-access
 - [ ] 【路線】ミュースカイ（名鉄名古屋〜中部国際空港）— slug案: mu-sky
 - [ ] 【路線】あずさ・かいじ（新宿〜松本・甲府）— slug案: azusa-kaiji
