@@ -74,6 +74,7 @@
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
 | `kanko-tokkyu-ninki` | `/columns/kanko-tokkyu-ninki` | 観光特急はなぜ人気？プレミアムシート時代の鉄道旅を考える | 乗ること自体が目的になる観光特急・プレミアムシートの人気の背景を体験消費・移動時間の再定義から考察するコラム | shimakaze, rail-kitchen-chikugo, hinotori |
+| `nishitetsu-history` | `/columns/nishitetsu-history` | 西鉄って結局なに者？路面電車から日本一の野球チーム、バス王国まで（西日本鉄道の歴史） | 西日本鉄道の歴史をエンタメ風に解説。九州電気軌道→1942年合併→西鉄ライオンズ→バス王国・街づくり・沿線観光まで | rail-kitchen-chikugo, kitakyushu-airport-access |
 | `shinkansen-vs-airplane-tokyo-osaka` | `/columns/shinkansen-vs-airplane-tokyo-osaka` | 東京〜大阪は新幹線と飛行機どっちが楽？費用・所要時間・快適性で比較 | 費用・所要時間・快適性・本数の4軸で新幹線「のぞみ」と飛行機を比較するコラム | narita-airport-access, jalan-vs-rakuten-travel |
 | `narita-airport-access` | `/columns/narita-airport-access` | 成田空港アクセスはNEXかスカイライナーか？出発地・所要時間・料金で比較 | 出発地・所要時間・料金・荷物スペースの4軸でNEXとスカイライナーを比較するコラム | narita-express, skyliner |
 | `jalan-vs-rakuten-travel` | `/columns/jalan-vs-rakuten-travel` | じゃらん vs 楽天トラベル、宿予約はどっちがお得？ | ポイント還元・対応宿数・キャンペーン傾向で二大宿予約サイトを徹底比較 | recruit-card-travel |
