@@ -76,7 +76,8 @@
 | `kanko-tokkyu-ninki` | `/columns/kanko-tokkyu-ninki` | 観光特急はなぜ人気？プレミアムシート時代の鉄道旅を考える | 乗ること自体が目的になる観光特急・プレミアムシートの人気の背景を体験消費・移動時間の再定義から考察するコラム | shimakaze, rail-kitchen-chikugo, hinotori |
 | `nishitetsu-history` | `/columns/nishitetsu-history` | 西鉄って結局なに者？路面電車から日本一の野球チーム、バス王国まで（西日本鉄道の歴史） | 西日本鉄道の歴史をエンタメ風に解説。九州電気軌道→1942年合併→西鉄ライオンズ→バス王国・街づくり・沿線観光まで | rail-kitchen-chikugo, kitakyushu-airport-access |
 | `shinkansen-vs-airplane-tokyo-osaka` | `/columns/shinkansen-vs-airplane-tokyo-osaka` | 東京〜大阪は新幹線と飛行機どっちが楽？費用・所要時間・快適性で比較 | 費用・所要時間・快適性・本数の4軸で新幹線「のぞみ」と飛行機を比較するコラム | narita-airport-access, jalan-vs-rakuten-travel |
-| `narita-airport-access` | `/columns/narita-airport-access` | 成田空港アクセスはNEXかスカイライナーか？出発地・所要時間・料金で比較 | 出発地・所要時間・料金・荷物スペースの4軸でNEXとスカイライナーを比較するコラム | narita-express, skyliner |
+| `narita-airport-access` | `/columns/narita-airport-access` | 成田空港アクセスはNEXかスカイライナーか？出発地・所要時間・料金で比較 | 出発地・所要時間・料金・荷物スペースの4軸でNEXとスカイライナーを比較するコラム | narita-express, skyliner, kansai-airport-access |
+| `kansai-airport-access` | `/columns/kansai-airport-access` | 関空アクセスはどれが正解？はるか・ラピート・バスを所要時間・料金・出発地で比較 | 出発地・所要時間・料金・乗り換えの4軸で特急はるか・ラピート・リムジンバスを比較するコラム | haruka, rapit, narita-airport-access |
 | `jalan-vs-rakuten-travel` | `/columns/jalan-vs-rakuten-travel` | じゃらん vs 楽天トラベル、宿予約はどっちがお得？ | ポイント還元・対応宿数・キャンペーン傾向で二大宿予約サイトを徹底比較 | recruit-card-travel |
 | `recruit-card-travel` | `/columns/recruit-card-travel` | リクルートカードは国内旅行好きにお得？ | 常時1.2%還元＋じゃらん連携。国内旅行ユースケースに絞ったリクルートカードの解説 | jalan-vs-rakuten-travel |
 | `kitakyushu-airport-access` | `/columns/kitakyushu-airport-access` | 北九州空港アクセス改善は九州活性化のカギ？ | 24時間運用可能な海上空港・北九州空港のアクセス改善が九州全体の活性化につながりうるかを考察 | linear-to-hakata |
