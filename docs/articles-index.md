@@ -17,6 +17,7 @@
 | 要点3つ `div.keypoints` | 導入の直後。各1行・具体時刻/誇大語NG | `autonomous-publishing.md` §2-6 |
 | 導入文 | 約100字に短縮（FVに収めるため） | 同上 |
 | バルーン `div.speech` | 4〜6個・自動生成で本文入り→`balloon-review-queue.md`で事後レビュー | `voice-guide.md` §5.5 |
+| 読ませる工夫（エンタメ） | 物語アーク・意外性フック・物語的見出し・締めのリワード。本体ですます維持／笑いはバルーン。タイプ別濃度（歴史高・ガイド/比較中・ニュース低） | `voice-guide.md` §6.5（基準=西鉄記事） |
 | サムネ（テキスト） | `assets/og/{slug}.png`（`gen_thumbnail.py`生成）＋ og:image/twitter:image(summary_large_image)/JSON-LD image/`article-hero`/TOPカード画像 | `autonomous-publishing.md` §3.5 |
 | 時刻表記 | 具体時刻(XX:XX)は書かない・頻度＋公式リンク | `article-workflow.md` §1 |
 | アフィリ | 宿予約と自然につながる記事のみ。本文テキスト1＋CTA `div.affiliate-cta` 1＝計2まで。`<a>`は登録スニペットとbyte一致・disclaimerに開示 | `affiliate-links.md` |
