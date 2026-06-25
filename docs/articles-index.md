@@ -76,6 +76,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `shaso-zekkei-tokkyu` | `/columns/shaso-zekkei-tokkyu` | 車窓が絶景の在来線特急5選｜移動時間そのものが旅になる路線（個人的セレクション） | 琵琶湖（サンダーバード）・八ヶ岳/諏訪湖（あずさ・かいじ）・瀬戸内海（しおかぜ）・飛騨の渓谷（ひだ）・日本海の夕景（いなほ）の絶景車窓を持つ在来線特急5本を個人的セレクションで紹介するコラム | thunderbird, azusa-kaiji, kanko-tokkyu-ninki |
 | `kanko-tokkyu-ninki` | `/columns/kanko-tokkyu-ninki` | 観光特急はなぜ人気？プレミアムシート時代の鉄道旅を考える | 乗ること自体が目的になる観光特急・プレミアムシートの人気の背景を体験消費・移動時間の再定義から考察するコラム | shimakaze, rail-kitchen-chikugo, hinotori |
 | `nishitetsu-history` | `/columns/nishitetsu-history` | 西鉄って結局なに者？路面電車から日本一の野球チーム、バス王国まで（西日本鉄道の歴史） | 西日本鉄道の歴史をエンタメ風に解説。九州電気軌道→1942年合併→西鉄ライオンズ→バス王国・街づくり・沿線観光まで | rail-kitchen-chikugo, kitakyushu-airport-access |
 | `shinkansen-vs-airplane-tokyo-osaka` | `/columns/shinkansen-vs-airplane-tokyo-osaka` | 東京〜大阪は新幹線と飛行機どっちが楽？費用・所要時間・快適性で比較 | 費用・所要時間・快適性・本数の4軸で新幹線「のぞみ」と飛行機を比較するコラム | narita-airport-access, jalan-vs-rakuten-travel |

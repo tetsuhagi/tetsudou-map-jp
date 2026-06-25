@@ -25,7 +25,7 @@
 - [x] 【コラム】関空アクセス比較: はるか vs ラピート vs バス — slug案: kansai-airport-access → 2026-06-23 / kansai-airport-access
 - [x] 【路線】ミュースカイ（名鉄名古屋〜中部国際空港）— slug案: mu-sky → 2026-06-24 / mu-sky
 - [x] 【路線】あずさ・かいじ（新宿〜松本・甲府）— slug案: azusa-kaiji → 2026-06-25 / azusa-kaiji
-- [ ] 【コラム】車窓が絶景の在来線特急5選（個人的セレクション） — slug案: shaso-zekkei-tokkyu
+- [x] 【コラム】車窓が絶景の在来線特急5選（個人的セレクション） — slug案: shaso-zekkei-tokkyu → 2026-06-26 / shaso-zekkei-tokkyu
 - [ ] 【路線】ひたち・ときわ（品川〜仙台・いわき）— slug案: hitachi-tokiwa
 - [ ] 【路線】踊り子・サフィール踊り子（東京〜伊豆急下田）— slug案: odoriko
 - [ ] 【コラム】伊豆を電車だけで楽しむモデルコース — slug案: izu-train-trip
