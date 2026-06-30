@@ -27,7 +27,7 @@
 - [x] 【路線】あずさ・かいじ（新宿〜松本・甲府）— slug案: azusa-kaiji → 2026-06-25 / azusa-kaiji
 - [x] 【コラム】車窓が絶景の在来線特急5選（個人的セレクション） — slug案: shaso-zekkei-tokkyu → 2026-06-26 / shaso-zekkei-tokkyu
 - [x] 【路線】ひたち・ときわ（品川〜仙台・いわき）— slug案: hitachi-tokiwa → 2026-06-30 / hitachi-tokiwa
-- [ ] 【路線】踊り子・サフィール踊り子（東京〜伊豆急下田）— slug案: odoriko
+- [x] 【路線】踊り子・サフィール踊り子（東京〜伊豆急下田）— slug案: odoriko → 2026-07-01 / odoriko
 - [ ] 【コラム】伊豆を電車だけで楽しむモデルコース — slug案: izu-train-trip
 - [ ] 【路線】スペーシア（浅草〜東武日光）— slug案: spacia
 - [ ] 【路線】リバティ（浅草〜会津田島・鬼怒川温泉）— slug案: liberty
