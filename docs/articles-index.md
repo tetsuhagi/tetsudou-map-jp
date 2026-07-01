@@ -78,6 +78,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `izu-train-trip` | `/columns/izu-train-trip` | 伊豆を電車だけで巡るモデルコース｜熱海・伊豆高原・下田・修善寺の乗り継ぎと観光プラン | 踊り子・伊豆急行・駿豆線を乗り継ぎ、伊豆を電車だけで回る3コース（東伊豆=熱海→伊豆高原→下田／中伊豆=三島→修善寺／観光列車）を乗り継ぎのコツ・観光スポットつきで紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | odoriko, kanko-tokkyu-ninki, shaso-zekkei-tokkyu |
 | `shaso-zekkei-tokkyu` | `/columns/shaso-zekkei-tokkyu` | 車窓が絶景の在来線特急5選｜移動時間そのものが旅になる路線（個人的セレクション） | 琵琶湖（サンダーバード）・八ヶ岳/諏訪湖（あずさ・かいじ）・瀬戸内海（しおかぜ）・飛騨の渓谷（ひだ）・日本海の夕景（いなほ）の絶景車窓を持つ在来線特急5本を個人的セレクションで紹介するコラム | thunderbird, azusa-kaiji, kanko-tokkyu-ninki |
 | `kanko-tokkyu-ninki` | `/columns/kanko-tokkyu-ninki` | 観光特急はなぜ人気？プレミアムシート時代の鉄道旅を考える | 乗ること自体が目的になる観光特急・プレミアムシートの人気の背景を体験消費・移動時間の再定義から考察するコラム | shimakaze, rail-kitchen-chikugo, hinotori |
 | `nishitetsu-history` | `/columns/nishitetsu-history` | 西鉄って結局なに者？路面電車から日本一の野球チーム、バス王国まで（西日本鉄道の歴史） | 西日本鉄道の歴史をエンタメ風に解説。九州電気軌道→1942年合併→西鉄ライオンズ→バス王国・街づくり・沿線観光まで | rail-kitchen-chikugo, kitakyushu-airport-access |
