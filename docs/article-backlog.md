@@ -30,7 +30,7 @@
 - [x] 【路線】踊り子・サフィール踊り子（東京〜伊豆急下田）— slug案: odoriko → 2026-07-01 / odoriko
 - [x] 【コラム】伊豆を電車だけで楽しむモデルコース — slug案: izu-train-trip → 2026-07-02 / izu-train-trip
 - [x] 【路線】スペーシア（浅草〜東武日光）— slug案: spacia → 2026-07-03 / spacia
-- [ ] 【路線】リバティ（浅草〜会津田島・鬼怒川温泉）— slug案: liberty
+- [x] 【路線】リバティ（浅草〜会津田島・鬼怒川温泉）— slug案: liberty → 2026-07-04 / liberty
 - [ ] 【コラム】日光・鬼怒川は電車旅が正解？アクセスと観光の組み立て方 — slug案: nikko-kinugawa-train-trip
 - [ ] 【路線】ラビュー（池袋〜西武秩父）— slug案: laview
 - [ ] 【路線】くろしお（新大阪〜新宮）— slug案: kuroshio
