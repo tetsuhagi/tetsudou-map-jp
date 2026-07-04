@@ -80,6 +80,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `nikko-kinugawa-train-trip` | `/columns/nikko-kinugawa-train-trip` | 日光・鬼怒川は電車旅が正解？アクセス比較と観光の組み立て方｜スペーシアX・リバティ・JR直通で巡るモデルコース | いろは坂の渋滞・駐車場を避けられる日光・鬼怒川は電車旅向き。東武（浅草発）とJR（新宿直通）の2系統の選び方、スペーシアX/スペーシア/リバティ/JR日光きぬがわの使い分け、東照宮・鬼怒川温泉・奥日光の3コースを紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | spacia, liberty, izu-train-trip, kanko-tokkyu-ninki |
 | `izu-train-trip` | `/columns/izu-train-trip` | 伊豆を電車だけで巡るモデルコース｜熱海・伊豆高原・下田・修善寺の乗り継ぎと観光プラン | 踊り子・伊豆急行・駿豆線を乗り継ぎ、伊豆を電車だけで回る3コース（東伊豆=熱海→伊豆高原→下田／中伊豆=三島→修善寺／観光列車）を乗り継ぎのコツ・観光スポットつきで紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | odoriko, kanko-tokkyu-ninki, shaso-zekkei-tokkyu |
 | `shaso-zekkei-tokkyu` | `/columns/shaso-zekkei-tokkyu` | 車窓が絶景の在来線特急5選｜移動時間そのものが旅になる路線（個人的セレクション） | 琵琶湖（サンダーバード）・八ヶ岳/諏訪湖（あずさ・かいじ）・瀬戸内海（しおかぜ）・飛騨の渓谷（ひだ）・日本海の夕景（いなほ）の絶景車窓を持つ在来線特急5本を個人的セレクションで紹介するコラム | thunderbird, azusa-kaiji, kanko-tokkyu-ninki |
 | `kanko-tokkyu-ninki` | `/columns/kanko-tokkyu-ninki` | 観光特急はなぜ人気？プレミアムシート時代の鉄道旅を考える | 乗ること自体が目的になる観光特急・プレミアムシートの人気の背景を体験消費・移動時間の再定義から考察するコラム | shimakaze, rail-kitchen-chikugo, hinotori |
