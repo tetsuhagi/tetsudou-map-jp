@@ -32,8 +32,8 @@
 - [x] 【路線】スペーシア（浅草〜東武日光）— slug案: spacia → 2026-07-03 / spacia
 - [x] 【路線】リバティ（浅草〜会津田島・鬼怒川温泉）— slug案: liberty → 2026-07-04 / liberty
 - [x] 【コラム】日光・鬼怒川は電車旅が正解？アクセスと観光の組み立て方 — slug案: nikko-kinugawa-train-trip → 2026-07-05 / nikko-kinugawa-train-trip
-- [ ] 【路線】ラビュー（池袋〜西武秩父）— slug案: laview
-- [ ] 【路線】くろしお（新大阪〜新宮）— slug案: kuroshio
+- [x] 【路線】ラビュー（池袋〜西武秩父）— slug案: laview → 2026-07-06 / laview
+- [x] 【路線】くろしお（新大阪〜新宮）— slug案: kuroshio → 2026-07-08 / kuroshio
 - [ ] 【コラム】白浜・熊野古道へ列車で行く旅プラン — slug案: shirahama-kumano-train-trip
 - [ ] 【路線】ソニック（博多〜大分）— slug案: sonic
 - [ ] 【路線】ゆふいんの森（博多〜由布院・別府）— slug案: yufuin-no-mori
