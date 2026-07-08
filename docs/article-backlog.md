@@ -34,7 +34,7 @@
 - [x] 【コラム】日光・鬼怒川は電車旅が正解？アクセスと観光の組み立て方 — slug案: nikko-kinugawa-train-trip → 2026-07-05 / nikko-kinugawa-train-trip
 - [x] 【路線】ラビュー（池袋〜西武秩父）— slug案: laview → 2026-07-06 / laview
 - [x] 【路線】くろしお（新大阪〜新宮）— slug案: kuroshio → 2026-07-08 / kuroshio
-- [ ] 【コラム】白浜・熊野古道へ列車で行く旅プラン — slug案: shirahama-kumano-train-trip
+- [x] 【コラム】白浜・熊野古道へ列車で行く旅プラン — slug案: shirahama-kumano-train-trip → 2026-07-09 / shirahama-kumano-train-trip
 - [ ] 【路線】ソニック（博多〜大分）— slug案: sonic
 - [ ] 【路線】ゆふいんの森（博多〜由布院・別府）— slug案: yufuin-no-mori
 - [ ] 【コラム】九州の観光列車が熱い: 乗ること自体が目的になる列車たち — slug案: kyushu-kanko-ressha
