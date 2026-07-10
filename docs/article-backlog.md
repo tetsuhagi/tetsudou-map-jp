@@ -36,7 +36,7 @@
 - [x] 【路線】くろしお（新大阪〜新宮）— slug案: kuroshio → 2026-07-08 / kuroshio
 - [x] 【コラム】白浜・熊野古道へ列車で行く旅プラン — slug案: shirahama-kumano-train-trip → 2026-07-09 / shirahama-kumano-train-trip
 - [x] 【路線】ソニック（博多〜大分）— slug案: sonic → 2026-07-10 / sonic
-- [ ] 【路線】ゆふいんの森（博多〜由布院・別府）— slug案: yufuin-no-mori
+- [x] 【路線】ゆふいんの森（博多〜由布院・別府）— slug案: yufuin-no-mori → 2026-07-11 / yufuin-no-mori
 - [ ] 【コラム】九州の観光列車が熱い: 乗ること自体が目的になる列車たち — slug案: kyushu-kanko-ressha
 - [ ] 【路線】やくも（岡山〜出雲市）— slug案: yakumo
 - [ ] 【路線】しおかぜ（岡山〜松山）— slug案: shiokaze
