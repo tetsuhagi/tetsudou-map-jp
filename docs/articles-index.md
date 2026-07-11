@@ -84,6 +84,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `kyushu-kanko-ressha` | `/columns/kyushu-kanko-ressha` | 九州の観光列車が熱い｜乗ること自体が目的になる列車たち（D&S列車入門） | JR九州のD&S列車（Design ＆ Story）を軸に、ゆふいんの森・36ぷらす3・指宿のたまて箱・A列車で行こう・海幸山幸、頂点のななつ星を紹介。九州が観光列車王国になった背景と、温泉宿とセットにした旅の組み立て方をエンタメ風にまとめたコラム。楽天CTA1（本文アフィリなし）の計1 | yufuin-no-mori, kanko-tokkyu-ninki, sonic, rail-kitchen-chikugo |
 | `shirahama-kumano-train-trip` | `/columns/shirahama-kumano-train-trip` | 白浜・熊野古道を列車で巡る旅プラン｜特急くろしおで行く南紀・熊野三山と温泉のモデルコース | 特急くろしおで行く南紀を、白浜エリア（温泉・海・パンダ）と熊野エリア（聖地・古道・那智の滝）の2拠点で整理。大門坂→熊野那智大社→那智の滝を歩く入門コース、熊野三山めぐり、白浜と熊野を通しで巡る欲張り縦断の3コースを電車＋バスのコツつきで紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | kuroshio, shaso-zekkei-tokkyu, kanko-tokkyu-ninki, izu-train-trip |
 | `nikko-kinugawa-train-trip` | `/columns/nikko-kinugawa-train-trip` | 日光・鬼怒川は電車旅が正解？アクセス比較と観光の組み立て方｜スペーシアX・リバティ・JR直通で巡るモデルコース | いろは坂の渋滞・駐車場を避けられる日光・鬼怒川は電車旅向き。東武（浅草発）とJR（新宿直通）の2系統の選び方、スペーシアX/スペーシア/リバティ/JR日光きぬがわの使い分け、東照宮・鬼怒川温泉・奥日光の3コースを紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | spacia, liberty, izu-train-trip, kanko-tokkyu-ninki |
 | `izu-train-trip` | `/columns/izu-train-trip` | 伊豆を電車だけで巡るモデルコース｜熱海・伊豆高原・下田・修善寺の乗り継ぎと観光プラン | 踊り子・伊豆急行・駿豆線を乗り継ぎ、伊豆を電車だけで回る3コース（東伊豆=熱海→伊豆高原→下田／中伊豆=三島→修善寺／観光列車）を乗り継ぎのコツ・観光スポットつきで紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | odoriko, kanko-tokkyu-ninki, shaso-zekkei-tokkyu |
