@@ -40,7 +40,7 @@
 - [x] 【コラム】九州の観光列車が熱い: 乗ること自体が目的になる列車たち — slug案: kyushu-kanko-ressha → 2026-07-12 / kyushu-kanko-ressha
 - [x] 【路線】やくも（岡山〜出雲市）— slug案: yakumo → 2026-07-13 / yakumo
 - [x] 【路線】しおかぜ（岡山〜松山）— slug案: shiokaze → 2026-07-14 / shiokaze
-- [ ] 【コラム】四国の特急ネットワーク入門: しおかぜ・南風・うずしお・しまんと — slug案: shikoku-tokkyu-guide
+- [x] 【コラム】四国の特急ネットワーク入門: しおかぜ・南風・うずしお・しまんと — slug案: shikoku-tokkyu-guide → 2026-07-15 / shikoku-tokkyu-guide
 - [ ] 【路線】南風（岡山〜高知）— slug案: nanpu
 - [ ] 【路線】こうや（難波〜極楽橋／高野山）— slug案: koya
 - [ ] 【コラム】高野山へのアクセス完全ガイド: こうや号とケーブルカーの旅 — slug案: koyasan-access
