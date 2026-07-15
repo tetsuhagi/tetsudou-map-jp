@@ -41,7 +41,7 @@
 - [x] 【路線】やくも（岡山〜出雲市）— slug案: yakumo → 2026-07-13 / yakumo
 - [x] 【路線】しおかぜ（岡山〜松山）— slug案: shiokaze → 2026-07-14 / shiokaze
 - [x] 【コラム】四国の特急ネットワーク入門: しおかぜ・南風・うずしお・しまんと — slug案: shikoku-tokkyu-guide → 2026-07-15 / shikoku-tokkyu-guide
-- [ ] 【路線】南風（岡山〜高知）— slug案: nanpu
+- [x] 【路線】南風（岡山〜高知）— slug案: nanpu → 2026-07-16 / nanpu
 - [ ] 【路線】こうや（難波〜極楽橋／高野山）— slug案: koya
 - [ ] 【コラム】高野山へのアクセス完全ガイド: こうや号とケーブルカーの旅 — slug案: koyasan-access
 - [ ] 【路線】きのさき・はしだて（京都〜城崎温泉・天橋立）— slug案: kinosaki-hashidate
