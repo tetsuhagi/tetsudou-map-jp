@@ -88,6 +88,7 @@
 
 | スラッグ | パス | タイトル | 1行説明 | 関連記事 |
 |---|---|---|---|---|
+| `koyasan-access` | `/columns/koyasan-access` | 高野山へのアクセス完全ガイド｜大阪・難波から特急こうや＋ケーブルカーで行く世界遺産の聖地への行き方 | 大阪・難波から世界遺産・高野山への行き方を「南海高野線→極楽橋のケーブルカー→山上バス」の3段乗り継ぎで整理。特急こうやと特急券不要の急行の使い分け、極楽橋からのケーブルカーと山上バス、お得なきっぷ、宿坊泊のコツまで解説するアクセスガイド。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | koya, shirahama-kumano-train-trip, kanko-tokkyu-ninki, rapit |
 | `shikoku-tokkyu-guide` | `/columns/shikoku-tokkyu-guide` | 四国の特急ネットワーク入門｜しおかぜ・南風・うずしお・しまんとの違いと使い分け | 岡山を玄関口に瀬戸大橋を渡って四国へ広がる4つの特急を整理する入門コラム。しおかぜ（岡山〜松山・予讃線・電車）、南風（岡山〜高知・土讃線・気動車）、うずしお（高松〜徳島・高徳線）、しまんと（高松〜高知・土讃線）の区間・車窓・行き先観光地を早わかり表つきで解説し、電車と気動車が同居するネットワークやアンパンマン列車にも触れる。行き先での選び方＋楽天CTA1の計1 | shiokaze, shaso-zekkei-tokkyu, kanko-tokkyu-ninki |
 | `kyushu-kanko-ressha` | `/columns/kyushu-kanko-ressha` | 九州の観光列車が熱い｜乗ること自体が目的になる列車たち（D&S列車入門） | JR九州のD&S列車（Design ＆ Story）を軸に、ゆふいんの森・36ぷらす3・指宿のたまて箱・A列車で行こう・海幸山幸、頂点のななつ星を紹介。九州が観光列車王国になった背景と、温泉宿とセットにした旅の組み立て方をエンタメ風にまとめたコラム。楽天CTA1（本文アフィリなし）の計1 | yufuin-no-mori, kanko-tokkyu-ninki, sonic, rail-kitchen-chikugo |
 | `shirahama-kumano-train-trip` | `/columns/shirahama-kumano-train-trip` | 白浜・熊野古道を列車で巡る旅プラン｜特急くろしおで行く南紀・熊野三山と温泉のモデルコース | 特急くろしおで行く南紀を、白浜エリア（温泉・海・パンダ）と熊野エリア（聖地・古道・那智の滝）の2拠点で整理。大門坂→熊野那智大社→那智の滝を歩く入門コース、熊野三山めぐり、白浜と熊野を通しで巡る欲張り縦断の3コースを電車＋バスのコツつきで紹介。楽天＋じゃらん2ボタンCTA＋本文楽天テキストリンク1の計2 | kuroshio, shaso-zekkei-tokkyu, kanko-tokkyu-ninki, izu-train-trip |

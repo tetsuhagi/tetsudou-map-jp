@@ -43,7 +43,7 @@
 - [x] 【コラム】四国の特急ネットワーク入門: しおかぜ・南風・うずしお・しまんと — slug案: shikoku-tokkyu-guide → 2026-07-15 / shikoku-tokkyu-guide
 - [x] 【路線】南風（岡山〜高知）— slug案: nanpu → 2026-07-16 / nanpu
 - [x] 【路線】こうや（難波〜極楽橋／高野山）— slug案: koya → 2026-07-17 / koya
-- [ ] 【コラム】高野山へのアクセス完全ガイド: こうや号とケーブルカーの旅 — slug案: koyasan-access
+- [x] 【コラム】高野山へのアクセス完全ガイド: こうや号とケーブルカーの旅 — slug案: koyasan-access → 2026-07-18 / koyasan-access
 - [ ] 【路線】きのさき・はしだて（京都〜城崎温泉・天橋立）— slug案: kinosaki-hashidate
 - [ ] 【路線】こうのとり（新大阪〜城崎温泉）— slug案: kounotori
 - [ ] 【コラム】城崎温泉へ列車で行く旅: 京都経由と大阪経由どっち？ — slug案: kinosaki-onsen-train-trip
