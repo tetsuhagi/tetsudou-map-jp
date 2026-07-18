@@ -44,7 +44,7 @@
 - [x] 【路線】南風（岡山〜高知）— slug案: nanpu → 2026-07-16 / nanpu
 - [x] 【路線】こうや（難波〜極楽橋／高野山）— slug案: koya → 2026-07-17 / koya
 - [x] 【コラム】高野山へのアクセス完全ガイド: こうや号とケーブルカーの旅 — slug案: koyasan-access → 2026-07-18 / koyasan-access
-- [ ] 【路線】きのさき・はしだて（京都〜城崎温泉・天橋立）— slug案: kinosaki-hashidate
+- [x] 【路線】きのさき・はしだて（京都〜城崎温泉・天橋立）— slug案: kinosaki-hashidate → 2026-07-19 / kinosaki-hashidate
 - [ ] 【路線】こうのとり（新大阪〜城崎温泉）— slug案: kounotori
 - [ ] 【コラム】城崎温泉へ列車で行く旅: 京都経由と大阪経由どっち？ — slug案: kinosaki-onsen-train-trip
 - [ ] 【路線】しなの（名古屋〜長野）— slug案: shinano
