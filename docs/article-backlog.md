@@ -45,7 +45,7 @@
 - [x] 【路線】こうや（難波〜極楽橋／高野山）— slug案: koya → 2026-07-17 / koya
 - [x] 【コラム】高野山へのアクセス完全ガイド: こうや号とケーブルカーの旅 — slug案: koyasan-access → 2026-07-18 / koyasan-access
 - [x] 【路線】きのさき・はしだて（京都〜城崎温泉・天橋立）— slug案: kinosaki-hashidate → 2026-07-19 / kinosaki-hashidate
-- [ ] 【路線】こうのとり（新大阪〜城崎温泉）— slug案: kounotori
+- [x] 【路線】こうのとり（新大阪〜城崎温泉）— slug案: kounotori → 2026-07-20 / kounotori
 - [ ] 【コラム】城崎温泉へ列車で行く旅: 京都経由と大阪経由どっち？ — slug案: kinosaki-onsen-train-trip
 - [ ] 【路線】しなの（名古屋〜長野）— slug案: shinano
 - [ ] 【路線】ひだ（名古屋〜高山・富山）— slug案: hida
