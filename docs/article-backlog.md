@@ -48,7 +48,7 @@
 - [x] 【路線】こうのとり（新大阪〜城崎温泉）— slug案: kounotori → 2026-07-20 / kounotori
 - [x] 【コラム】城崎温泉へ列車で行く旅: 京都経由と大阪経由どっち？ — slug案: kinosaki-onsen-train-trip → 2026-07-22 / kinosaki-onsen-train-trip
 - [x] 【路線】しなの（名古屋〜長野）— slug案: shinano → 2026-07-22 / shinano
-- [ ] 【路線】ひだ（名古屋〜高山・富山）— slug案: hida
+- [x] 【路線】ひだ（名古屋〜高山・富山）— slug案: hida → 2026-07-23 / hida
 - [ ] 【コラム】飛騨高山へのアクセス: 特急ひだの旅が観光の一部になる理由 — slug案: takayama-access
 - [ ] 【路線】北斗（函館〜札幌）— slug案: hokuto
 - [ ] 【路線】おおぞら・とかち（札幌〜釧路・帯広）— slug案: ozora-tokachi
