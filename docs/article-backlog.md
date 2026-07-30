@@ -54,9 +54,19 @@
 - [x] 【路線】おおぞら・とかち（札幌〜釧路・帯広）— slug案: ozora-tokachi → 2026-07-29 / ozora-tokachi
 - [x] 【コラム】北海道を特急で旅する: 広さを楽しむ鉄道旅入門 — slug案: hokkaido-tokkyu-tabi → 2026-07-30 / hokkaido-tokkyu-tabi
 - [x] 【路線】つばさ（東京〜山形・新庄）— slug案: tsubasa → 2026-07-30 / tsubasa
-- [ ] 【路線】いなほ（新潟〜秋田）— slug案: inaho
+- [x] 【路線】いなほ（新潟〜秋田）— slug案: inaho → 2026-07-31 / inaho
 - [ ] 【コラム】リゾートしらかみと五能線: 日本海の絶景路線を楽しむ — slug案: resort-shirakami-gonosen
+- [ ] 【路線】しらさぎ（名古屋・米原〜敦賀）— slug案: shirasagi
+- [ ] 【路線】南紀（名古屋〜紀伊勝浦）— slug案: nanki
+- [ ] 【コラム】北陸新幹線 敦賀開業後、在来線特急はどう変わった？サンダーバード・しらさぎの乗り継ぎ — slug案: hokuriku-tsuruga-tokkyu
+- [ ] 【路線】スーパーはくと（京都・大阪〜鳥取・倉吉）— slug案: super-hakuto
+- [ ] 【路線】にちりん・にちりんシーガイア（博多・大分〜宮崎）— slug案: nichirin
+- [ ] 【コラム】南九州を特急で巡る: にちりん・きりしまで行く宮崎・鹿児島の旅 — slug案: minami-kyushu-tokkyu
+- [ ] 【路線】きりしま（宮崎〜鹿児島中央）— slug案: kirishima
+- [ ] 【路線】みどり・ハウステンボス（博多〜佐世保・ハウステンボス）— slug案: midori-huistenbosch
+- [ ] 【コラム】房総へ特急で行く: わかしお・さざなみ・しおさいの使い分けと海の旅 — slug案: boso-tokkyu-tabi
+- [ ] 【路線】わかしお・さざなみ（東京〜安房鴨川・館山）— slug案: wakashio-sazanami
 
 ---
 
-最終更新: 2026-05-22（初期45件）
+最終更新: 2026-07-31（いなほ公開・バックログ10件補充）
