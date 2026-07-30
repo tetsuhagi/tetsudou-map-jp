@@ -53,7 +53,7 @@
 - [x] 【路線】北斗（函館〜札幌）— slug案: hokuto → 2026-07-25 / hokuto
 - [x] 【路線】おおぞら・とかち（札幌〜釧路・帯広）— slug案: ozora-tokachi → 2026-07-29 / ozora-tokachi
 - [x] 【コラム】北海道を特急で旅する: 広さを楽しむ鉄道旅入門 — slug案: hokkaido-tokkyu-tabi → 2026-07-30 / hokkaido-tokkyu-tabi
-- [ ] 【路線】つばさ（東京〜山形・新庄）— slug案: tsubasa
+- [x] 【路線】つばさ（東京〜山形・新庄）— slug案: tsubasa → 2026-07-30 / tsubasa
 - [ ] 【路線】いなほ（新潟〜秋田）— slug案: inaho
 - [ ] 【コラム】リゾートしらかみと五能線: 日本海の絶景路線を楽しむ — slug案: resort-shirakami-gonosen
 
