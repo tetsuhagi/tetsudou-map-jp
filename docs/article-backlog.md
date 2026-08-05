@@ -56,7 +56,7 @@
 - [x] 【路線】つばさ（東京〜山形・新庄）— slug案: tsubasa → 2026-07-30 / tsubasa
 - [x] 【路線】いなほ（新潟〜秋田）— slug案: inaho → 2026-07-31 / inaho
 - [x] 【コラム】リゾートしらかみと五能線: 日本海の絶景路線を楽しむ — slug案: resort-shirakami-gonosen → 2026-08-05 / resort-shirakami-gonosen
-- [ ] 【路線】しらさぎ（名古屋・米原〜敦賀）— slug案: shirasagi
+- [x] 【路線】しらさぎ（名古屋・米原〜敦賀）— slug案: shirasagi → 2026-08-06 / shirasagi
 - [ ] 【路線】南紀（名古屋〜紀伊勝浦）— slug案: nanki
 - [ ] 【コラム】北陸新幹線 敦賀開業後、在来線特急はどう変わった？サンダーバード・しらさぎの乗り継ぎ — slug案: hokuriku-tsuruga-tokkyu
 - [ ] 【路線】スーパーはくと（京都・大阪〜鳥取・倉吉）— slug案: super-hakuto
