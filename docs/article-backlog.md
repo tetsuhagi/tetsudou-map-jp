@@ -58,7 +58,7 @@
 - [x] 【コラム】リゾートしらかみと五能線: 日本海の絶景路線を楽しむ — slug案: resort-shirakami-gonosen → 2026-08-05 / resort-shirakami-gonosen
 - [x] 【路線】しらさぎ（名古屋・米原〜敦賀）— slug案: shirasagi → 2026-08-06 / shirasagi
 - [x] 【路線】南紀（名古屋〜紀伊勝浦）— slug案: nanki → 2026-08-06 / nanki
-- [ ] 【コラム】北陸新幹線 敦賀開業後、在来線特急はどう変わった？サンダーバード・しらさぎの乗り継ぎ — slug案: hokuriku-tsuruga-tokkyu
+- [x] 【コラム】北陸新幹線 敦賀開業後、在来線特急はどう変わった？サンダーバード・しらさぎの乗り継ぎ — slug案: hokuriku-tsuruga-tokkyu → 2026-08-07 / hokuriku-tsuruga-tokkyu
 - [ ] 【路線】スーパーはくと（京都・大阪〜鳥取・倉吉）— slug案: super-hakuto
 - [ ] 【路線】にちりん・にちりんシーガイア（博多・大分〜宮崎）— slug案: nichirin
 - [ ] 【コラム】南九州を特急で巡る: にちりん・きりしまで行く宮崎・鹿児島の旅 — slug案: minami-kyushu-tokkyu
