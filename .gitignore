@@ -1,3 +1,9 @@
 .DS_Store
 *.DS_Store
 .cache/
+
+# Google Search Console のエクスポート置き場（ローカル分析用）。
+# ⚠ このリポジトリは GitHub public かつ Cloudflare Pages で全ファイルが web 公開される。
+#    コミット = GitHub と tetsudou-map.com の両方に流入データを即公開することになるため、
+#    gsc/ 配下は絶対にコミットしない（分析結果の要約だけを docs/ に残す運用）。
+gsc/
