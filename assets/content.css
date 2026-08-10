@@ -588,13 +588,18 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
 .affiliate-cta--duo .affiliate-cta__label,
 .affiliate-cta--duo .affiliate-cta__note { flex-basis: 100%; margin: 0; }
 .affiliate-cta--duo a { flex: 1 1 0; min-width: 0; margin: 0; }
-/* 2番目のボタン＝じゃらん想定。提供リンク <a> に class を付けられない
-   （byte一致厳守）ため nth-of-type(2) でフックして色分けする。
-   白文字のコントラスト比4.5:1以上を満たす濃いオレンジを使用
-   （淡いオレンジは不可: #d35400=4.17:1でNG。採用 #c2410c=5.18:1 / hover #9a3412=7.31:1）。
-   ⚠ ブロック内に他の <a>（note内リンク等）を置くと nth-of-type がずれるので置かない。 */
-.affiliate-cta--duo a:nth-of-type(2) { background: #c2410c; }
-.affiliate-cta--duo a:nth-of-type(2):hover { background: #9a3412; }
+/* ボタンの色は「並び順」ではなく「リンク先」で決める。
+   提供リンクの <a> に class を付けられない（byte一致厳守）ため属性セレクタで判定する。
+   位置非依存なので、記事によってボタンの並び順が違っても色が入れ替わらない。
+   白文字コントラスト比（すべて4.5:1以上）:
+     楽天トラベル(宿) #bf0000 = 6.53:1（既定色）
+     JR楽パック       #1d4ed8 = 6.70:1 / hover #1e40af = 8.72:1
+     じゃらん         #c2410c = 5.18:1 / hover #9a3412 = 7.31:1
+   ※淡いオレンジ(#d35400=4.17:1)等は基準未満のため使用しない。 */
+.affiliate-cta a[href*="package%2Fjr"]       { background: #1d4ed8; }
+.affiliate-cta a[href*="package%2Fjr"]:hover { background: #1e40af; }
+.affiliate-cta a[href*="a8.net"]             { background: #c2410c; }
+.affiliate-cta a[href*="a8.net"]:hover       { background: #9a3412; }
 
 /* ─────────────────────────────────────────────────────────────
    注意書きバナー (情報の鮮度・正確性を明示)
