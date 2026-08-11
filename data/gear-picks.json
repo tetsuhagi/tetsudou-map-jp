@@ -1,0 +1,48 @@
+{
+  "_readme": [
+    "鉄道旅行ガジェットの Amazon アフィリエイトリンク集（物販は Amazon に集約）。",
+    "型落ち防止のため、個別商品ページではなく『検索結果ページ』へリンクする。",
+    "こうしておくと、Amazon 側で売れ筋が入れ替わっても常に最新の人気商品が上位に表示され、",
+    "リンクが『時代遅れの型落ち商品』になることがない（PA-API は売上要件があり当面使えないため）。",
+    "更新するときはこのファイルだけを直し、`python3 scripts/gen_gear_cta.py` を実行する。"
+  ],
+  "_amazon_tag": "tetsudoumap-22",
+  "_note_text": "※ 広告（Amazonアソシエイト・リンク）です",
+  "items": [
+    {
+      "id": "mobile-battery",
+      "label": "長時間の移動中もスマホを切らさないために",
+      "keyword": "モバイルバッテリー 大容量",
+      "anchor": "Amazonで大容量モバイルバッテリーを探す",
+      "url": "https://www.amazon.co.jp/s?k=%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E3%83%90%E3%83%83%E3%83%86%E3%83%AA%E3%83%BC+%E5%A4%A7%E5%AE%B9%E9%87%8F&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=3HVRAQ8ZNI56L&sprefix=%2Caps%2C454&linkCode=ll2&tag=tetsudoumap-22&linkId=209ad565231f97768692bd8ab986d097&ref_=as_li_ss_tl"
+    },
+    {
+      "id": "charger",
+      "label": "ホテルの限られたコンセントで、PCとスマホをまとめて充電",
+      "keyword": "USB充電器 急速 PD 小型",
+      "anchor": "Amazonで小型の急速充電器を探す",
+      "url": ""
+    },
+    {
+      "id": "privacy-filter",
+      "label": "車内で隣の席からの視線が気になるときに",
+      "keyword": "覗き見防止フィルム ノートパソコン",
+      "anchor": "Amazonで覗き見防止フィルターを探す",
+      "url": ""
+    },
+    {
+      "id": "neck-pillow",
+      "label": "夜行列車や長距離移動での仮眠に",
+      "keyword": "ネックピロー 携帯 旅行",
+      "anchor": "Amazonでネックピローを探す",
+      "url": ""
+    },
+    {
+      "id": "earplug",
+      "label": "車内の音を抑えて休みたいときに",
+      "keyword": "耳栓 睡眠用 高遮音",
+      "anchor": "Amazonで睡眠用の耳栓を探す",
+      "url": ""
+    }
+  ]
+}

@@ -595,9 +595,12 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
      楽天トラベル(宿) #bf0000 = 6.53:1（既定色）
      JR楽パック       #1d4ed8 = 6.70:1 / hover #1e40af = 8.72:1
      じゃらん         #c2410c = 5.18:1 / hover #9a3412 = 7.31:1
+     Amazon           #232f3e = 13.57:1（Amazonのヘッダー色。物販用）
    ※淡いオレンジ(#d35400=4.17:1)等は基準未満のため使用しない。 */
 .affiliate-cta a[href*="package%2Fjr"]       { background: #1d4ed8; }
 .affiliate-cta a[href*="package%2Fjr"]:hover { background: #1e40af; }
+.affiliate-cta a[href*="amazon.co.jp"]        { background: #232f3e; }
+.affiliate-cta a[href*="amazon.co.jp"]:hover  { background: #131a22; }
 .affiliate-cta a[href*="a8.net"]             { background: #c2410c; }
 .affiliate-cta a[href*="a8.net"]:hover       { background: #9a3412; }
 
