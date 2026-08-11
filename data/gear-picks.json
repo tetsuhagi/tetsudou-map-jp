@@ -21,27 +21,69 @@
       "label": "ホテルの限られたコンセントで、PCとスマホをまとめて充電",
       "keyword": "USB充電器 急速 PD 小型",
       "anchor": "Amazonで小型の急速充電器を探す",
-      "url": ""
+      "url": "https://www.amazon.co.jp/s?k=USB%E5%85%85%E9%9B%BB%E5%99%A8+%E6%80%A5%E9%80%9F+PD+%E5%B0%8F%E5%9E%8B&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=2PT5WGWXPK0QG&sprefix=usb%E5%85%85%E9%9B%BB%E5%99%A8+%E6%80%A5%E9%80%9F+pd+%E5%B0%8F%E5%9E%8B%2Caps%2C376&linkCode=ll2&tag=tetsudoumap-22&linkId=7bb1bc8341f8be96430f5bc0200b7690&ref_=as_li_ss_tl"
     },
     {
       "id": "privacy-filter",
       "label": "車内で隣の席からの視線が気になるときに",
       "keyword": "覗き見防止フィルム ノートパソコン",
       "anchor": "Amazonで覗き見防止フィルターを探す",
-      "url": ""
+      "url": "https://www.amazon.co.jp/s?k=%E8%A6%97%E3%81%8D%E8%A6%8B%E9%98%B2%E6%AD%A2%E3%83%95%E3%82%A3%E3%83%AB%E3%83%A0+%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=19BIKMU7PAYS9&sprefix=%E8%A6%97%E3%81%8D%E8%A6%8B%E9%98%B2%E6%AD%A2%E3%83%95%E3%82%A3%E3%83%AB%E3%83%A0+%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3%2Caps%2C298&linkCode=ll2&tag=tetsudoumap-22&linkId=e49f62cd096fa0a8dcad151e66db53d2&ref_=as_li_ss_tl"
+    },
+    {
+      "id": "privacy-filter-phone",
+      "label": "スマホの画面を隣の席から見られたくないときに",
+      "keyword": "覗き見防止フィルター スマホ",
+      "anchor": "Amazonでスマホ用の覗き見防止フィルターを探す",
+      "url": "https://www.amazon.co.jp/s?k=%E8%A6%97%E3%81%8D%E8%A6%8B%E9%98%B2%E6%AD%A2%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF%E3%83%BC+%E3%82%B9%E3%83%9E%E3%83%9B&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=3IK0AORSMN7HF&sprefix=%E8%A6%97%E3%81%8D%E8%A6%8B%E9%98%B2%E6%AD%A2%E3%83%95%E3%82%A3%E3%83%AB%E3%82%BF%E3%83%BC+%E3%82%B9%E3%83%9E%E3%83%9B%2Caps%2C329&linkCode=ll2&tag=tetsudoumap-22&linkId=aee50e27e7ae4237450783367e38577d&ref_=as_li_ss_tl"
     },
     {
       "id": "neck-pillow",
       "label": "夜行列車や長距離移動での仮眠に",
       "keyword": "ネックピロー 携帯 旅行",
       "anchor": "Amazonでネックピローを探す",
-      "url": ""
+      "url": "https://www.amazon.co.jp/s?k=%E3%83%8D%E3%83%83%E3%82%AF%E3%83%94%E3%83%AD%E3%83%BC+%E6%90%BA%E5%B8%AF+%E6%97%85%E8%A1%8C&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=15EAK9W4OB6DE&sprefix=%E3%83%8D%E3%83%83%E3%82%AF%E3%83%94%E3%83%AD%E3%83%BC+%E6%90%BA%E5%B8%AF+%E6%97%85%E8%A1%8C%2Caps%2C293&linkCode=ll2&tag=tetsudoumap-22&linkId=677245f816dedd2fea7c80809dac29c5&ref_=as_li_ss_tl"
     },
     {
       "id": "earplug",
       "label": "車内の音を抑えて休みたいときに",
-      "keyword": "耳栓 睡眠用 高遮音",
+      "keyword": "耳栓 睡眠用 遮音",
       "anchor": "Amazonで睡眠用の耳栓を探す",
+      "url": "https://www.amazon.co.jp/s?k=%E8%80%B3%E6%A0%93+%E7%9D%A1%E7%9C%A0%E7%94%A8+%E9%81%AE%E9%9F%B3&__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&linkCode=ll2&tag=tetsudoumap-22&linkId=39318f35dbe357d1102da65109106e40&ref_=as_li_ss_tl"
+    },
+    {
+      "id": "eye-mask",
+      "label": "夜行列車で朝の光を気にせず眠りたいときに",
+      "keyword": "アイマスク 睡眠 遮光",
+      "anchor": "Amazonで遮光アイマスクを探す",
+      "url": ""
+    },
+    {
+      "id": "noise-cancelling",
+      "label": "走行音を抑えて静かに過ごしたい人に",
+      "keyword": "ノイズキャンセリング イヤホン",
+      "anchor": "Amazonでノイズキャンセリングイヤホンを探す",
+      "url": ""
+    },
+    {
+      "id": "travel-slippers",
+      "label": "個室や座席でくつろぐための携帯スリッパ",
+      "keyword": "携帯スリッパ 旅行 折りたたみ",
+      "anchor": "Amazonで携帯スリッパを探す",
+      "url": ""
+    },
+    {
+      "id": "suitcase",
+      "label": "機内持ち込みサイズで、車内に置きやすいキャリーケース",
+      "keyword": "スーツケース 機内持ち込み",
+      "anchor": "Amazonで機内持ち込みサイズのスーツケースを探す",
+      "url": ""
+    },
+    {
+      "id": "timetable-book",
+      "label": "紙の時刻表でじっくり旅程を組みたい人に",
+      "keyword": "JTB時刻表",
+      "anchor": "Amazonで時刻表を探す",
       "url": ""
     }
   ]
