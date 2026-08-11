@@ -601,6 +601,11 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
 .affiliate-cta a[href*="package%2Fjr"]:hover { background: #1e40af; }
 .affiliate-cta a[href*="amazon.co.jp"]        { background: #232f3e; }
 .affiliate-cta a[href*="amazon.co.jp"]:hover  { background: #131a22; }
+/* Amazonのサービス系（Audible / Kindle Unlimited / Prime Video）は
+   「モノを買う」ではなく「試す」導線のため、物販と色で区別する。
+   白文字コントラスト #0f766e = 5.47:1（AA基準4.5:1以上）。 */
+.affiliate-cta--service a[href*="amazon.co.jp"]       { background: #0f766e; }
+.affiliate-cta--service a[href*="amazon.co.jp"]:hover { background: #115e59; }
 .affiliate-cta a[href*="a8.net"]             { background: #c2410c; }
 .affiliate-cta a[href*="a8.net"]:hover       { background: #9a3412; }
 

@@ -85,6 +85,30 @@
       "keyword": "JTB時刻表",
       "anchor": "Amazonで時刻表を探す",
       "url": ""
+    },
+    {
+      "id": "audible",
+      "type": "service",
+      "label": "車窓を眺めながら「耳で読書」。目を使わないので移動中に向きます",
+      "keyword": "",
+      "anchor": "Audible（オーディオブック）を試す",
+      "url": "https://www.amazon.co.jp/b/ref=adbl_JP_as_0068?ie=UTF8&node=7471076051&tag=tetsudoumap-22"
+    },
+    {
+      "id": "kindle-unlimited",
+      "type": "service",
+      "label": "乗る前にダウンロードしておけば、圏外区間でも読書できます",
+      "keyword": "",
+      "anchor": "Kindle Unlimitedを試す",
+      "url": "https://www.amazon.co.jp/kindle-dbs/hz/signup?tag=tetsudoumap-22"
+    },
+    {
+      "id": "prime-video",
+      "type": "service",
+      "label": "事前ダウンロードでオフライン視聴。長時間移動の定番",
+      "keyword": "",
+      "anchor": "Prime Videoを見る",
+      "url": "https://www.amazon.co.jp/gp/video/storefront?benefitId=default&tag=tetsudoumap-22"
     }
   ]
 }

@@ -53,14 +53,18 @@ def build_url(item, tag):
     """url が空なら keyword から Amazon 検索URLを組み立てる。"""
     if item.get('url'):
         return item['url']
-    kw = urllib.parse.quote_plus(item['keyword'])
+    kw = urllib.parse.quote_plus(item.get('keyword', ''))
     return f'https://www.amazon.co.jp/s?k={kw}&tag={tag}'
 
 
 def render(item, tag, note):
+    """type=service（Audible/Kindle/Prime Video 等）は「モノを買う」ではなく
+    「試す」導線なので、物販と視覚的に区別するため別クラスを付ける。"""
     url = build_url(item, tag)
+    cls = ('affiliate-cta affiliate-cta--service'
+           if item.get('type') == 'service' else 'affiliate-cta')
     return (
-        f'\n  <div class="affiliate-cta">\n'
+        f'\n  <div class="{cls}">\n'
         f'    <p class="affiliate-cta__label">{item["label"]}</p>\n'
         f'    <a href="{url}" target="_blank" rel="nofollow sponsored noopener">{item["anchor"]}</a>\n'
         f'    <p class="affiliate-cta__note">{note}</p>\n'
