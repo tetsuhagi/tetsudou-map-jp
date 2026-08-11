@@ -7,3 +7,10 @@
 #    コミット = GitHub と tetsudou-map.com の両方に流入データを即公開することになるため、
 #    gsc/ 配下は絶対にコミットしない（分析結果の要約だけを docs/ に残す運用）。
 gsc/
+
+# 作業用の素材・下書き画像（公開不要。ローカルには残す）
+# ⚠ リポジトリは public かつ Cloudflare Pages で全公開されるため、
+#    未加工の素材や検討用画像をコミットしない。
+/Gemini_Generated_Image_*.png
+/kitakyuair.jpg
+assets/icons/列車アイコン※加工前・候補予備/
