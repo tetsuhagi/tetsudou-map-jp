@@ -196,13 +196,28 @@ SEO スパム判定の回避と UI/UX 配慮のため、 **同じ案件は 1記�
 
 **棲み分け**: 宿泊・旅行予約＝楽天／じゃらん、**物販（ガジェット等）＝Amazon**。
 
-### 物販は1記事に集約する（最重要の運用ルール）
+### 物販は専用の2記事に集約する（最重要の運用ルール）
 
-物販アフィリは [columns/train-travel-gear.html](../columns/train-travel-gear.html)（夜行列車の持ち物リスト）に **集約** する。
+物販アフィリ（GEARマーカー）は、次の **2記事だけ** に置く。他の記事には置かない。
+
+| 記事 | 役割 | 主力ガジェット |
+|---|---|---|
+| [columns/train-travel-gear.html](../columns/train-travel-gear.html)（夜行列車の持ち物リスト） | **A＝「眠る」**（一晩を車内で過ごす特殊状況） | eye-mask / earplug / neck-pillow / travel-slippers |
+| [columns/train-gadget-daytime.html](../columns/train-gadget-daytime.html)（電車移動のガジェット6選） | **B＝「起きて過ごす」**（日中の数時間を座席で） | charger / privacy-filter-phone / privacy-filter / noise-cancelling / audible |
 
 - **他の記事に Amazon 枠を追加しない**（1記事にアフィリが3つ並ぶとUXが悪化するため）
-- 既存記事からは **内部リンク1本** で誘導する（CTAは増やさない）。実施済み: `routes/sunrise-izumo.html` / `routes/sunrise-seto.html`
+- 既存記事からは **内部リンク1本** で誘導する（CTAは増やさない）。実施済み: `routes/sunrise-izumo.html` / `routes/sunrise-seto.html` → 記事A
 - ⚠ Routine（自動執筆）は、新規記事に `<!-- GEAR:… -->` を**置かない**こと
+
+#### ⚠ A・B間のカニバリ（共食い）回避ルール
+
+商品が大きく重複すると、Googleがどちらを評価すべきか判断できず**両方の順位が伸びない**。次を厳守する。
+
+- **記事Bでは eye-mask / earplug / travel-slippers を扱わない**（Aの主力のため）
+- **両方に登場してよいのは `mobile-battery` のみ**。ただし切り口を変える
+  （A＝ノビノビ座席に電源がない／B＝作業すると消費が激しい）
+- 記事B内から記事Aへ内部リンクし「夜行に乗るなら別記事」と誘導する（実装済み）
+- **3本目の物販記事を作らない**。新しいガジェットを扱いたい場合は、A・Bどちらかの役割に寄せて既存記事へ追記する
 
 ### 貼り方（Thread B の作業はマーカー1行だけ）
 
