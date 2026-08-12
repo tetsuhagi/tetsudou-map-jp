@@ -281,7 +281,9 @@ a:hover { color: var(--color-accent-hover); text-decoration: underline; }
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 16 / 9;
+  /* サムネは全点 1200x630（OGP比）で生成しているため、比率を実寸に揃えて
+     cover による左右の切れを防ぐ。TOP・各一覧ページで共通。 */
+  aspect-ratio: 1200 / 630;
   object-fit: cover;
 }
 .article-card__body {
@@ -747,31 +749,6 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
   margin-top: 2px;
 }
 
-/* 一覧ページ（/columns/ /routes/ /news/）のサムネ付きリスト。
-   TOPの .article-card とは役割が異なり、こちらは説明文の情報量を保ったまま
-   左に小さくサムネを添える形にする（記事選択の手がかりを増やす目的）。
-   サムネのリンクは本文リンクと重複するため、支援技術には見せない
-   （aria-hidden + tabindex=-1）。 */
-.related__item--thumb {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-.related__thumb {
-  flex: 0 0 132px;
-  display: block;
-}
-.related__thumb img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1200 / 630;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid var(--color-border);
-  background: var(--color-bg);
-}
-.related__main { flex: 1 1 auto; min-width: 0; }
-
 /* ─────────────────────────────────────────────────────────────
    サイトフッター (全コンテンツページ共通)
    ───────────────────────────────────────────────────────────── */
@@ -854,7 +831,6 @@ tr.tts-reading td, tr.tts-reading th { background: transparent; }
   .breadcrumb { padding: 10px 14px 0; font-size: 12px; }
   .map-cta { padding: 20px 16px; }
   .affiliate-cta a { display: block; padding: 14px; }
-  .related__thumb { flex-basis: 96px; }
   .affiliate-cta--duo { flex-direction: column; }
   .affiliate-cta--duo a { flex: 0 0 auto; width: 100%; }
   .site-footer__cols { grid-template-columns: 1fr; gap: 24px; }
