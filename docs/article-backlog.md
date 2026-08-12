@@ -63,7 +63,7 @@
 - [x] 【路線】にちりん・にちりんシーガイア（博多・大分〜宮崎）— slug案: nichirin → 2026-08-09 / nichirin
 - [x] 【コラム】南九州を特急で巡る: にちりん・きりしまで行く宮崎・鹿児島の旅 — slug案: minami-kyushu-tokkyu → 2026-08-10 / minami-kyushu-tokkyu
 - [x] 【路線】きりしま（宮崎〜鹿児島中央）— slug案: kirishima → 2026-08-12 / kirishima
-- [ ] 【路線】みどり・ハウステンボス（博多〜佐世保・ハウステンボス）— slug案: midori-huistenbosch
+- [x] 【路線】みどり・ハウステンボス（博多〜佐世保・ハウステンボス）— slug案: midori-huistenbosch → 2026-08-13 / midori-huistenbosch
 - [ ] 【コラム】房総へ特急で行く: わかしお・さざなみ・しおさいの使い分けと海の旅 — slug案: boso-tokkyu-tabi
 - [ ] 【路線】わかしお・さざなみ（東京〜安房鴨川・館山）— slug案: wakashio-sazanami
 
