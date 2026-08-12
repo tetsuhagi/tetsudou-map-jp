@@ -14,3 +14,7 @@ gsc/
 /Gemini_Generated_Image_*.png
 /kitakyuair.jpg
 assets/icons/列車アイコン※加工前・候補予備/
+
+# Python のバイトコードキャッシュ（scripts/*.py 実行時に自動生成される）
+__pycache__/
+*.py[cod]
