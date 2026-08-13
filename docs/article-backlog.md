@@ -65,8 +65,18 @@
 - [x] 【路線】きりしま（宮崎〜鹿児島中央）— slug案: kirishima → 2026-08-12 / kirishima
 - [x] 【路線】みどり・ハウステンボス（博多〜佐世保・ハウステンボス）— slug案: midori-huistenbosch → 2026-08-13 / midori-huistenbosch
 - [x] 【コラム】房総へ特急で行く: わかしお・さざなみ・しおさいの使い分けと海の旅 — slug案: boso-tokkyu-tabi → 2026-08-13 / boso-tokkyu-tabi
-- [ ] 【路線】わかしお・さざなみ（東京〜安房鴨川・館山）— slug案: wakashio-sazanami
+- [x] 【路線】わかしお・さざなみ（東京〜安房鴨川・館山）— slug案: wakashio-sazanami → 2026-08-14 / wakashio-sazanami
+- [ ] 【路線】かがやき・はくたか（東京〜金沢・敦賀）北陸新幹線 — slug案: hokuriku-shinkansen
+- [ ] 【路線】はやぶさ・こまち（東京〜新青森・秋田）— slug案: hayabusa-komachi
+- [ ] 【コラム】北陸新幹線で行く金沢・富山の旅: かがやき・つるぎの使い分け — slug案: hokuriku-shinkansen-tabi
+- [ ] 【路線】みずほ・さくら（新大阪〜鹿児島中央）九州新幹線 — slug案: mizuho-sakura
+- [ ] 【路線】カムイ・ライラック（札幌〜旭川）— slug案: kamui-lilac
+- [ ] 【コラム】富士山を列車で楽しむ: 富士回遊と河口湖の旅 — slug案: fujisan-train-trip
+- [ ] 【路線】富士回遊（新宿〜河口湖）— slug案: fuji-excursion
+- [ ] 【路線】宗谷・サロベツ（札幌・旭川〜稚内）— slug案: soya-sarobetsu
+- [ ] 【コラム】草津・四万温泉へ電車で行く旅: 特急草津・四万と上州の湯めぐり — slug案: kusatsu-onsen-train-trip
+- [ ] 【路線】草津・四万／あかぎ（上野〜長野原草津口・前橋）— slug案: kusatsu-shima-akagi
 
 ---
 
-最終更新: 2026-07-31（いなほ公開・バックログ10件補充）
+最終更新: 2026-08-14（わかしお・さざなみ公開・バックログ10件補充）
