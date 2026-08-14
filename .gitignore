@@ -14,6 +14,9 @@ gsc/
 /Gemini_Generated_Image_*.png
 /kitakyuair.jpg
 assets/icons/列車アイコン※加工前・候補予備/
+# 記事挿入用イラストの原本置き場（1枚1.3〜1.7MBの未圧縮PNG）。
+# 採用したものだけ assets/img/ に軽量化（WebP）して配置するため、原本はコミットしない。
+In-text illustration/
 
 # Python のバイトコードキャッシュ（scripts/*.py 実行時に自動生成される）
 __pycache__/
