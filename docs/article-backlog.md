@@ -66,7 +66,7 @@
 - [x] 【路線】みどり・ハウステンボス（博多〜佐世保・ハウステンボス）— slug案: midori-huistenbosch → 2026-08-13 / midori-huistenbosch
 - [x] 【コラム】房総へ特急で行く: わかしお・さざなみ・しおさいの使い分けと海の旅 — slug案: boso-tokkyu-tabi → 2026-08-13 / boso-tokkyu-tabi
 - [x] 【路線】わかしお・さざなみ（東京〜安房鴨川・館山）— slug案: wakashio-sazanami → 2026-08-14 / wakashio-sazanami
-- [ ] 【路線】かがやき・はくたか（東京〜金沢・敦賀）北陸新幹線 — slug案: hokuriku-shinkansen
+- [x] 【路線】かがやき・はくたか（東京〜金沢・敦賀）北陸新幹線 — slug案: hokuriku-shinkansen → 2026-08-15 / hokuriku-shinkansen
 - [ ] 【路線】はやぶさ・こまち（東京〜新青森・秋田）— slug案: hayabusa-komachi
 - [ ] 【コラム】北陸新幹線で行く金沢・富山の旅: かがやき・つるぎの使い分け — slug案: hokuriku-shinkansen-tabi
 - [ ] 【路線】みずほ・さくら（新大阪〜鹿児島中央）九州新幹線 — slug案: mizuho-sakura
