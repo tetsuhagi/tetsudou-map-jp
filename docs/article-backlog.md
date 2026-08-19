@@ -71,7 +71,7 @@
 - [x] 【コラム】北陸新幹線で行く金沢・富山の旅: かがやき・つるぎの使い分け — slug案: hokuriku-shinkansen-tabi → 2026-08-17 / hokuriku-shinkansen-tabi
 - [x] 【路線】みずほ・さくら（新大阪〜鹿児島中央）九州新幹線 — slug案: mizuho-sakura → 2026-08-18 / mizuho-sakura
 - [x] 【路線】カムイ・ライラック（札幌〜旭川）— slug案: kamui-lilac → 2026-08-19 / kamui-lilac
-- [ ] 【コラム】富士山を列車で楽しむ: 富士回遊と河口湖の旅 — slug案: fujisan-train-trip
+- [x] 【コラム】富士山を列車で楽しむ: 富士回遊と河口湖の旅 — slug案: fujisan-train-trip → 2026-08-20 / fujisan-train-trip
 - [ ] 【路線】富士回遊（新宿〜河口湖）— slug案: fuji-excursion
 - [ ] 【路線】宗谷・サロベツ（札幌・旭川〜稚内）— slug案: soya-sarobetsu
 - [ ] 【コラム】草津・四万温泉へ電車で行く旅: 特急草津・四万と上州の湯めぐり — slug案: kusatsu-onsen-train-trip
