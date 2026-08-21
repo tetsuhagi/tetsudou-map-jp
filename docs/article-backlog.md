@@ -74,9 +74,19 @@
 - [x] 【コラム】富士山を列車で楽しむ: 富士回遊と河口湖の旅 — slug案: fujisan-train-trip → 2026-08-20 / fujisan-train-trip
 - [x] 【路線】富士回遊（新宿〜河口湖）— slug案: fuji-excursion → 2026-08-20 / fuji-excursion
 - [x] 【路線】宗谷・サロベツ（札幌・旭川〜稚内）— slug案: soya-sarobetsu → 2026-08-21 / soya-sarobetsu
-- [ ] 【コラム】草津・四万温泉へ電車で行く旅: 特急草津・四万と上州の湯めぐり — slug案: kusatsu-onsen-train-trip
+- [x] 【コラム】草津・四万温泉へ電車で行く旅: 特急草津・四万と上州の湯めぐり — slug案: kusatsu-onsen-train-trip → 2026-08-22 / kusatsu-onsen-train-trip
 - [ ] 【路線】草津・四万／あかぎ（上野〜長野原草津口・前橋）— slug案: kusatsu-shima-akagi
+- [ ] 【路線】のぞみ・ひかり・こだま（東海道新幹線・東京〜新大阪）— slug案: tokaido-shinkansen
+- [ ] 【路線】とき・たにがわ（上越新幹線・東京〜新潟・越後湯沢）— slug案: joetsu-shinkansen
+- [ ] 【コラム】上越新幹線で行く新潟・越後湯沢の旅: とき・たにがわの使い分けと雪国・温泉・日本酒 — slug案: niigata-shinkansen-tabi
+- [ ] 【路線】オホーツク・大雪（札幌・旭川〜網走）— slug案: okhotsk-taisetsu
+- [ ] 【路線】うずしお（高松・岡山〜徳島）— slug案: uzushio
+- [ ] 【コラム】網走・知床・稚内へ: 北海道の最果てを特急で目指す旅（オホーツク・大雪・宗谷） — slug案: hokkaido-saihate-tabi
+- [ ] 【路線】しまんと・あしずり（高松・岡山〜高知・中村・宿毛）— slug案: shimanto-ashizuri
+- [ ] 【路線】ゆふ・九州横断特急（博多・別府〜由布院・阿蘇方面）— slug案: yufu-kyushu-odan
+- [ ] 【コラム】東海道新幹線を使いこなす: のぞみ・ひかり・こだまの乗り分けと途中下車 — slug案: tokaido-shinkansen-tips
+- [ ] 【路線】宇和海（松山〜宇和島）— slug案: uwakai
 
 ---
 
-最終更新: 2026-08-14（わかしお・さざなみ公開・バックログ10件補充）
+最終更新: 2026-08-22（草津・四万温泉コラム公開・バックログ10件補充）
