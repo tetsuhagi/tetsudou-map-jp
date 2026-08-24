@@ -77,7 +77,7 @@
 - [x] 【コラム】草津・四万温泉へ電車で行く旅: 特急草津・四万と上州の湯めぐり — slug案: kusatsu-onsen-train-trip → 2026-08-22 / kusatsu-onsen-train-trip
 - [x] 【路線】草津・四万／あかぎ（上野〜長野原草津口・前橋）— slug案: kusatsu-shima-akagi → 2026-08-23 / kusatsu-shima-akagi
 - [x] 【路線】のぞみ・ひかり・こだま（東海道新幹線・東京〜新大阪）— slug案: tokaido-shinkansen → 2026-08-24 / tokaido-shinkansen
-- [ ] 【路線】とき・たにがわ（上越新幹線・東京〜新潟・越後湯沢）— slug案: joetsu-shinkansen
+- [x] 【路線】とき・たにがわ（上越新幹線・東京〜新潟・越後湯沢）— slug案: joetsu-shinkansen → 2026-08-25 / joetsu-shinkansen
 - [ ] 【コラム】上越新幹線で行く新潟・越後湯沢の旅: とき・たにがわの使い分けと雪国・温泉・日本酒 — slug案: niigata-shinkansen-tabi
 - [ ] 【路線】オホーツク・大雪（札幌・旭川〜網走）— slug案: okhotsk-taisetsu
 - [ ] 【路線】うずしお（高松・岡山〜徳島）— slug案: uzushio
