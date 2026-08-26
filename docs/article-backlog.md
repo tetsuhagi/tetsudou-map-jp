@@ -79,7 +79,7 @@
 - [x] 【路線】のぞみ・ひかり・こだま（東海道新幹線・東京〜新大阪）— slug案: tokaido-shinkansen → 2026-08-24 / tokaido-shinkansen
 - [x] 【路線】とき・たにがわ（上越新幹線・東京〜新潟・越後湯沢）— slug案: joetsu-shinkansen → 2026-08-25 / joetsu-shinkansen
 - [x] 【コラム】上越新幹線で行く新潟・越後湯沢の旅: とき・たにがわの使い分けと雪国・温泉・日本酒 — slug案: niigata-shinkansen-tabi → 2026-08-26 / niigata-shinkansen-tabi
-- [ ] 【路線】オホーツク・大雪（札幌・旭川〜網走）— slug案: okhotsk-taisetsu
+- [x] 【路線】オホーツク・大雪（札幌・旭川〜網走）— slug案: okhotsk-taisetsu → 2026-08-27 / okhotsk-taisetsu
 - [ ] 【路線】うずしお（高松・岡山〜徳島）— slug案: uzushio
 - [ ] 【コラム】網走・知床・稚内へ: 北海道の最果てを特急で目指す旅（オホーツク・大雪・宗谷） — slug案: hokkaido-saihate-tabi
 - [ ] 【路線】しまんと・あしずり（高松・岡山〜高知・中村・宿毛）— slug案: shimanto-ashizuri
