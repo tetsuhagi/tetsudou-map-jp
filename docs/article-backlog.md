@@ -82,11 +82,21 @@
 - [x] 【路線】オホーツク・大雪（札幌・旭川〜網走）— slug案: okhotsk-taisetsu → 2026-08-27 / okhotsk-taisetsu
 - [x] 【路線】うずしお（高松・岡山〜徳島）— slug案: uzushio → 2026-08-28 / uzushio
 - [x] 【コラム】網走・知床・稚内へ: 北海道の最果てを特急で目指す旅（オホーツク・大雪・宗谷） — slug案: hokkaido-saihate-tabi → 2026-08-29 / hokkaido-saihate-tabi
-- [ ] 【路線】しまんと・あしずり（高松・岡山〜高知・中村・宿毛）— slug案: shimanto-ashizuri
+- [x] 【路線】しまんと・あしずり（高松・岡山〜高知・中村・宿毛）— slug案: shimanto-ashizuri → 2026-08-30 / shimanto-ashizuri
 - [ ] 【路線】ゆふ・九州横断特急（博多・別府〜由布院・阿蘇方面）— slug案: yufu-kyushu-odan
 - [ ] 【コラム】東海道新幹線を使いこなす: のぞみ・ひかり・こだまの乗り分けと途中下車 — slug案: tokaido-shinkansen-tips
 - [ ] 【路線】宇和海（松山〜宇和島）— slug案: uwakai
+- [ ] 【路線】剣山（徳島〜阿波池田）徳島線 — slug案: tsurugi
+- [ ] 【路線】むろと（徳島〜阿波海南）牟岐線 — slug案: muroto
+- [ ] 【コラム】四国西南部・幡多地方への旅: 四万十川と足摺岬を鉄道で目指す — slug案: hata-chiho-tabi
+- [ ] 【路線】ふじかわ（静岡〜甲府）身延線 — slug案: fujikawa
+- [ ] 【路線】伊那路（豊橋〜飯田）飯田線 — slug案: inaji
+- [ ] 【コラム】名古屋発の在来線特急で山へ海へ: しなの・ひだ・南紀の使い分け — slug案: nagoya-zairaisen-tokkyu
+- [ ] 【路線】はまかぜ（大阪〜浜坂・鳥取）播但線 — slug案: hamakaze
+- [ ] 【路線】スーパーおき・スーパーまつかぜ（鳥取・米子〜新山口・益田）山陰本線 — slug案: super-oki-matsukaze
+- [ ] 【コラム】近鉄の観光特急を乗り比べ: しまかぜ・あをによし・青の交響曲 — slug案: kintetsu-kanko-tokkyu
+- [ ] 【路線】湘南（東京・新宿〜小田原）東海道・高崎線の通勤特急 — slug案: shonan
 
 ---
 
-最終更新: 2026-08-22（草津・四万温泉コラム公開・バックログ10件補充）
+最終更新: 2026-08-30（しまんと・あしずり公開・バックログ10件補充）
