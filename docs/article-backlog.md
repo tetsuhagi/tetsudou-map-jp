@@ -86,7 +86,7 @@
 - [x] 【路線】ゆふ・九州横断特急（博多・別府〜由布院・阿蘇方面）— slug案: yufu-kyushu-odan → 2026-08-31 / yufu-kyushu-odan
 - [x] 【コラム】東海道新幹線を使いこなす: のぞみ・ひかり・こだまの乗り分けと途中下車 — slug案: tokaido-shinkansen-tips → 2026-09-02 / tokaido-shinkansen-tips
 - [x] 【路線】宇和海（松山〜宇和島）— slug案: uwakai → 2026-09-03 / uwakai
-- [ ] 【路線】剣山（徳島〜阿波池田）徳島線 — slug案: tsurugi
+- [x] 【路線】剣山（徳島〜阿波池田）徳島線 — slug案: tsurugi → 2026-09-04 / tsurugi
 - [ ] 【路線】むろと（徳島〜阿波海南）牟岐線 — slug案: muroto
 - [ ] 【コラム】四国西南部・幡多地方への旅: 四万十川と足摺岬を鉄道で目指す — slug案: hata-chiho-tabi
 - [ ] 【路線】ふじかわ（静岡〜甲府）身延線 — slug案: fujikawa
