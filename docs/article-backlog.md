@@ -92,7 +92,7 @@
 - [x] 【路線】ふじかわ（静岡〜甲府）身延線 — slug案: fujikawa → 2026-09-07 / fujikawa
 - [x] 【路線】伊那路（豊橋〜飯田）飯田線 — slug案: inaji → 2026-09-08 / inaji
 - [x] 【コラム】名古屋発の在来線特急で山へ海へ: しなの・ひだ・南紀の使い分け — slug案: nagoya-zairaisen-tokkyu → 2026-09-08 / nagoya-zairaisen-tokkyu
-- [ ] 【路線】はまかぜ（大阪〜浜坂・鳥取）播但線 — slug案: hamakaze
+- [x] 【路線】はまかぜ（大阪〜浜坂・鳥取）播但線 — slug案: hamakaze → 2026-09-09 / hamakaze
 - [ ] 【路線】スーパーおき・スーパーまつかぜ（鳥取・米子〜新山口・益田）山陰本線 — slug案: super-oki-matsukaze
 - [ ] 【コラム】近鉄の観光特急を乗り比べ: しまかぜ・あをによし・青の交響曲 — slug案: kintetsu-kanko-tokkyu
 - [ ] 【路線】湘南（東京・新宿〜小田原）東海道・高崎線の通勤特急 — slug案: shonan
