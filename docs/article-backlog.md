@@ -93,10 +93,20 @@
 - [x] 【路線】伊那路（豊橋〜飯田）飯田線 — slug案: inaji → 2026-09-08 / inaji
 - [x] 【コラム】名古屋発の在来線特急で山へ海へ: しなの・ひだ・南紀の使い分け — slug案: nagoya-zairaisen-tokkyu → 2026-09-08 / nagoya-zairaisen-tokkyu
 - [x] 【路線】はまかぜ（大阪〜浜坂・鳥取）播但線 — slug案: hamakaze → 2026-09-09 / hamakaze
-- [ ] 【路線】スーパーおき・スーパーまつかぜ（鳥取・米子〜新山口・益田）山陰本線 — slug案: super-oki-matsukaze
-- [ ] 【コラム】近鉄の観光特急を乗り比べ: しまかぜ・あをによし・青の交響曲 — slug案: kintetsu-kanko-tokkyu
+- [x] 【路線】スーパーおき・スーパーまつかぜ（鳥取・米子〜新山口・益田）山陰本線 — slug案: super-oki-matsukaze → 2026-09-10 / super-oki-matsukaze
+- [x] 【コラム】近鉄の観光特急を乗り比べ: しまかぜ・あをによし・青の交響曲 — slug案: kintetsu-kanko-tokkyu → 2026-09-11 / kintetsu-kanko-tokkyu
 - [ ] 【路線】湘南（東京・新宿〜小田原）東海道・高崎線の通勤特急 — slug案: shonan
+- [ ] 【路線】りょうもう（浅草・北千住〜館林・赤城）東武 — slug案: ryomo
+- [ ] 【路線】能登かがり火（金沢〜和倉温泉）— slug案: noto-kagaribi
+- [ ] 【コラム】和倉温泉・能登への鉄道旅: 能登かがり火・花嫁のれんで行く七尾・和倉温泉 — slug案: noto-wakura-train-trip
+- [ ] 【路線】WEST EXPRESS 銀河（京阪神〜出雲市・新宮・下関ほか）— slug案: west-express-ginga
+- [ ] 【路線】海里（新潟〜酒田）羽越本線の観光列車 — slug案: kairi
+- [ ] 【コラム】クルーズトレイン入門: ななつ星 in 九州・四季島・瑞風、三大豪華列車の世界 — slug案: cruise-train-guide
+- [ ] 【路線】富士山ビュー特急（大月〜河口湖）富士急行 — slug案: fujisan-view-express
+- [ ] 【路線】まいづる（京都〜東舞鶴）舞鶴線 — slug案: maizuru
+- [ ] 【コラム】阪急・京阪の有料座席サービス入門: PRiVACE・プレミアムカー・京とれいん — slug案: hankyu-keihan-yuryo
+- [ ] 【路線】びわこエクスプレス（大阪〜米原・草津）JR西の通勤特急 — slug案: biwako-express
 
 ---
 
-最終更新: 2026-08-30（しまんと・あしずり公開・バックログ10件補充）
+最終更新: 2026-09-11（近鉄観光特急コラム公開・バックログ10件補充）
