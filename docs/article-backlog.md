@@ -96,7 +96,7 @@
 - [x] 【路線】スーパーおき・スーパーまつかぜ（鳥取・米子〜新山口・益田）山陰本線 — slug案: super-oki-matsukaze → 2026-09-10 / super-oki-matsukaze
 - [x] 【コラム】近鉄の観光特急を乗り比べ: しまかぜ・あをによし・青の交響曲 — slug案: kintetsu-kanko-tokkyu → 2026-09-11 / kintetsu-kanko-tokkyu
 - [x] 【路線】湘南（東京・新宿〜小田原）東海道・高崎線の通勤特急 — slug案: shonan → 2026-09-12 / shonan
-- [ ] 【路線】りょうもう（浅草・北千住〜館林・赤城）東武 — slug案: ryomo
+- [x] 【路線】りょうもう（浅草・北千住〜館林・赤城）東武 — slug案: ryomo → 2026-09-13 / ryomo
 - [ ] 【路線】能登かがり火（金沢〜和倉温泉）— slug案: noto-kagaribi
 - [ ] 【コラム】和倉温泉・能登への鉄道旅: 能登かがり火・花嫁のれんで行く七尾・和倉温泉 — slug案: noto-wakura-train-trip
 - [ ] 【路線】WEST EXPRESS 銀河（京阪神〜出雲市・新宮・下関ほか）— slug案: west-express-ginga
@@ -109,4 +109,4 @@
 
 ---
 
-最終更新: 2026-09-12（特急湘南 記事公開）
+最終更新: 2026-09-13（特急りょうもう 記事公開）
