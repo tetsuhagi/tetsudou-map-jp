@@ -99,7 +99,7 @@
 - [x] 【路線】りょうもう（浅草・北千住〜館林・赤城）東武 — slug案: ryomo → 2026-09-13 / ryomo
 - [x] 【路線】能登かがり火（金沢〜和倉温泉）— slug案: noto-kagaribi → 2026-09-14 / noto-kagaribi
 - [x] 【コラム】和倉温泉・能登への鉄道旅: 能登かがり火・花嫁のれんで行く七尾・和倉温泉 — slug案: noto-wakura-train-trip → 2026-09-15 / noto-wakura-train-trip
-- [ ] 【路線】WEST EXPRESS 銀河（京阪神〜出雲市・新宮・下関ほか）— slug案: west-express-ginga
+- [x] 【路線】WEST EXPRESS 銀河（京阪神〜出雲市・新宮・下関ほか）— slug案: west-express-ginga → 2026-09-16 / west-express-ginga
 - [ ] 【路線】海里（新潟〜酒田）羽越本線の観光列車 — slug案: kairi
 - [ ] 【コラム】クルーズトレイン入門: ななつ星 in 九州・四季島・瑞風、三大豪華列車の世界 — slug案: cruise-train-guide
 - [ ] 【路線】富士山ビュー特急（大月〜河口湖）富士急行 — slug案: fujisan-view-express
@@ -109,4 +109,4 @@
 
 ---
 
-最終更新: 2026-09-15（コラム 和倉温泉・能登への鉄道旅 記事公開）
+最終更新: 2026-09-16（路線 WEST EXPRESS 銀河 記事公開）
