@@ -199,18 +199,33 @@ cp docs/article-template-news.html news/{SLUG}.html
 
 ### 2-A. インデックスページ（カテゴリ別）
 
-**路線詳細記事の場合**: `routes/index.html` の該当カテゴリ（寝台特急 / 新幹線 / 特急 / 私鉄特急 etc.）の `<ul>` に追加:
+> ⚠ 2026-09 から一覧ページは **TOPと同じカード形式**（`.article-grid` > `article.article-card`）。
+> 旧形式の `<ul><li>…<div class="related__desc">` は廃止したので使わない
+> （各ページ末尾の「関連ページ」導線だけはテキストリストのまま）。
+
+**路線詳細記事の場合**: `routes/index.html` の該当カテゴリ（寝台特急 / 新幹線 / 特急 / 私鉄特急 etc.）の `<h2>` 直下の `.article-grid` に追加:
 
 ```html
-<li>
-  <a href="/routes/{SLUG}">{記事タイトル}</a>
-  <div class="related__desc">{1行説明}</div>
-</li>
+      <article class="article-card">
+        <a href="/routes/{SLUG}">
+          <div class="article-card__image">
+            <img src="/assets/og/{SLUG}.png" alt="{記事タイトル}" loading="lazy" width="1200" height="630">
+          </div>
+          <div class="article-card__body">
+            <p class="article-card__cat">{そのセクションの h2 見出し}</p>
+            <h3 class="article-card__title">{記事タイトル}</h3>
+            <p class="article-card__desc">{1行説明}</p>
+          </div>
+        </a>
+      </article>
 ```
 
-**コラム・雑記・旅行記の場合**: `columns/index.html` の該当カテゴリ（コラム・考察 / 旅行記）に追加。
+- `__cat` は追加先セクションの `<h2>` の文言をそのまま入れる（例: 新幹線 / コラム・考察 / 鉄道ニュース）
+- サムネ PNG（`assets/og/{SLUG}.png`）が無いとカードの画像が欠けるので、先に生成しておく
 
-**ニュース記事の場合**: `news/index.html` の該当カテゴリ（鉄道ニュース / 旅行・観光ニュース）に追加。
+**コラム・雑記・旅行記の場合**: `columns/index.html` の該当カテゴリ（コラム・考察 / 旅行記）の `.article-grid` に同じ形式で追加（href は `/columns/{SLUG}`）。
+
+**ニュース記事の場合**: `news/index.html` の該当カテゴリ（鉄道ニュース / 旅行・観光ニュース）の `.article-grid` に同じ形式で追加（href は `/news/{SLUG}`）。
 ニュースは **公開日が新しいものを上** に並べる（時系列降順）。
 
 **新TOP（/）の最新記事グリッドも更新**: `index.html` の該当カテゴリの `.article-grid` 内に
