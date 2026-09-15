@@ -1,4 +1,4 @@
-const V = '?v=151';
+const V = '?v=152';
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
@@ -12,16 +12,24 @@ function parseCSV(text) {
   });
 }
 
+// 存在しないファイルに対して、ホスティング側が 404 ではなくHTMLページを 200 で
+// 返すことがある（Cloudflare Pages は 404.html が無いとトップページを返す）。
+// その応答をCSVとして読むと「ファイルがある」扱いになり、holiday.csv → weekday.csv の
+// フォールバックが効かなくなるため、HTMLの応答はファイル無しとみなす。
+function isMissing(res) {
+  return !res.ok || (res.headers.get('content-type') || '').includes('text/html');
+}
+
 async function fetchCSV(path) {
   const res = await fetch(path + V);
-  if (!res.ok) throw new Error(`failed to load ${path}: ${res.status}`);
+  if (isMissing(res)) throw new Error(`failed to load ${path}: ${res.status}`);
   return parseCSV(await res.text());
 }
 
 async function fetchCSVOptional(path) {
   try {
     const res = await fetch(path + V);
-    if (!res.ok) return null;
+    if (isMissing(res)) return null;
     return parseCSV(await res.text());
   } catch {
     return null;
@@ -31,7 +39,7 @@ async function fetchCSVOptional(path) {
 async function fetchJSONOptional(path) {
   try {
     const res = await fetch(path + V);
-    if (!res.ok) return null;
+    if (isMissing(res)) return null;
     return await res.json();
   } catch {
     return null;

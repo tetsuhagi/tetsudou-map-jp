@@ -22,7 +22,9 @@ Generate リニア中央新幹線（品川 ⇔ 名古屋）の「想定」ダイ
     地図上で不自然に見えるため）。最後に全列車でこの条件を検証する。
 
 駅間距離は data/geometry/LINEAR_CHUO.json（build_geometry_waypoints.py の出力）から取る。
-平日・土休日は同一ダイヤ（weekday.csv のみ出力。data.js が holiday を weekday にフォールバック）。
+平日・土休日は同一ダイヤ。weekday.csv と同じ内容の holiday.csv も必ず出力する
+（holiday.csv を置かないと、本番で存在しないファイルへの応答が 404 にならない場合に
+ data.js のフォールバックが効かず、土休日に列車が消えるため）。
 """
 import csv
 import json
@@ -138,10 +140,11 @@ def main():
         w = csv.writer(f, lineterminator='\n')
         w.writerow(['train_id', 'name', 'direction'])
         w.writerows(trains)
-    with open(os.path.join(OUT_DIR, 'weekday.csv'), 'w', encoding='utf-8', newline='') as f:
-        w = csv.writer(f, lineterminator='\n')
-        w.writerow(['train_id', 'stop_order', 'station_id', 'arrival', 'departure'])
-        w.writerows(rows)
+    for day in ('weekday', 'holiday'):
+        with open(os.path.join(OUT_DIR, f'{day}.csv'), 'w', encoding='utf-8', newline='') as f:
+            w = csv.writer(f, lineterminator='\n')
+            w.writerow(['train_id', 'stop_order', 'station_id', 'arrival', 'departure'])
+            w.writerows(rows)
 
     print('station km (down):', ' / '.join(f'{s}={k:.1f}' for s, k in zip(STATIONS, km_down)))
     for d, (ne, nl, lt, first) in summary.items():

@@ -25,8 +25,32 @@
 /data/*
   Cache-Control: public, max-age=31536000, immutable
 
-/assets/*
+# /assets/ は「必ず ?v=N 付きで読み込むもの」だけを永久キャッシュにする。
+# サムネ（og）と記事内イラスト（img）は ?v= 無しで参照されるため、ここに含めない。
+# （2026-09: 画像のコミットが遅れた間に返ったトップページのHTMLが、/assets/* の
+#   immutable 指定で1年キャッシュされ、サムネが表示されなくなる事故があった）
+# ※ 同じヘッダーが複数ルールに当たると値がカンマ結合されるため、範囲を重ねないこと。
+/assets/content.css
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/tts.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/site-nav.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ?v= 無しの画像: 差し替えや配信事故が1時間以内に解消されるようにする
+/assets/og/*
+  Cache-Control: public, max-age=3600
+
+/assets/img/*
+  Cache-Control: public, max-age=3600
 
 # SEO files: cache short-term so updates propagate within an hour.
 /sitemap.xml
