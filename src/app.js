@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=150';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=150';
+import { loadAllData } from './data.js?v=151';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=151';
 
 const TICK_MS = 1000;
 
@@ -323,7 +323,7 @@ function createMarkerForTrain(train, route, latlng) {
     return L.marker(latlng, { icon });
   }
   // Fallback: circle marker in route color (zoom 連動で radius も変える)
-  // アイコン未作成の路線（リニア想定など）で使うため、他の列車アイコンと並んでも
+  // アイコン画像が未設定・読み込み失敗の路線で使うため、他の列車アイコンと並んでも
   // 埋もれない大きさにしている。
   return L.circleMarker(latlng, {
     radius: fallbackRadius(size),
