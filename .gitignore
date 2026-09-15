@@ -21,3 +21,6 @@ In-text illustration/
 # Python のバイトコードキャッシュ（scripts/*.py 実行時に自動生成される）
 __pycache__/
 *.py[cod]
+
+# GSC エクスポートの zip をリポジトリ直下に置いてしまった場合の保険（中身は gsc/ へ移す）
+/*Performance-on-Search*.zip
