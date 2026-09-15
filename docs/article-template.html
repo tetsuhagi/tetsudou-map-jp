@@ -14,8 +14,12 @@
 
   プレースホルダ一覧:
     {{SLUG}}                URL スラッグ（例: sunrise-izumo）
-    {{TITLE}}               記事タイトル（h1 と同じ）
-    {{TITLE_SHORT}}         OGP 用の短縮タイトル（30字以内）
+    {{TITLE}}               検索結果に出る <title>（「 | 鉄道マップ全国版」を除いた本体を40字以内）。
+                            列車名 → 停車駅 / 乗り方 / 違い / 路線図・地図 / 所要時間 など検索される語を前に置く。
+                            「完全ガイド」・車両形式・キャッチコピー的な修飾は入れない（{{H1}} と description へ）。
+                            例: にちりんシーガイア・にちりん 停車駅と乗り方｜博多〜宮崎空港
+    {{H1}}                  記事の h1 と JSON-LD headline。{{TITLE}} より長くてよく、「完全ガイド」や車両形式はここに書く
+    {{TITLE_SHORT}}         OGP / X 用タイトル。原則 {{TITLE}} と同じ文言（40字以内なのでそのまま使える）
     {{DESCRIPTION}}         meta description（120〜160字）
     {{DESCRIPTION_SHORT}}   OGP 用の短縮 description（〜90字）
     {{OG_IMAGE}}            OGP 画像のサイト相対パス（例: /assets/og/{{SLUG}}.png）
@@ -78,7 +82,7 @@
       },
       {
         "@type": "Article",
-        "headline": "{{TITLE}}",
+        "headline": "{{H1}}",
         "description": "{{DESCRIPTION_SHORT}}",
         "inLanguage": "ja",
         "datePublished": "{{PUBLISH_DATE}}",
@@ -132,7 +136,7 @@
 </nav>
 
 <main class="article">
-  <h1>{{TITLE}}</h1>
+  <h1>{{H1}}</h1>
   <p class="page-meta">最終更新: {{LAST_MODIFIED_LABEL}} / カテゴリ: {{CATEGORY}}</p>
 
   <!-- ▼ テキストサムネ（scripts/gen_thumbnail.py で生成）を記事冒頭に表示。
