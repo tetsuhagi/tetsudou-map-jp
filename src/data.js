@@ -1,4 +1,4 @@
-const V = '?v=149';
+const V = '?v=150';
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
@@ -91,6 +91,8 @@ export async function loadAllData({ dayType } = {}) {
       icon: r.icon ? r.icon + V : '',
       stations: r.stations.split('|'),
       hide_when_idle: r.hide_when_idle === 'true' || r.hide_when_idle === '1',
+      // 空 = 常時表示。'future' = 開業前路線の想定表示（メニューのスイッチで表示）
+      layer: r.layer || '',
     };
   }
 

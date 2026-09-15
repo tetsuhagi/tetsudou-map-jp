@@ -1,5 +1,5 @@
-import { loadAllData } from './data.js?v=149';
-import { computeTrainPosition, currentTimeMinutes } from './train.js?v=149';
+import { loadAllData } from './data.js?v=150';
+import { computeTrainPosition, currentTimeMinutes } from './train.js?v=150';
 
 const TICK_MS = 1000;
 
@@ -15,6 +15,11 @@ function iconSizeForZoom(z) {
   return 24;                 // 拡大 (路線詳細)
 }
 let currentIconSize = 24;  // map 作成後に初期 zoom で上書き
+
+// アイコン画像が無い列車の丸マーカーの半径（アイコン一辺 size に対して）
+function fallbackRadius(size) {
+  return Math.max(4, size / 3);
+}
 
 // Tile provider config. Currently using the OSM volunteer-run tile server,
 // which is tolerated for low-traffic sites. If traffic grows or we see 429
@@ -192,6 +197,38 @@ function updateTint(now) {
   document.body.classList.toggle('theme-dark', dark);
 }
 
+// ── 開業前路線の「想定」表示レイヤー ─────────────────────────────
+// routes.csv の layer 列が 'future' の路線（リニア中央新幹線）は、実在の運行と
+// 誤解されないようデフォルト非表示。メニューのスイッチで表示し、状態はブラウザに
+// 記憶する。URL ?linear=1 / ?linear=0 はその訪問だけ初期状態を上書きする
+// （記事からのリンク用。記憶した設定は書き換えない）。
+const FUTURE_STORAGE_KEY = 'layer.future';
+const FUTURE_LABEL = 'リニア想定';
+const linearParam = new URLSearchParams(location.search).get('linear');
+let futureVisible = linearParam === '1' ? true
+  : linearParam === '0' ? false
+  : (() => { try { return localStorage.getItem(FUTURE_STORAGE_KEY) === '1'; } catch { return false; } })();
+const futureLayers = [];   // future 路線の線と、future 路線にしかない駅の点
+const futureToggleEl = document.getElementById('future-toggle');
+let appData = null;
+
+function setFutureVisible(on) {
+  futureVisible = on;
+  for (const layer of futureLayers) {
+    if (on) layer.addTo(map);
+    else map.removeLayer(layer);
+  }
+  if (futureToggleEl) futureToggleEl.setAttribute('aria-checked', on ? 'true' : 'false');
+  if (appData) updateTrains(appData);
+}
+if (futureToggleEl) {
+  futureToggleEl.setAttribute('aria-checked', futureVisible ? 'true' : 'false');
+  futureToggleEl.addEventListener('click', () => {
+    setFutureVisible(!futureVisible);
+    try { localStorage.setItem(FUTURE_STORAGE_KEY, futureVisible ? '1' : '0'); } catch { /* 記憶できなくても表示は切り替わる */ }
+  });
+}
+
 const stationMarkers = [];
 
 // Station dot styling per zoom level. At national zoom (z<=6) the dots are
@@ -215,15 +252,23 @@ const routePolylines = {};
 
 function drawRoutes(data) {
   const drawnStations = new Set();
-  for (const route of Object.values(data.routes)) {
-    const polyline = L.polyline(route.polyline, {
-      color: route.color || '#888',
-      weight: 3,
-      opacity: 0.7,
-    });
+  // 常時表示の路線を先に描く。品川・名古屋のように既存路線と共有する駅は
+  // そちらの点を使い、future 路線にしかない駅だけが future レイヤーに入る。
+  const ordered = Object.values(data.routes)
+    .sort((a, b) => (a.layer === 'future') - (b.layer === 'future'));
+  for (const route of ordered) {
+    const isFuture = route.layer === 'future';
+    const polyline = L.polyline(route.polyline, isFuture
+      ? { color: route.color || '#888', weight: 3, opacity: 0.9, dashArray: '10 7' }
+      : { color: route.color || '#888', weight: 3, opacity: 0.7 });
     // hide_when_idle routes (e.g., overnight sleepers) start hidden;
     // they're attached/removed each tick based on whether any train is running.
-    if (!route.hide_when_idle) polyline.addTo(map);
+    if (isFuture) {
+      futureLayers.push(polyline);
+      if (futureVisible) polyline.addTo(map);
+    } else if (!route.hide_when_idle) {
+      polyline.addTo(map);
+    }
     routePolylines[route.id] = polyline;
 
     for (const sid of route.stations) {
@@ -235,7 +280,13 @@ function drawRoutes(data) {
       const m = L.circleMarker([s.lat, s.lon], {
         color: '#333',
         fillColor: '#fff',
-      }).addTo(map).bindTooltip(s.name, { permanent: false, direction: 'top' });
+      }).bindTooltip(s.name, { permanent: false, direction: 'top' });
+      if (isFuture) {
+        futureLayers.push(m);
+        if (futureVisible) m.addTo(map);
+      } else {
+        m.addTo(map);
+      }
       stationMarkers.push(m);
     }
   }
@@ -272,8 +323,10 @@ function createMarkerForTrain(train, route, latlng) {
     return L.marker(latlng, { icon });
   }
   // Fallback: circle marker in route color (zoom 連動で radius も変える)
+  // アイコン未作成の路線（リニア想定など）で使うため、他の列車アイコンと並んでも
+  // 埋もれない大きさにしている。
   return L.circleMarker(latlng, {
-    radius: Math.max(3, size / 4),
+    radius: fallbackRadius(size),
     color: '#fff',
     fillColor: route?.color || '#888',
     fillOpacity: 1,
@@ -303,7 +356,7 @@ function applyTrainZoomIconSize() {
         marker.bindTooltip(text, { direction: 'top', offset: [0, -newSize / 2] });
       }
     } else if (marker.setRadius) {
-      marker.setRadius(Math.max(3, newSize / 4));
+      marker.setRadius(fallbackRadius(newSize));
     }
   }
 }
@@ -315,10 +368,15 @@ function updateTrains(data) {
   const nowMin = currentTimeMinutes(now);
 
   let runningCount = 0;
+  let futureCount = 0;
   const runningPerRoute = {};
   for (const train of Object.values(data.trains)) {
-    const pos = computeTrainPosition(train, data.stations, data.routes, nowMin);
+    const route = data.routes[train.route_id];
+    const isFuture = route?.layer === 'future';
     const marker = trainMarkers[train.id];
+    const pos = isFuture && !futureVisible
+      ? null
+      : computeTrainPosition(train, data.stations, data.routes, nowMin);
 
     if (!pos || pos.status === 'waiting' || pos.status === 'finished') {
       if (marker) {
@@ -327,12 +385,15 @@ function updateTrains(data) {
       }
       continue;
     }
-    runningCount++;
+    // 想定表示の列車は実在の本数と混ぜずに別で数える
+    if (isFuture) futureCount++;
+    else runningCount++;
     runningPerRoute[train.route_id] = (runningPerRoute[train.route_id] || 0) + 1;
 
     const latlng = [pos.lat, pos.lon];
-    const route = data.routes[train.route_id];
-    const tooltipText = route?.display_id || '?';
+    const tooltipText = isFuture
+      ? `${route.display_id}（想定）`
+      : (route?.display_id || '?');
     const opacity = pos.opacity ?? 1;
 
     let m = marker;
@@ -361,7 +422,8 @@ function updateTrains(data) {
   const phaseSuffix = nightModeOn ? ` / ${phaseLabel(now)}` : '';
   // "走行表示中" instead of "運行中" — makes clear this is a simulation
   // display, not real-time operation data.
-  statusTextEl.textContent = `走行表示中: ${runningCount}本 / ${dayLabel}ダイヤ${phaseSuffix}`;
+  const futureSuffix = futureVisible ? `＋${FUTURE_LABEL}${futureCount}本` : '';
+  statusTextEl.textContent = `走行表示中: ${runningCount}本${futureSuffix} / ${dayLabel}ダイヤ${phaseSuffix}`;
 }
 
 function setMarkerOpacity(marker, opacity) {
@@ -375,8 +437,14 @@ function setMarkerOpacity(marker, opacity) {
 (async () => {
   try {
     const data = await loadAllData();
+    appData = data;
     await preloadIcons(data.routes);
     drawRoutes(data);
+    // 記事から ?linear=1 で来た場合は、リニアの全区間が見える範囲に寄せる
+    if (linearParam === '1') {
+      const lines = futureLayers.filter(l => l instanceof L.Polyline);
+      if (lines.length) map.fitBounds(L.featureGroup(lines).getBounds(), { padding: [40, 40] });
+    }
     updateTrains(data);
     setInterval(() => updateTrains(data), TICK_MS);
   } catch (err) {

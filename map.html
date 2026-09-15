@@ -181,6 +181,45 @@
     body.theme-dark #menu-panel a[aria-current="page"] { color: #60a5fa; }
     body.theme-dark .menu-divider { background: rgba(255,255,255,0.1); }
 
+    /* メニュー内の表示設定スイッチ（開業前路線の想定表示など）。
+       クリックしてもパネルは閉じない（外側クリックのみで閉じる仕様のまま）。 */
+    .menu-section-label {
+      padding: 8px 18px 2px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+      color: #64748b;
+    }
+    .menu-switch {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      width: 100%;
+      padding: 8px 18px 10px;
+      background: none; border: none; cursor: pointer;
+      font: inherit; font-size: 14px; line-height: 1.4; color: #1a202c;
+      text-align: left;
+    }
+    .menu-switch:hover,
+    .menu-switch:focus-visible { background: rgba(37, 99, 235, 0.08); outline: none; }
+    .menu-switch__text { display: flex; flex-direction: column; }
+    .menu-switch__note { font-size: 11px; color: #64748b; }
+    .menu-switch__track {
+      position: relative; flex: 0 0 auto;
+      width: 36px; height: 20px; border-radius: 999px;
+      background: #cbd5e1; transition: background-color 0.15s linear;
+    }
+    .menu-switch__track::after {
+      content: ""; position: absolute; top: 2px; left: 2px;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+      transition: transform 0.15s ease-out;
+    }
+    .menu-switch[aria-checked="true"] .menu-switch__track { background: #c026d3; }
+    .menu-switch[aria-checked="true"] .menu-switch__track::after { transform: translateX(16px); }
+    body.theme-dark .menu-section-label,
+    body.theme-dark .menu-switch__note { color: #94a3b8; }
+    body.theme-dark .menu-switch { color: #e2e8f0; }
+    body.theme-dark .menu-switch:hover,
+    body.theme-dark .menu-switch:focus-visible { background: rgba(96, 165, 250, 0.15); }
+    body.theme-dark .menu-switch__track { background: #475569; }
+
     /* About / disclaimer modal. Backdrop + centered panel. Hidden by default;
        opened by clicking the status bar. Closes on ×, backdrop click, or Escape. */
     #info-modal {
@@ -264,6 +303,15 @@
     <div class="menu-wrap">
       <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-panel" aria-label="メニュー" title="メニュー">☰</button>
       <nav id="menu-panel" class="hidden" aria-label="サイトメニュー">
+        <div class="menu-section-label">表示設定</div>
+        <button id="future-toggle" class="menu-switch" type="button" role="switch" aria-checked="false">
+          <span class="menu-switch__text">
+            リニア中央新幹線
+            <span class="menu-switch__note" id="future-toggle-note">開業前・想定ダイヤで表示</span>
+          </span>
+          <span class="menu-switch__track" aria-hidden="true"></span>
+        </button>
+        <div class="menu-divider" role="separator" aria-hidden="true"></div>
         <a href="/">トップ</a>
         <a href="/map" aria-current="page">マップ</a>
         <a href="/routes/">路線一覧</a>
@@ -315,12 +363,14 @@
           <li>表示対象は一部の列車のみで、全列車を網羅したものではありません。</li>
           <li>列車アイコンは路線・列車種別ごとの代表的なイメージであり、実在の車両を正確に表現したものではありません。</li>
           <li>列車名・路線名は事実の参照として表示しているもので、各社の商標を権利侵害する意図はありません。</li>
+          <li>メニューの「リニア中央新幹線」をオンにすると、開業前のリニア中央新幹線（品川〜名古屋）を破線で表示します。ルートと駅の位置は公表情報をもとにした概略、ダイヤは「毎時片道5本（速達4本・各駅停車1本）、速達40分」という報道ベースの前提から作った独自の想定で、JR東海の計画や実際の運行とは異なります。駅名はすべて仮称です。</li>
         </ul>
 
         <h3>データ・地図</h3>
         <ul>
           <li>地図タイル: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a></li>
           <li>路線形状: 国土交通省「国土数値情報（鉄道データ）」を加工して作成</li>
+          <li>リニア中央新幹線の概略ルート: 駅・非常口などの施設位置（© OpenStreetMap contributors）を経由点として独自に作成</li>
         </ul>
 
         <h3>広告・Cookie について</h3>
@@ -335,7 +385,7 @@
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script type="module" src="src/app.js?v=149"></script>
+  <script type="module" src="src/app.js?v=150"></script>
   <script>
     /* Hamburger menu controller: open/close panel, close on outside click
        or Escape. Self-contained — no dependency on app.js. Lives inline
