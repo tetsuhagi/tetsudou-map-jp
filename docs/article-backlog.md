@@ -100,13 +100,23 @@
 - [x] 【路線】能登かがり火（金沢〜和倉温泉）— slug案: noto-kagaribi → 2026-09-14 / noto-kagaribi
 - [x] 【コラム】和倉温泉・能登への鉄道旅: 能登かがり火・花嫁のれんで行く七尾・和倉温泉 — slug案: noto-wakura-train-trip → 2026-09-15 / noto-wakura-train-trip
 - [x] 【路線】WEST EXPRESS 銀河（京阪神〜出雲市・新宮・下関ほか）— slug案: west-express-ginga → 2026-09-16 / west-express-ginga
-- [ ] 【路線】海里（新潟〜酒田）羽越本線の観光列車 — slug案: kairi
+- [x] 【路線】海里（新潟〜酒田）羽越本線の観光列車 — slug案: kairi → 2026-09-17 / kairi
 - [ ] 【コラム】クルーズトレイン入門: ななつ星 in 九州・四季島・瑞風、三大豪華列車の世界 — slug案: cruise-train-guide
 - [ ] 【路線】富士山ビュー特急（大月〜河口湖）富士急行 — slug案: fujisan-view-express
 - [ ] 【路線】まいづる（京都〜東舞鶴）舞鶴線 — slug案: maizuru
 - [ ] 【コラム】阪急・京阪の有料座席サービス入門: PRiVACE・プレミアムカー・京とれいん — slug案: hankyu-keihan-yuryo
 - [ ] 【路線】びわこエクスプレス（大阪〜米原・草津）JR西の通勤特急 — slug案: biwako-express
+- [ ] 【路線】いさぶろう・しんぺい／かわせみ やませみ（熊本〜人吉方面）— slug案: isaburo-shimpei [※ 肥薩線の被災・運休状況を確認してから執筆可否を判断]
+- [ ] 【路線】フルーティアふくしま後継・observation系など東北の観光列車 — slug案: tohoku-kanko-ressha [※ 現行運行の列車に絞って選定]
+- [ ] 【コラム】観光列車の食事つきプランはアリか？きっぷ単体との違いと選び方 — slug案: kanko-ressha-dining
+- [ ] 【路線】あをによし（大阪難波・近鉄奈良〜京都）近鉄の観光特急 — slug案: aoniyoshi
+- [ ] 【路線】青の交響曲（大阪阿部野橋〜吉野）近鉄南大阪線 — slug案: ao-no-symphony
+- [ ] 【コラム】奈良・吉野を鉄道で巡る旅: 近鉄の観光特急で世界遺産をつなぐ — slug案: nara-yoshino-train-trip
+- [ ] 【路線】ことぶき（京都〜嵯峨野・トロッコ）ほか関西の観光列車 — slug案: kansai-kanko-ressha [※ 現行の運行形態を確認して対象列車を確定]
+- [ ] 【路線】SLばんえつ物語（新潟〜会津若松）磐越西線 — slug案: sl-banetsu-monogatari
+- [ ] 【コラム】SL列車で行く鉄道旅入門: 全国で現役の蒸気機関車列車を整理する — slug案: sl-ressha-guide
+- [ ] 【路線】花嫁のれん（金沢〜和倉温泉）七尾線の観光列車 — slug案: hanayome-noren
 
 ---
 
-最終更新: 2026-09-16（路線 WEST EXPRESS 銀河 記事公開）
+最終更新: 2026-09-17（路線 海里 記事公開・バックログ10件補充）
