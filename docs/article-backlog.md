@@ -103,7 +103,7 @@
 - [x] 【路線】海里（新潟〜酒田）羽越本線の観光列車 — slug案: kairi → 2026-09-17 / kairi
 - [x] 【コラム】クルーズトレイン入門: ななつ星 in 九州・四季島・瑞風、三大豪華列車の世界 — slug案: cruise-train-guide → 2026-09-18 / cruise-train-guide
 - [x] 【路線】富士山ビュー特急（大月〜河口湖）富士急行 — slug案: fujisan-view-express → 2026-09-20 / fujisan-view-express
-- [ ] 【路線】まいづる（京都〜東舞鶴）舞鶴線 — slug案: maizuru
+- [x] 【路線】まいづる（京都〜東舞鶴）舞鶴線 — slug案: maizuru → 2026-09-21 / maizuru
 - [ ] 【コラム】阪急・京阪の有料座席サービス入門: PRiVACE・プレミアムカー・京とれいん — slug案: hankyu-keihan-yuryo
 - [ ] 【路線】びわこエクスプレス（大阪〜米原・草津）JR西の通勤特急 — slug案: biwako-express
 - [ ] 【路線】いさぶろう・しんぺい／かわせみ やませみ（熊本〜人吉方面）— slug案: isaburo-shimpei [※ 肥薩線の被災・運休状況を確認してから執筆可否を判断]
