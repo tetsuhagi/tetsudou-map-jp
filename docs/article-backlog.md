@@ -105,7 +105,7 @@
 - [x] 【路線】富士山ビュー特急（大月〜河口湖）富士急行 — slug案: fujisan-view-express → 2026-09-20 / fujisan-view-express
 - [x] 【路線】まいづる（京都〜東舞鶴）舞鶴線 — slug案: maizuru → 2026-09-21 / maizuru
 - [x] 【コラム】阪急・京阪の有料座席サービス入門: PRiVACE・プレミアムカー・京とれいん — slug案: hankyu-keihan-yuryo → 2026-09-23 / hankyu-keihan-yuryo
-- [ ] 【路線】びわこエクスプレス（大阪〜米原・草津）JR西の通勤特急 — slug案: biwako-express
+- [x] 【路線】びわこエクスプレス（大阪〜米原・草津）JR西の通勤特急 — slug案: biwako-express → 2026-09-24 / rakuraku-biwako ［注: 2024-03-16のダイヤ改正で列車名が「らくラクびわこ」に改称済みのため、現行名に合わせてスラッグを rakuraku-biwako に変更。記事内では旧名「びわこエクスプレス」も title・description・本文で併記］
 - [ ] 【路線】いさぶろう・しんぺい／かわせみ やませみ（熊本〜人吉方面）— slug案: isaburo-shimpei [※ 肥薩線の被災・運休状況を確認してから執筆可否を判断]
 - [ ] 【路線】フルーティアふくしま後継・observation系など東北の観光列車 — slug案: tohoku-kanko-ressha [※ 現行運行の列車に絞って選定]
 - [ ] 【コラム】観光列車の食事つきプランはアリか？きっぷ単体との違いと選び方 — slug案: kanko-ressha-dining
@@ -119,4 +119,4 @@
 
 ---
 
-最終更新: 2026-09-23（コラム 阪急・京阪の有料座席サービス入門 記事公開）
+最終更新: 2026-09-24（路線 らくラクびわこ〈旧びわこエクスプレス〉記事公開）
